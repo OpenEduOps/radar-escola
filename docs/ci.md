@@ -65,6 +65,47 @@ A CI devera evoluir para validar:
 O scaffold minimo atual valida a casca desktop e o pipeline de release sem
 fingir funcionalidade de MVP.
 
+## Guarda De Metadados Publicos
+
+O job `Agent name guard` valida metadados publicos em pull requests e pushes
+para `main`.
+
+Ele verifica:
+
+- titulo do pull request;
+- nome da branch do pull request;
+- mensagens de commit no intervalo do pull request;
+- mensagens de commit em pushes para `main`.
+
+Essa guarda nao tenta descobrir se uma contribuicao foi criada com apoio de
+automacao. Contribuicoes automatizadas ou assistidas sao permitidas quando forem
+revisaveis.
+
+A politica bloqueia apenas nomes de agentes ou ferramentas em metadados
+publicos. Branches, titulos e commits devem descrever produto, issue,
+comportamento ou mudanca de engenharia.
+
+O job `Agent name guard` faz parte do agregado `All CI checks`. Portanto, uma
+contribuicao que falhar nessa guarda nao deve ser mergeada.
+
+## Hardening Remoto Desejado
+
+Depois que a guarda estiver estabilizada, o repositorio pode receber uma camada
+adicional por GitHub repository ruleset.
+
+Direcao desejada:
+
+- target: branch;
+- branch: `refs/heads/main`;
+- regra: `commit_message_pattern`;
+- operador: regex;
+- negacao: true;
+- pattern equivalente ao usado em `.github/scripts/check-public-metadata.sh`.
+
+Essa camada remota seria complementar a CI. Se a criacao da ruleset falhar por
+autenticacao, permissao ou limite de plano, a guarda de CI continua sendo a
+camada principal.
+
 ## Esteira Desktop Futura
 
 A esteira alvo de download, instalacao e execucao do app esta documentada em

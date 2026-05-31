@@ -56,6 +56,8 @@ testes a partir dos documentos da V0.
 - [`docs/architecture.md`](docs/architecture.md): arquitetura inicial de codigo,
   camadas e responsabilidades.
 - [`docs/ci.md`](docs/ci.md): funcionamento da CI do produto.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): orientacoes para contribuir e politica
+  de metadados publicos.
 - [`docs/permissions.md`](docs/permissions.md): politica de permissoes minimas
   dos workflows.
 - [`docs/oss-guardrails.md`](docs/oss-guardrails.md): guardrails praticos para

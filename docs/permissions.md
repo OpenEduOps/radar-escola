@@ -11,6 +11,9 @@ permissions:
   contents: read
 ```
 
+Jobs de validacao, incluindo `Agent name guard`, devem funcionar com permissao
+somente leitura.
+
 ## Permissoes especiais
 
 - `contents: write`: apenas publicacao de release.
