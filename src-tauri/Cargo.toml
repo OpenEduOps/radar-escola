@@ -1,0 +1,17 @@
+[package]
+name = "radar-escola"
+version = "0.0.0"
+description = "Scaffold minimo do aplicativo desktop Radar Escola."
+authors = ["OpenEduOps"]
+edition = "2021"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

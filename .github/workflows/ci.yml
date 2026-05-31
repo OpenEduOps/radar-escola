@@ -1,0 +1,204 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  markdown-quality:
+    name: Markdown quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Lint Markdown
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import sys
+
+          errors = []
+          markdown_files = [
+              path
+              for path in Path(".").rglob("*.md")
+              if ".git" not in path.parts
+          ]
+
+          if not markdown_files:
+              errors.append("No Markdown files were found.")
+
+          for path in markdown_files:
+              text = path.read_text(encoding="utf-8")
+              if not text.strip():
+                  errors.append(f"{path}: file must not be empty")
+
+              for number, line in enumerate(text.splitlines(), start=1):
+                  if line.rstrip(" \t") != line:
+                      errors.append(f"{path}:{number}: trailing whitespace")
+                  if "\t" in line:
+                      errors.append(f"{path}:{number}: tab character")
+
+          if errors:
+              print("Markdown quality errors:")
+              for error in errors:
+                  print(f"- {error}")
+              sys.exit(1)
+
+          print(f"Markdown quality checks passed for {len(markdown_files)} files.")
+          PY
+
+  documentation-consistency:
+    name: Documentation consistency
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate required documents and internal links
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          required_docs = [
+              "README.md",
+              "CONTEXTO_INICIAL.md",
+              "REQUISITOS_V0.md",
+              "ESCOPO_V0.md",
+              "FLUXO_E2E_V0.md",
+              "GUARDRAILS_V0.md",
+              "VISAO_PROTOTIPAL_V0.md",
+              "CI_CD_OSS.md",
+              "docs/ci.md",
+              "docs/permissions.md",
+              "docs/oss-guardrails.md",
+              "docs/desktop-release.md",
+              "docs/project-context.md",
+              "docs/implementation-plan.md",
+              "docs/implementation-status.md",
+              "docs/final-testable-delivery.md",
+              "docs/roadmap.md",
+          ]
+
+          missing = [doc for doc in required_docs if not Path(doc).is_file()]
+          if missing:
+              print("Missing required docs:")
+              for doc in missing:
+                  print(f"- {doc}")
+              sys.exit(1)
+
+          readme = Path("README.md").read_text(encoding="utf-8")
+          linked = [doc for doc in required_docs if doc == "README.md" or f"]({doc})" in readme]
+          not_linked = sorted(set(required_docs) - set(linked))
+          if not_linked:
+              print("README.md does not link expected docs:")
+              for doc in not_linked:
+                  print(f"- {doc}")
+              sys.exit(1)
+
+          link_re = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+          broken = []
+          for md_file in Path(".").rglob("*.md"):
+              if ".git" in md_file.parts:
+                  continue
+              text = md_file.read_text(encoding="utf-8")
+              for target in link_re.findall(text):
+                  if target.startswith(("http://", "https://", "mailto:", "#")):
+                      continue
+                  path_part = target.split("#", 1)[0]
+                  if not path_part:
+                      continue
+                  candidate = (md_file.parent / path_part).resolve()
+                  repo_root = Path(".").resolve()
+                  if repo_root not in candidate.parents and candidate != repo_root:
+                      broken.append((md_file, target, "outside repository"))
+                  elif not candidate.exists():
+                      broken.append((md_file, target, "missing target"))
+
+          if broken:
+              print("Broken internal Markdown links:")
+              for source, target, reason in broken:
+                  print(f"- {source}: {target} ({reason})")
+              sys.exit(1)
+
+          print("Documentation consistency checks passed.")
+          PY
+
+  repository-hygiene:
+    name: Repository hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Check for generated, temporary, or sensitive files
+        run: |
+          set -euo pipefail
+
+          forbidden_files="$(find . \
+            -path ./.git -prune -o \
+            -type f \( \
+              -name '.env' -o \
+              -name '.env.*' -o \
+              -name '*.pem' -o \
+              -name '*.key' -o \
+              -name 'id_rsa' -o \
+              -name 'id_ed25519' -o \
+              -name '*.log' -o \
+              -name '*.tmp' -o \
+              -name '*.bak' \
+            \) -print)"
+
+          if [ -n "$forbidden_files" ]; then
+            echo "Forbidden generated, temporary, or sensitive-looking files found:"
+            echo "$forbidden_files"
+            exit 1
+          fi
+
+          echo "Repository hygiene checks passed."
+
+  frontend-build:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build frontend
+        run: npm run build
+
+  all-checks:
+    name: All CI checks
+    runs-on: ubuntu-latest
+    needs:
+      - markdown-quality
+      - documentation-consistency
+      - repository-hygiene
+      - frontend-build
+    steps:
+      - name: Report success
+        run: echo "All CI checks passed."

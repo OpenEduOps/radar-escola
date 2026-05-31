@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Radar Escola",
+  "version": "0.0.0",
+  "identifier": "br.org.openeduops.radarescola",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Radar Escola",
+        "width": 960,
+        "height": 640,
+        "minWidth": 800,
+        "minHeight": 520
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "category": "Education",
+    "shortDescription": "Aplicativo desktop local para escolas.",
+    "longDescription": "Scaffold tecnico minimo do futuro aplicativo desktop Radar Escola."
+  }
+}

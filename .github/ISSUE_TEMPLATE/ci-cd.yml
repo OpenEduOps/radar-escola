@@ -1,0 +1,34 @@
+name: CI/CD
+description: Tarefa relacionada a workflows, permissoes, checks ou documentacao de CI/CD.
+title: "[ci] "
+labels:
+  - ci
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este template para tarefas de CI/CD alinhadas com `CI_CD_OSS.md`.
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: O que precisa ser alterado ou validado?
+    validations:
+      required: true
+  - type: textarea
+    id: guardrails
+    attributes:
+      label: Guardrails
+      value: |
+        - Manter permissoes minimas por padrao.
+        - Nao executar codigo de fork em `pull_request_target`.
+        - Manter `All CI checks` como check agregado.
+        - Evitar depender de servicos pagos ou privados.
+    validations:
+      required: true
+  - type: textarea
+    id: aceite
+    attributes:
+      label: Criterios de aceite
+    validations:
+      required: true

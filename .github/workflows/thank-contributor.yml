@@ -1,0 +1,58 @@
+name: Thank contributor
+
+on:
+  issues:
+    types:
+      - opened
+  pull_request_target:
+    types:
+      - opened
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  thank-contributor:
+    name: Thank contributor
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add welcome comment
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const marker = "<!-- openeduops-contributor-thanks -->";
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issue_number = context.issue.number;
+
+            const existing = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100
+            });
+
+            if (existing.some(comment => comment.body && comment.body.includes(marker))) {
+              core.info("Contributor thank-you comment already exists.");
+              return;
+            }
+
+            const repository = await github.rest.repos.get({ owner, repo });
+            const ref = repository.data.default_branch;
+            const file = await github.rest.repos.getContent({
+              owner,
+              repo,
+              path: ".github/contributor-thanks.md",
+              ref
+            });
+
+            const message = Buffer.from(file.data.content, "base64").toString("utf8");
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number,
+              body: `${marker}\n${message}`
+            });

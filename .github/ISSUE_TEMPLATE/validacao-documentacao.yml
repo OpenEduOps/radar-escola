@@ -1,0 +1,43 @@
+name: Validacao de documentacao
+description: Tarefa boa para iniciantes revisarem clareza, links e consistencia dos docs.
+title: "[docs] Validar "
+labels:
+  - good first issue
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por ajudar a melhorar a documentacao do OpenEduOps.
+
+        Esta issue deve ser pequena, objetiva e segura para contribuidores iniciantes.
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: Qual documento ou fluxo precisa ser validado?
+      placeholder: "Ex.: Validar se REQUISITOS_V0.md esta consistente com ESCOPO_V0.md."
+    validations:
+      required: true
+  - type: textarea
+    id: checklist
+    attributes:
+      label: Checklist sugerido
+      description: Liste os pontos que a pessoa deve conferir.
+      value: |
+        - [ ] Conferir links internos
+        - [ ] Conferir termos usados para a pessoa usuaria final
+        - [ ] Conferir se nao ha contradicao com `REQUISITOS_V0.md`
+        - [ ] Sugerir ajustes pequenos e objetivos
+    validations:
+      required: true
+  - type: textarea
+    id: aceite
+    attributes:
+      label: Criterios de aceite
+      value: |
+        - A revisao aponta inconsistencias reais ou confirma que o trecho esta coerente.
+        - Qualquer ajuste proposto e pequeno e facil de revisar.
+        - A linguagem continua em Portugues Brasileiro.
+    validations:
+      required: true
