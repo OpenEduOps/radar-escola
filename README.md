@@ -41,6 +41,8 @@ testes a partir dos documentos da V0.
   seguranca local e testes planejados.
 - [`VISAO_PROTOTIPAL_V0.md`](VISAO_PROTOTIPAL_V0.md): primeira visao prototipal
   em baixa fidelidade.
+- [`DETALHAMENTO_REQUISITOS_V0.md`](DETALHAMENTO_REQUISITOS_V0.md): ordem
+  recomendada para detalhar requisitos implementaveis da V0.
 - [`CI_CD_OSS.md`](CI_CD_OSS.md): estrategia de CI/CD OSS para o produto.
 - [`docs/project-context.md`](docs/project-context.md): contexto duravel do
   projeto.
