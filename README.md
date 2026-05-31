@@ -43,6 +43,9 @@ testes a partir dos documentos da V0.
   em baixa fidelidade.
 - [`DETALHAMENTO_REQUISITOS_V0.md`](DETALHAMENTO_REQUISITOS_V0.md): ordem
   recomendada para detalhar requisitos implementaveis da V0.
+- [`DETALHAMENTO_BLOCOS_TRANSVERSAIS_V0.md`](DETALHAMENTO_BLOCOS_TRANSVERSAIS_V0.md):
+  detalhamento de auditoria, sessao, equipamentos, transferencia de direcao,
+  testes, acessibilidade e criterios globais de aceite.
 - [`CI_CD_OSS.md`](CI_CD_OSS.md): estrategia de CI/CD OSS para o produto.
 - [`docs/project-context.md`](docs/project-context.md): contexto duravel do
   projeto.

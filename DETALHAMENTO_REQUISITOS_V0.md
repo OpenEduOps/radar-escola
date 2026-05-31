@@ -135,6 +135,9 @@ Depois do fluxo minimo, tambem precisam ser detalhados:
 - linguagem em Portugues Brasileiro;
 - criterios de aceite do MVP completo.
 
+O detalhamento desses blocos esta em
+`DETALHAMENTO_BLOCOS_TRANSVERSAIS_V0.md`.
+
 ## Fluxo Minimo de Valor
 
 A recomendacao e comecar pelo fluxo minimo de valor, porque ele prova o produto:
