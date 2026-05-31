@@ -53,6 +53,8 @@ testes a partir dos documentos da V0.
 - [`docs/roadmap.md`](docs/roadmap.md): roadmap navegavel.
 - [`docs/desktop-release.md`](docs/desktop-release.md): esteira de release
   desktop para Windows.
+- [`docs/architecture.md`](docs/architecture.md): arquitetura inicial de codigo,
+  camadas e responsabilidades.
 - [`docs/ci.md`](docs/ci.md): funcionamento da CI do produto.
 - [`docs/permissions.md`](docs/permissions.md): politica de permissoes minimas
   dos workflows.

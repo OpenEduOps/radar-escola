@@ -85,6 +85,7 @@ jobs:
               "docs/permissions.md",
               "docs/oss-guardrails.md",
               "docs/desktop-release.md",
+              "docs/architecture.md",
               "docs/project-context.md",
               "docs/implementation-plan.md",
               "docs/implementation-status.md",

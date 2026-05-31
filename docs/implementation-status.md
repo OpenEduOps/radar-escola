@@ -36,8 +36,9 @@ Workflows existentes:
 
 Frontend:
 
+- `src/app/App.tsx`;
+- `src/app/app.css`;
 - `src/main.tsx`;
-- `src/styles.css`;
 - `index.html`;
 - `vite.config.ts`;
 - `tsconfig.json`.
@@ -55,6 +56,15 @@ Automacao:
 - `.github/workflows/security.yml`;
 - `.github/workflows/desktop-release.yml`;
 - `scripts/smoke-windows.ps1`.
+
+Estrutura planejada:
+
+- `src/application`;
+- `src/domain`;
+- `src/features`;
+- `src/infrastructure`;
+- `src/shared`;
+- `src/testing`.
 
 ## Comportamentos Implementados
 
