@@ -31,6 +31,21 @@ src/application
 src/domain
   entidades, value objects e regras puras
 
+src/domain/school
+  escola, direcao e responsabilidade principal
+
+src/domain/people
+  pessoas, usuarios, cargos e apoio de gestao
+
+src/domain/needs
+  necessidades, envolvidos, andamento e resolucao
+
+src/domain/equipment
+  equipamentos e vinculos operacionais
+
+src/domain/audit
+  auditoria minima de acoes sensiveis
+
 src/infrastructure
   SQLite, Tauri, filesystem, hashing e CSV
 
@@ -39,6 +54,9 @@ src/shared
 
 src/testing
   fixtures e helpers de teste
+
+src-tauri/src
+  runtime nativo minimo do aplicativo desktop
 ```
 
 ## Direcao Das Dependencias
@@ -63,11 +81,11 @@ Regras:
 
 Subdominios planejados:
 
-- `school`: escola, direcao e transferencia de responsabilidade;
-- `people`: pessoas, usuarios, cargos e apoio de gestao;
-- `needs`: necessidades, envolvidos, andamento e resolucao;
-- `equipment`: equipamentos;
-- `audit`: auditoria minima.
+- `src/domain/school`: escola, direcao e transferencia de responsabilidade;
+- `src/domain/people`: pessoas, usuarios, cargos e apoio de gestao;
+- `src/domain/needs`: necessidades, envolvidos, andamento e resolucao;
+- `src/domain/equipment`: equipamentos;
+- `src/domain/audit`: auditoria minima.
 
 ## Tauri/Rust
 
