@@ -32,8 +32,13 @@ apenas esse nome para nao depender de nomes de matrix ou jobs auxiliares.
 - `.github/workflows/ci.yml`: valida documentacao e higiene do repositorio.
   Tambem valida `npm ci`, `npm run typecheck` e `npm run build` para o scaffold
   frontend.
-- `.github/workflows/security.yml`: valida postura de seguranca e dependency
-  review em pull requests.
+- `.github/workflows/security.yml`: valida postura de seguranca dos workflows e
+  executa auditoria de dependencias de producao com `npm audit`.
+- `.github/workflows/owner-auto-merge.yml`: habilita auto-merge apenas para
+  pull requests abertos pelo usuario `Will-thom`, quando o PR nao for draft e a
+  base for `main`.
+- `.github/workflows/review-gate.yml`: exige aprovacao humana para pull requests
+  de outros usuarios e libera automaticamente PRs do usuario `Will-thom`.
 - `.github/workflows/thank-contributor.yml`: envia mensagem de boas-vindas para
   novas issues e pull requests.
 - `.github/workflows/desktop-release.yml`: contrato futuro da esteira de
@@ -87,6 +92,42 @@ comportamento ou mudanca de engenharia.
 
 O job `Agent name guard` faz parte do agregado `All CI checks`. Portanto, uma
 contribuicao que falhar nessa guarda nao deve ser mergeada.
+
+## Auto-Merge Do Mantenedor
+
+O workflow `Owner auto-merge` existe para reduzir atrito operacional em pull
+requests do mantenedor principal.
+
+Regra desejada:
+
+- PR aberto por `Will-thom`;
+- base `main`;
+- PR nao draft;
+- checks obrigatorios verdes;
+- auto-merge habilitado;
+- merge automatico quando os requisitos remotos forem atendidos.
+
+Para qualquer outro usuario, o fluxo continua sendo:
+
+- PR aberto;
+- checks verdes;
+- `Review gate` pendente ate haver aprovacao humana;
+- merge feito ou recusado por mantenedor.
+
+Esse workflow nao aprova pull requests de terceiros e nao deve ser usado como
+atalho para contributors externos. Ele apenas pede ao GitHub para habilitar
+auto-merge em PRs do usuario autorizado. A protecao real continua dependendo das
+regras da branch `main`.
+
+Configuracao remota esperada no GitHub:
+
+- auto-merge habilitado no repositorio;
+- branch protection ou ruleset exigindo `All CI checks`;
+- branch protection ou ruleset exigindo `All security checks`;
+- branch protection ou ruleset exigindo `Review gate`;
+- quando houver exigencia de review, `Will-thom` deve ser tratado como excecao
+  pelo proprio `Review gate`;
+- demais contributors devem continuar sujeitos a review antes do merge.
 
 ## Hardening Remoto Desejado
 

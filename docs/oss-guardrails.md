@@ -23,6 +23,12 @@ seguro para contribuidores.
 - CI central nao deve depender de servicos pagos ou credenciais privadas.
 - Forks nao devem executar codigo em workflows `pull_request_target`.
 - O job `Agent name guard` deve permanecer dentro de `All CI checks`.
+- Auto-merge automatico e permitido apenas para PRs do usuario `Will-thom`,
+  depois que os checks obrigatorios estiverem verdes.
+- PRs de outros usuarios devem continuar pendentes de revisao humana, mesmo
+  quando os checks passarem.
+- O check `Review gate` deve permanecer protegido para garantir que PRs de
+  terceiros nao sejam mergeados sem aprovacao humana.
 
 ## Produto
 

@@ -1,0 +1,56 @@
+name: Review gate
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+      - edited
+  pull_request_review:
+    types:
+      - submitted
+      - edited
+      - dismissed
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: review-gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review-gate:
+    name: Review gate
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require review for non-owner pull requests
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER_USER: Will-thom
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          if [ "$PR_AUTHOR" = "$OWNER_USER" ]; then
+            echo "Owner pull request: review gate passed."
+            exit 0
+          fi
+
+          reviews_json="$(gh api "repos/${REPOSITORY}/pulls/${PR_NUMBER}/reviews")"
+          approved_count="$(
+            REVIEWS_JSON="$reviews_json" python -c 'import json, os; reviews = json.loads(os.environ["REVIEWS_JSON"]); pr_author = os.environ["PR_AUTHOR"]; reviewers = {review["user"]["login"] for review in reviews if review.get("state") == "APPROVED" and review.get("user", {}).get("login") != pr_author}; print(len(reviewers))'
+          )"
+
+          if [ "$approved_count" -lt 1 ]; then
+            echo "Non-owner pull requests need at least one human approval."
+            exit 1
+          fi
+
+          echo "Review gate passed with ${approved_count} approval(s)."

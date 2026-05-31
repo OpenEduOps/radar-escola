@@ -65,6 +65,12 @@ for commit in data.get("commits", []):
 PY
 }
 
+is_zero_sha() {
+  local value="$1"
+
+  [[ "$value" =~ ^0+$ ]]
+}
+
 event_name="${GITHUB_EVENT_NAME:-}"
 
 pr_title="${PUBLIC_METADATA_PR_TITLE:-}"
@@ -103,9 +109,23 @@ if [ -n "$commit_range" ]; then
 fi
 
 if [ "$event_name" = "push" ]; then
-  while IFS= read -r message; do
-    check_text "push commit message" "$message"
-  done < <(json_push_messages)
+  before_sha="$(json_value 'before')"
+  after_sha="$(json_value 'after')"
+  push_range=""
+
+  if [ -n "$before_sha" ] && [ -n "$after_sha" ] && ! is_zero_sha "$before_sha"; then
+    push_range="${before_sha}..${after_sha}"
+  fi
+
+  if [ -n "$push_range" ]; then
+    while IFS= read -r message; do
+      check_text "push commit message in range ${push_range}" "$message"
+    done < <(git log --format=%B "$push_range")
+  else
+    while IFS= read -r message; do
+      check_text "push commit message" "$message"
+    done < <(json_push_messages)
+  fi
 fi
 
 if [ "$failed" -ne 0 ]; then
