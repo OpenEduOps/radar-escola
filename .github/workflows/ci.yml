@@ -15,6 +15,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  public-metadata-guard:
+    name: Agent name guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check public metadata
+        env:
+          PUBLIC_METADATA_PR_TITLE: ${{ github.event.pull_request.title }}
+          PUBLIC_METADATA_PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: bash .github/scripts/check-public-metadata.sh
+
   markdown-quality:
     name: Markdown quality
     runs-on: ubuntu-latest
@@ -74,6 +89,7 @@ jobs:
 
           required_docs = [
               "README.md",
+              "CONTRIBUTING.md",
               "CONTEXTO_INICIAL.md",
               "REQUISITOS_V0.md",
               "ESCOPO_V0.md",
@@ -200,6 +216,7 @@ jobs:
       - documentation-consistency
       - repository-hygiene
       - frontend-build
+      - public-metadata-guard
     steps:
       - name: Report success
         run: echo "All CI checks passed."

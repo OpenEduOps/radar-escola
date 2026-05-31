@@ -14,9 +14,10 @@ Descreva em poucas linhas o que este PR altera.
 
 ## Checklist
 
-- [ ] Li `COMO_CONTRIBUIR.md`
+- [ ] Li `CONTRIBUTING.md`
 - [ ] A mudanca esta alinhada com `REQUISITOS_V0.md`, quando aplicavel
 - [ ] A mudanca esta alinhada com `GUARDRAILS_V0.md`, quando aplicavel
+- [ ] Branch name, PR title, and commit messages avoid coding agent or tool names
 - [ ] Atualizei links ou referencias afetadas
 - [ ] Rodei ou revisei os checks locais possiveis
 
