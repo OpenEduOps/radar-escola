@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("executa o CRUD do playground com status relacionado", async ({ page }) => {
-  await page.setViewportSize({ width: 960, height: 640 });
+  await page.setViewportSize({ width: 960, height: 600 });
   await page.goto("/");
 
   const startButton = page.getByRole("button", { name: "Iniciar playground" });
