@@ -12,6 +12,19 @@ test("executa o CRUD do playground com status relacionado", async ({ page }) => 
   await expect(page.getByRole("columnheader", { name: "Status" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "Acoes" })).toBeVisible();
 
+  await page.getByRole("button", { name: "Cadastrar status" }).click();
+  await page.getByLabel("Nome do status").fill("Status temporario");
+  await page.getByRole("button", { name: "Cadastrar playground" }).click();
+  await expect(page.locator("form.status-registration-form")).toHaveCount(0);
+  await expect(page.locator("form.playground-create-form")).toBeVisible();
+
+  await page.getByRole("button", { name: "Cadastrar status" }).click();
+  await expect(page.locator("form.playground-create-form")).toHaveCount(0);
+  await expect(page.getByLabel("Nome do status")).toHaveValue("");
+
+  await page.getByRole("button", { name: "Cadastrar status" }).click();
+  await expect(page.locator("form.status-registration-form")).toHaveCount(0);
+
   const firstRow = page.locator(".master-row").filter({ hasText: "Primeiro uso" });
   await expect(firstRow.locator(".master-status")).toHaveText("Status A");
   await firstRow.getByRole("button", { name: "Editar" }).click();

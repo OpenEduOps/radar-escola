@@ -46,6 +46,7 @@ export function PlaygroundMasterDetail() {
   function startEditing(record: PlaygroundRecord) {
     setSelectedId(record.id);
     setIsCreateFormOpen(false);
+    closeStatusForm();
     setEditingId(record.id);
     setDraft({
       nome: record.nome,
@@ -59,28 +60,35 @@ export function PlaygroundMasterDetail() {
     setDraft(null);
   }
 
+  function resetNewPlaygroundDraft() {
+    setNewPlaygroundDraft(
+      buildEmptyPlaygroundDraft(selectedStatusCode || initialStatusCode),
+    );
+  }
+
+  function closeStatusForm() {
+    setIsStatusFormOpen(false);
+    setNewStatusName("");
+  }
+
   function selectRecord(id: string) {
     setSelectedId(id);
     cancelEditing();
     setIsCreateFormOpen(false);
-    setNewPlaygroundDraft(
-      buildEmptyPlaygroundDraft(selectedStatusCode || initialStatusCode),
-    );
+    closeStatusForm();
+    resetNewPlaygroundDraft();
   }
 
   function openCreateForm() {
     cancelEditing();
+    closeStatusForm();
     setIsCreateFormOpen(true);
-    setNewPlaygroundDraft(
-      buildEmptyPlaygroundDraft(selectedStatusCode || initialStatusCode),
-    );
+    resetNewPlaygroundDraft();
   }
 
   function cancelCreateForm() {
     setIsCreateFormOpen(false);
-    setNewPlaygroundDraft(
-      buildEmptyPlaygroundDraft(selectedStatusCode || initialStatusCode),
-    );
+    resetNewPlaygroundDraft();
   }
 
   function saveNewPlaygroundRecord() {
@@ -93,9 +101,7 @@ export function PlaygroundMasterDetail() {
     setRecords(result.records);
     setSelectedId(result.record.id);
     setIsCreateFormOpen(false);
-    setNewPlaygroundDraft(
-      buildEmptyPlaygroundDraft(selectedStatusCode || initialStatusCode),
-    );
+    resetNewPlaygroundDraft();
   }
 
   function deleteRecord(id: string) {
@@ -138,6 +144,18 @@ export function PlaygroundMasterDetail() {
     }));
     setNewStatusName("");
     setIsStatusFormOpen(false);
+  }
+
+  function toggleStatusForm() {
+    if (isStatusFormOpen) {
+      closeStatusForm();
+      return;
+    }
+
+    cancelEditing();
+    setIsCreateFormOpen(false);
+    resetNewPlaygroundDraft();
+    setIsStatusFormOpen(true);
   }
 
   return (
@@ -193,7 +211,7 @@ export function PlaygroundMasterDetail() {
         <button
           aria-expanded={isStatusFormOpen}
           className="toolbar-action"
-          onClick={() => setIsStatusFormOpen((isOpen) => !isOpen)}
+          onClick={toggleStatusForm}
           type="button"
         >
           Cadastrar status
