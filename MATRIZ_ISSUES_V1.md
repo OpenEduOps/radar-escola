@@ -595,6 +595,32 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: PER-001 a PER-008.
 - Labels: `persistence`, `tests`.
 
+### PER-010 Implementar restauracao de seguranca
+
+- Tipo: `persistencia`
+- Camada: `persistence`
+- Fonte: D-013, BT-007
+- Objetivo: validar pacote exportado e substituir dados locais de forma
+  controlada.
+- Escopo:
+  - validar estrutura do pacote CSV;
+  - validar versao do formato;
+  - preparar substituicao total dos dados atuais;
+  - executar restauracao em transacao quando possivel;
+  - impedir mescla;
+  - preservar integridade ou falhar sem alterar dados quando possivel.
+- Fora de escopo:
+  - importador generico de planilhas externas;
+  - mescla entre banco atual e pacote importado.
+- Criterios de aceite:
+  - pacote valido restaura dados;
+  - pacote invalido nao altera banco;
+  - restauracao substitui, nao mescla;
+  - falha parcial nao deixa banco inconsistente quando tecnicamente possivel.
+- Testes esperados: persistencia/integracao.
+- Dependencias: PER-001, PER-009, PER-008.
+- Labels: `persistence`, `tests`.
+
 ## Issues de Application/Controller
 
 ### APP-001 Implementar configuracao inicial da escola
@@ -826,7 +852,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - restauracao substitui;
   - arquivo invalido nao altera banco.
 - Testes esperados: integracao.
-- Dependencias: PER-009, PER-008.
+- Dependencias: PER-009, PER-010, PER-008.
 - Labels: `application`, `persistence`, `tests`.
 
 ## Issues de View
@@ -1045,7 +1071,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 - Tipo: `qa`
 - Camada: `qa`
-- Fonte: PER-001 a PER-009
+- Fonte: PER-001 a PER-010
 - Objetivo: validar schema, repositorios e integridade.
 - Escopo:
   - banco temporario;
