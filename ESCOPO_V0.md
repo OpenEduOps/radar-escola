@@ -1,13 +1,17 @@
 # Escopo da V0
 
 Este documento define a linha de corte da V0 do primeiro produto, usando
-`Radar Escola` como nome publico candidato atual.
+`Radar Escola` como nome publico adotado por enquanto.
 
 O fluxo ponta a ponta esta descrito em `FLUXO_E2E_V0.md`.
 
 A V0 deve entregar uma experiencia util, instalavel/local e pequena o suficiente
 para ser implementada, testada e validada sem transformar a primeira versao em um
 produto amplo demais.
+
+Estado apos a tag `v0.0.1`: ja existe uma release tecnica instalavel do
+scaffold. Ela nao fecha este escopo da V0; ela apenas confirma que a casca
+desktop, o instalador, o checksum e o smoke tecnico funcionam.
 
 ## Objetivo da V0
 

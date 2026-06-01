@@ -13,12 +13,22 @@ Ele deve ser lido junto com:
 
 ## Produto
 
-- Nome publico candidato atual: `Radar Escola`.
+- Nome publico adotado por enquanto: `Radar Escola`.
 - Tela principal/conceito operacional: `Radar de Necessidades`.
 - Frase de valor: "Veja o que sua escola precisa resolver."
 - Principio: "Acao conjunta para cuidar das necessidades da escola."
 - Plataforma prioritaria: aplicativo desktop local para Windows.
 - Stack definida: Tauri + React + TypeScript + SQLite.
+
+## Estado da Implementacao
+
+A tag `v0.0.1` ja publicou uma release tecnica do scaffold com instalador
+Windows e checksum. Ela valida casca desktop, abertura maximizada, ausencia de
+prompt atras da janela, menu Playground e CRUD de referencia.
+
+Esses requisitos continuam descrevendo a V0 funcional alvo. A V0 ainda nao esta
+implementada enquanto nao houver SQLite, primeiro uso, login, pessoas,
+necessidades, envolvidos, historico, auditoria e exportacao/restauracao reais.
 
 ## Requisitos funcionais
 

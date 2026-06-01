@@ -6,6 +6,10 @@ O objetivo e responder uma pergunta simples:
 
 > O MVP entrega um ciclo util completo para uma escola?
 
+Nota apos a tag `v0.0.1`: esse fluxo continua sendo o alvo da V0 funcional. A
+release tecnica atual valida instalador, casca desktop e Playground, mas ainda
+nao entrega este ciclo operacional completo.
+
 ## Resposta curta
 
 Sim, desde que a V0 entregue um ciclo operacional completo:

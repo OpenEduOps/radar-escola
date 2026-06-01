@@ -312,6 +312,11 @@ uma ferramenta tecnica para equipe de TI.
 Definir quando a V0 deixa de ser apenas scaffold e passa a ser uma entrega
 testavel com valor real para uma escola.
 
+Nota apos `v0.0.1`: a release tecnica atual ainda e scaffold. Ela valida
+instalacao, abertura, janela maximizada e Playground, mas a V0 so deixa de ser
+scaffold quando o fluxo narrativo obrigatorio abaixo existir com dados locais
+persistidos.
+
 ### Fluxo Narrativo Obrigatorio
 
 A V0 deve permitir demonstrar:
@@ -333,6 +338,7 @@ configurar escola
 
 - App roda localmente em ambiente de desenvolvimento.
 - Existe caminho claro para empacotamento desktop Windows.
+- Release tecnica com instalador e checksum existe sem prometer MVP funcional.
 - Escola consegue configurar primeiro uso.
 - Pessoas conseguem acessar com usuario e senha.
 - Senha temporaria `123456` exige troca obrigatoria.

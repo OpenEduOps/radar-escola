@@ -5,6 +5,11 @@ OpenEduOps. Ele nao pretende ser definitivo. A ideia e preservar o contexto como
 esta agora, para que a organizacao possa evoluir suas decisoes com mais clareza
 ao longo do tempo.
 
+Atualizacao de estado apos a tag `v0.0.1`: o Radar Escola ja possui um scaffold
+desktop tecnico publicado com instalador Windows e checksum. Essa release valida
+a casca desktop, o empacotamento, a janela maximizada e o Playground de
+referencia; ela ainda nao representa a V0 funcional para uso real em escola.
+
 ## Recorte do problema
 
 Ao observar o contexto educacional brasileiro como um todo, especialmente a
@@ -86,18 +91,17 @@ Esse recorte e promissor porque:
 ## Primeiro produto possivel
 
 O primeiro produto escolhido para iniciar o OpenEduOps tem como nome publico
-candidato atual `Radar Escola`.
+adotado por enquanto `Radar Escola`.
 
-O Radar Escola, enquanto nome candidato atual, representa uma central
-operacional simples para instituicoes educacionais, com foco inicial em
-necessidades, apoio interno, equipamentos e historico de manutencao.
+O Radar Escola representa uma central operacional simples para instituicoes
+educacionais, com foco inicial em necessidades, apoio interno, equipamentos e
+historico de manutencao.
 
 Definicao curta:
 
-> Radar Escola e um nome candidato para um aplicativo desktop local para Windows
-> que ajuda escolas a
-> organizar necessidades, equipamentos e historico de manutencao, sem
-> depender de internet, servidor ou equipe tecnica especializada.
+> Radar Escola e um aplicativo desktop local para Windows que ajuda escolas a
+> organizar necessidades, equipamentos e historico de manutencao, sem depender
+> de internet, servidor ou equipe tecnica especializada.
 
 Frase de produto:
 
@@ -110,11 +114,11 @@ O principio de experiencia do Radar Escola deve ser:
 
 ## Por que comecar pelo produto Radar Escola
 
-O primeiro produto, hoje tratado pelo nome candidato Radar Escola, deve ser o
-ponto de partida porque resolve uma dor comum em diferentes tipos de instituicao
+O primeiro produto, hoje tratado pelo nome Radar Escola, deve ser o ponto de
+partida porque resolve uma dor comum em diferentes tipos de instituicao
 educacional: pedidos de manutencao, equipamentos, laboratorios, salas e
-problemas cotidianos que hoje frequentemente ficam espalhados em WhatsApp, papel,
-e-mail solto ou memoria das pessoas.
+problemas cotidianos que hoje frequentemente ficam espalhados em WhatsApp,
+papel, e-mail solto ou memoria das pessoas.
 
 Ele tambem e transversal. Pode ser util para:
 
