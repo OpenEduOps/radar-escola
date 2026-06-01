@@ -91,6 +91,16 @@ focados no produto.
 
 ## Como Rodar Localmente
 
+Pre-requisitos para o scaffold web:
+
+- Node.js 24, mesma versao usada na CI;
+- npm.
+
+Pre-requisitos adicionais apenas para build desktop local:
+
+- Rust/Cargo;
+- Visual Studio Build Tools/MSVC com ferramentas C++ para Windows.
+
 Instale as dependencias:
 
 ```text
