@@ -125,6 +125,31 @@ Validacoes realizadas sobre o artefato:
 O artefato atual e uma validacao tecnica do scaffold. Ele ainda nao deve ser
 tratado como release funcional para escola.
 
+## Leitura Recomendada
+
+Para entender o produto antes de implementar:
+
+- [`CONTEXTO_INICIAL.md`](CONTEXTO_INICIAL.md);
+- [`REQUISITOS_V0.md`](REQUISITOS_V0.md);
+- [`ESCOPO_V0.md`](ESCOPO_V0.md);
+- [`FLUXO_E2E_V0.md`](FLUXO_E2E_V0.md);
+- [`GUARDRAILS_V0.md`](GUARDRAILS_V0.md).
+
+Para implementar a V1:
+
+- [`GUIA_ESPECIFICACAO_EXECUTAVEL_V1.md`](GUIA_ESPECIFICACAO_EXECUTAVEL_V1.md);
+- [`DETALHAMENTO_REQUISITOS_V1.md`](DETALHAMENTO_REQUISITOS_V1.md);
+- [`DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md`](DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md);
+- [`REGRAS_DE_DOMINIO_V1.md`](REGRAS_DE_DOMINIO_V1.md);
+- [`MATRIZ_ISSUES_V1.md`](MATRIZ_ISSUES_V1.md).
+
+Para entender engenharia, CI e release:
+
+- [`docs/architecture.md`](docs/architecture.md);
+- [`docs/implementation-status.md`](docs/implementation-status.md);
+- [`docs/ci.md`](docs/ci.md);
+- [`docs/desktop-release.md`](docs/desktop-release.md).
+
 ## Documentacao
 
 - [`CONTEXTO_INICIAL.md`](CONTEXTO_INICIAL.md): contexto educacional, decisao
