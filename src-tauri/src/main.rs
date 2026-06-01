@@ -2,7 +2,7 @@
 
 use tauri::{
     menu::{MenuBuilder, SubmenuBuilder},
-    Emitter,
+    Emitter, Manager,
 };
 
 fn main() {
@@ -14,6 +14,10 @@ fn main() {
 
             let menu = MenuBuilder::new(app).items(&[&playground_menu]).build()?;
             app.set_menu(menu)?;
+
+            if let Some(window) = app.get_webview_window("main") {
+                window.maximize()?;
+            }
 
             app.on_menu_event(|app_handle, event| {
                 if event.id().0.as_str() == "playground_start" {

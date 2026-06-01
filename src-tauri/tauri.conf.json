@@ -15,6 +15,7 @@
         "title": "Radar Escola",
         "width": 1000,
         "height": 580,
+        "maximized": true,
         "minWidth": 860,
         "minHeight": 520
       }

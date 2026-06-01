@@ -109,6 +109,7 @@ Ele testa hoje:
 - executavel instalado usa o subsistema Windows GUI, nao Console;
 - aplicativo abre sem crash imediato;
 - janela principal e criada;
+- janela principal abre maximizada;
 - menu nativo `Playground > Iniciar playground` existe;
 - comando do menu nativo aciona o fluxo Playground;
 - aplicativo permanece aberto apos o comando;
@@ -220,6 +221,8 @@ Correcoes necessarias para chegar nesse estado:
   janela principal.
 - compilar builds release do Tauri com subsistema Windows GUI para evitar que
   um prompt apareca atras da janela principal.
+- configurar a janela principal para abrir sempre maximizada e validar esse
+  comportamento no smoke test Windows.
 
 ## Tentativa Local De Build Tauri
 

@@ -19,6 +19,10 @@ public static class RadarEscolaSmokeWin32
     public static extern bool IsWindowVisible(IntPtr hWnd);
 
     [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool IsZoomed(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
     public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
 
     [DllImport("user32.dll")]
@@ -181,6 +185,41 @@ function Wait-MainWindow {
     throw "Installed app did not create a main window during smoke test."
 }
 
+function Assert-MainWindowMaximized {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Diagnostics.Process]
+        $Process,
+
+        [Parameter(Mandatory = $true)]
+        [IntPtr]
+        $MainWindow
+    )
+
+    for ($attempt = 0; $attempt -lt 20; $attempt++) {
+        $Process.Refresh()
+
+        if ($Process.HasExited) {
+            throw "Installed app exited before maximized window validation with code $($Process.ExitCode)."
+        }
+
+        $windowHandle = $Process.MainWindowHandle
+
+        if ($windowHandle -eq [IntPtr]::Zero) {
+            $windowHandle = $MainWindow
+        }
+
+        if ([RadarEscolaSmokeWin32]::IsZoomed($windowHandle)) {
+            Write-Host "Installed app main window opened maximized."
+            return
+        }
+
+        Start-Sleep -Milliseconds 500
+    }
+
+    throw "Installed app main window did not open maximized."
+}
+
 function Invoke-PlaygroundMenu {
     param(
         [Parameter(Mandatory = $true)]
@@ -290,6 +329,7 @@ function Assert-AppLaunchFlow {
 
     try {
         $mainWindow = Wait-MainWindow -Process $process
+        Assert-MainWindowMaximized -Process $process -MainWindow $mainWindow
         Invoke-PlaygroundMenu -Process $process
         Start-Sleep -Seconds 4
         $process.Refresh()
