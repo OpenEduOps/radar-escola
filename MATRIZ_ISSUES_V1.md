@@ -1122,6 +1122,34 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: PER-005, PER-007, DOM-010.
 - Labels: `application`, `tests`, `good first issue`.
 
+### APP-019 Implementar reset administrativo de senha
+
+- Tipo: `application`
+- Camada: `controller`
+- Fonte: matriz de permissoes, BT-003, D-004
+- Objetivo: permitir que a direcao redefina senha de usuario comum para senha
+  temporaria `123456`.
+- Escopo:
+  - validar direcao;
+  - bloquear apoio e usuario comum;
+  - bloquear reset da propria direcao por apoio;
+  - salvar hash da senha temporaria;
+  - marcar conta como primeiro acesso;
+  - registrar auditoria `PASSWORD_RESET`.
+- Fora de escopo:
+  - permitir apoio redefinir senha;
+  - exibir senha final;
+  - recuperacao tecnica da direcao que perdeu tudo.
+- Criterios de aceite:
+  - direcao reseta usuario comum;
+  - conta resetada exige primeiro acesso;
+  - senha `123456` nao fica em texto claro;
+  - auditoria registra acao;
+  - usuario comum e apoio sao bloqueados.
+- Testes esperados: caso de uso e seguranca.
+- Dependencias: PER-003, PER-008, DOM-004, DOM-001.
+- Labels: `application`, `tests`, `security`.
+
 ## Issues de View
 
 ### VIEW-001 Criar tela de primeiro uso
@@ -1392,6 +1420,30 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: APP-018.
 - Labels: `frontend`, `ux`, `good first issue`.
 
+### VIEW-013 Criar acao de reset administrativo de senha
+
+- Tipo: `view`
+- Camada: `view`
+- Fonte: matriz de permissoes, BT-003
+- Objetivo: permitir que direcao redefina senha de usuario comum com alerta de
+  primeiro acesso privado.
+- Escopo:
+  - acao em lista/detalhe de pessoa;
+  - confirmacao forte;
+  - mensagem de senha temporaria `123456`;
+  - aviso de primeiro acesso privado;
+  - bloqueio visual para apoio e usuario comum.
+- Fora de escopo:
+  - mostrar senha final;
+  - recuperar direcao sem salvaguarda.
+- Criterios de aceite:
+  - direcao entende que a pessoa precisara trocar senha;
+  - apoio/usuario comum nao veem acao permitida;
+  - mensagem nao incentiva compartilhar senha final.
+- Testes esperados: interface.
+- Dependencias: APP-019.
+- Labels: `frontend`, `ux`, `security`.
+
 ## Issues de QA e Testes
 
 ### QA-001 Criar roteiro QA do fluxo minimo
@@ -1496,7 +1548,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - checklist aplicavel por QA junior;
   - termos proibidos rastreados.
 - Testes esperados: manual.
-- Dependencias: VIEW-001 a VIEW-012.
+- Dependencias: VIEW-001 a VIEW-013.
 - Labels: `qa`, `ux`, `accessibility`.
 
 ### QA-006 Criar teste de exportacao/restauracao
@@ -1666,6 +1718,31 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Testes esperados: caso de uso, interface e persistencia focada.
 - Dependencias: APP-018, VIEW-012, PER-007.
 - Labels: `qa`, `tests`, `good first issue`.
+
+### QA-013 Criar testes de reset administrativo de senha
+
+- Tipo: `qa`
+- Camada: `qa`
+- Fonte: APP-019, VIEW-013, BT-003
+- Objetivo: validar reset para `123456` sem expor senha clara e com primeiro
+  acesso obrigatorio.
+- Escopo:
+  - reset pela direcao;
+  - bloqueio para apoio;
+  - bloqueio para usuario comum;
+  - hash da senha temporaria;
+  - flag de primeiro acesso;
+  - auditoria `PASSWORD_RESET`.
+- Fora de escopo:
+  - recuperacao tecnica da direcao perdida;
+  - envio por e-mail.
+- Criterios de aceite:
+  - conta resetada nao entra no Radar antes de trocar senha;
+  - senha temporaria nao aparece em texto claro;
+  - evento sensivel e registrado.
+- Testes esperados: caso de uso, persistencia e interface focada.
+- Dependencias: APP-019, VIEW-013, PER-003, PER-008.
+- Labels: `qa`, `tests`, `security`.
 
 ## Issues de Documentacao de Apoio
 
