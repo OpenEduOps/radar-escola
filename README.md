@@ -91,7 +91,7 @@ focados no produto.
 
 ## Como Rodar Localmente
 
-Pre-requisitos para o scaffold web:
+Pre-requisitos para validar o frontend do scaffold:
 
 - Node.js 24, mesma versao usada na CI;
 - npm.
@@ -107,7 +107,7 @@ Instale as dependencias:
 npm ci
 ```
 
-Execute o app web em modo desenvolvimento:
+Execute o frontend do scaffold em modo desenvolvimento:
 
 ```text
 npm run dev

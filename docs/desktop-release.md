@@ -159,7 +159,7 @@ cadastro escolar, banco local ou regras de negocio da V0.
 
 Enquanto o app ainda for apenas scaffold, a execucao manual gera um instalador
 tecnico minimo, mas ele deve ser tratado apenas como validacao da casca desktop,
-do carregamento web empacotado e do pipeline de release.
+do frontend empacotado e do pipeline de release.
 
 Se alguem tentar publicar uma tag `v*` antes do scaffold existir, o preflight
 deve falhar. Uma release versionada nao pode ser publicada sem artefato real.
@@ -234,7 +234,7 @@ failed to run 'cargo metadata' ... program not found
 
 Conclusao:
 
-- o build web do scaffold esta valido;
+- o build frontend do scaffold esta valido;
 - os testes automatizados do CRUD passam;
 - o instalador pode ser gerado no GitHub Actions;
 - o instalador ainda nao pode ser gerado diretamente nesta maquina;
