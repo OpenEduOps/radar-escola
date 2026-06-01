@@ -157,6 +157,10 @@ Quero cadastrar um equipamento
 Quero fazer uma copia de seguranca
 ```
 
+As frases de intencao nao significam que todas as pessoas veem todas as acoes.
+A interface deve aplicar permissao antes de exibir atalhos administrativos, como
+seguranca, auditoria, transferencia de direcao e reset administrativo.
+
 ## Guardrails Visiveis
 
 - [U] nao marca necessidade como resolvida.
@@ -169,7 +173,8 @@ Quero fazer uma copia de seguranca
 - [A] e [U] nao consultam auditoria.
 - [D] pode transferir direcao.
 - [A] e [U] nao transferem direcao.
-- [D] pode redefinir senha de usuario comum para `123456`.
+- [D] pode redefinir senha de pessoa cadastrada que nao seja a direcao atual
+  para `123456`.
 - [A] e [U] nao redefinem senha de terceiros.
 - Equipamento e apoio operacional, nao patrimonio completo.
 - Equipamento precisa ter nome, local e estado atual simples.
@@ -205,7 +210,7 @@ sem tarefa revisavel.
 | VIEW-010 | UC-021 | Auditoria |
 | VIEW-011 | UC-022 | Transferir direcao |
 | VIEW-012 | UC-017, UC-018 | Cadastrar equipamento; Vincular equipamento; Equipamentos |
-| VIEW-013 | BT-003, APP-019 | Redefinir senha de usuario comum |
+| VIEW-013 | UC-025, BT-003, APP-019 | Redefinir senha de pessoa cadastrada |
 | VIEW-014 | UC-007 | Definir apoio de gestao |
 
 ## Acesso Local
@@ -364,7 +369,7 @@ Objetivo: recuperar acesso sem e-mail, WhatsApp ou internet.
 Permissao:
 
 - [D], [A] e [U] podem tentar recuperar a propria conta.
-- [U] sem salvaguarda deve procurar a direcao para reset administrativo.
+- [A] ou [U] sem salvaguarda deve procurar a direcao para reset administrativo.
 - [D] sem senha e sem salvaguarda pode perder acesso administrativo; recuperacao
   tecnica da direcao sem salvaguarda fica fora da V1 funcional.
 
@@ -1039,14 +1044,15 @@ Estados:
 - Definir ou remover apoio gera auditoria `MANAGEMENT_SUPPORT_GRANTED` ou
   `MANAGEMENT_SUPPORT_REVOKED`.
 
-### Redefinir Senha De Usuario Comum
+### Redefinir Senha De Pessoa Cadastrada
 
-Objetivo: permitir que direcao ajude quando usuario comum perdeu senha e
+Objetivo: permitir que direcao ajude quando pessoa cadastrada perdeu senha e
 salvaguarda, sem expor segredos pessoais.
 
 Permissao:
 
-- [D] redefine senha de usuario comum para `123456`.
+- [D] redefine senha de pessoa cadastrada que nao seja a direcao atual para
+  `123456`.
 - [A] nao redefine senha.
 - [U] nao redefine senha.
 - [S] reset nao mostra senha antiga, token, frase, resposta nem hash.
@@ -1057,6 +1063,7 @@ Permissao:
 +------------------------------------------------------------+
 | Use apenas quando a pessoa perdeu senha e salvaguarda.      |
 | A senha voltara para 123456 e exigira novo primeiro acesso. |
+| A salvaguarda anterior deixara de valer.                    |
 | O proximo acesso da pessoa deve ser feito em privacidade.  |
 +------------------------------------------------------------+
 |                                                            |
@@ -1077,7 +1084,8 @@ Estados:
 
 - Sem confirmacao: bloquear.
 - Diretor atual nao deve resetar a propria senha por este fluxo.
-- Usuario redefinido fica obrigado a trocar senha antes de usar o Radar.
+- Pessoa redefinida fica obrigada a trocar senha antes de usar o Radar.
+- Salvaguarda anterior da pessoa redefinida deixa de valer.
 - Reset gera auditoria `PASSWORD_RESET` sem expor conteudo sensivel.
 
 ## Equipamentos

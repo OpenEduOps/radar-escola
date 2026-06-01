@@ -135,7 +135,8 @@ Casos de uso detalhados:
 - UC-022: Transferir direcao.
 - UC-023: Sair da conta.
 - UC-024: Bloquear e desbloquear sessao por inatividade.
-- UC-025: Validar MVP completo.
+- UC-025: Redefinir senha temporaria por direcao.
+- UC-026: Validar MVP completo.
 
 ### 2. `DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md`
 
@@ -306,7 +307,7 @@ Criacao inicial de registros, por exemplo:
 Alteracoes controladas, por exemplo:
 
 - trocar senha temporaria;
-- redefinir senha de usuario comum;
+- redefinir senha de pessoa cadastrada;
 - atualizar dados simples de pessoa;
 - alterar status de necessidade;
 - marcar necessidade como resolvida;

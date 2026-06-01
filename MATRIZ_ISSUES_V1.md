@@ -535,14 +535,16 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Objetivo: persistir e validar dados protegidos de recuperacao.
 - Escopo:
   - salvar hashes;
-  - recuperar por conta;
-  - atualizar frase/resposta quando permitido.
+  - recuperar salvaguarda ativa por conta;
+  - atualizar frase/resposta quando permitido;
+  - invalidar salvaguarda anterior no reset administrativo.
 - Fora de escopo:
   - UI de recuperacao.
 - Criterios de aceite:
   - token claro nao e persistido;
   - resposta clara nao e persistida;
   - token e frase/resposta existem na salvaguarda V1.
+  - salvaguarda invalidada nao recupera acesso.
 - Testes esperados: persistencia e seguranca.
 - Dependencias: PER-003.
 - Labels: `persistence`, `tests`.
@@ -1134,24 +1136,26 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 - Tipo: `application`
 - Camada: `controller`
-- Fonte: matriz de permissoes, BT-003, D-004
-- Objetivo: permitir que a direcao redefina senha de usuario comum para senha
-  temporaria `123456`.
+- Fonte: UC-025, BT-003, D-004
+- Objetivo: permitir que a direcao redefina senha de pessoa cadastrada que nao
+  seja a direcao atual para senha temporaria `123456`.
 - Escopo:
   - validar direcao;
   - bloquear apoio e usuario comum;
   - bloquear reset da propria direcao por este fluxo;
   - salvar hash da senha temporaria;
   - marcar conta como primeiro acesso;
+  - invalidar salvaguarda anterior;
   - registrar auditoria `PASSWORD_RESET`.
 - Fora de escopo:
   - permitir apoio redefinir senha;
   - exibir senha final;
   - recuperacao tecnica da direcao que perdeu tudo.
 - Criterios de aceite:
-  - direcao reseta usuario comum;
+  - direcao reseta pessoa permitida;
   - conta resetada exige primeiro acesso;
   - senha `123456` nao fica em texto claro;
+  - salvaguarda anterior nao recupera mais a conta;
   - auditoria registra acao;
   - usuario comum e apoio sao bloqueados.
 - Testes esperados: caso de uso e seguranca.
@@ -1432,13 +1436,14 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 - Tipo: `view`
 - Camada: `view`
-- Fonte: matriz de permissoes, BT-003
-- Objetivo: permitir que direcao redefina senha de usuario comum com alerta de
-  primeiro acesso privado.
+- Fonte: UC-025, BT-003
+- Objetivo: permitir que direcao redefina senha de pessoa cadastrada permitida
+  com alerta de primeiro acesso privado.
 - Escopo:
   - acao em lista/detalhe de pessoa;
   - confirmacao forte;
   - mensagem de senha temporaria `123456`;
+  - aviso de que a salvaguarda anterior deixara de valer;
   - aviso de primeiro acesso privado;
   - bloqueio visual para apoio e usuario comum.
 - Fora de escopo:
@@ -1485,7 +1490,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 - Tipo: `qa`
 - Camada: `qa`
-- Fonte: UC-025
+- Fonte: UC-026
 - Objetivo: validar narrativa completa do MVP.
 - Escopo:
   - primeiro uso;
@@ -1758,7 +1763,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 - Tipo: `qa`
 - Camada: `qa`
-- Fonte: APP-019, VIEW-013, BT-003
+- Fonte: UC-025, APP-019, VIEW-013, BT-003
 - Objetivo: validar reset para `123456` sem expor senha clara e com primeiro
   acesso obrigatorio.
 - Escopo:
@@ -1767,6 +1772,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - bloqueio para usuario comum;
   - hash da senha temporaria;
   - flag de primeiro acesso;
+  - salvaguarda anterior invalidada;
   - auditoria `PASSWORD_RESET`.
 - Fora de escopo:
   - recuperacao tecnica da direcao perdida;
@@ -1774,6 +1780,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Criterios de aceite:
   - conta resetada nao entra no Radar antes de trocar senha;
   - senha temporaria nao aparece em texto claro;
+  - salvaguarda anterior nao recupera a conta;
   - evento sensivel e registrado.
 - Testes esperados: caso de uso, persistencia e interface focada.
 - Dependencias: APP-019, VIEW-013, PER-003, PER-008.

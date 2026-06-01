@@ -51,7 +51,8 @@ Pode:
 - cadastrar pessoas;
 - cadastrar cargos/funcoes;
 - definir ate duas pessoas como apoio de gestao;
-- redefinir senha de usuario comum para `123456`;
+- redefinir senha de pessoa cadastrada que nao seja a direcao atual para
+  `123456`;
 - registrar necessidades;
 - atualizar andamento;
 - marcar envolvidos;
@@ -155,7 +156,7 @@ Responsavel por:
 | Entrar no sistema | Sim | Sim | Sim |
 | Cadastrar cargo/funcao | Sim | Sim | Nao |
 | Cadastrar pessoa | Sim | Sim | Nao |
-| Redefinir senha de usuario comum | Sim | Nao | Nao |
+| Redefinir senha de pessoa cadastrada, exceto direcao atual | Sim | Nao | Nao |
 | Definir apoio de gestao | Sim | Nao | Nao |
 | Registrar necessidade | Sim | Sim | Sim |
 | Ver Radar de Necessidades | Sim | Sim | Sim |
@@ -482,8 +483,8 @@ lembra nome/usuario e salvaguarda.
 
 ### Fluxos alternativos
 
-- Usuario comum sem salvaguarda pode procurar direcao para reset
-  administrativo.
+- Pessoa sem papel de direcao atual, incluindo apoio de gestao ou usuario comum,
+  pode procurar direcao para reset administrativo.
 - Direcao sem salvaguarda deve receber mensagem sobre risco de perda de acesso
   administrativo. Recuperacao tecnica da direcao sem salvaguarda fica fora da
   V1 funcional.
@@ -2052,7 +2053,106 @@ Reduzir risco de sessao aberta em computador compartilhado.
 - View: tela bloqueada.
 - QA: inatividade.
 
-## UC-025 Validar MVP completo
+## UC-025 Redefinir senha temporaria por direcao
+
+### Objetivo
+
+Permitir que a direcao ajude uma pessoa cadastrada que perdeu senha e
+salvaguarda, sem expor senha antiga, token, frase, resposta ou hash.
+
+### Atores
+
+- Direcao.
+- Pessoa cadastrada afetada.
+- Sistema.
+
+### Pre-condicoes
+
+- Direcao autenticada.
+- Pessoa afetada cadastrada e ativa.
+- Pessoa afetada nao e a direcao atual.
+
+### Pos-condicoes
+
+- Conta afetada volta para senha temporaria `123456`.
+- Conta afetada fica obrigada a fazer primeiro acesso novamente.
+- Nova salvaguarda sera criada pela propria pessoa afetada no proximo acesso.
+- Auditoria registra a redefinicao sem segredo.
+
+### Fluxo principal
+
+1. Direcao acessa cadastro/lista de pessoas.
+2. Direcao escolhe pessoa cadastrada.
+3. Direcao escolhe redefinir senha.
+4. Sistema explica que a senha voltara para `123456`.
+5. Sistema explica que a pessoa deve fazer proximo acesso em privacidade.
+6. Direcao confirma.
+7. Sistema salva hash Argon2id da senha temporaria.
+8. Sistema marca conta com primeiro acesso obrigatorio.
+9. Sistema invalida salvaguarda anterior.
+10. Sistema registra auditoria `PASSWORD_RESET`.
+11. Sistema informa que a pessoa deve entrar com `123456` e criar nova senha e
+    salvaguarda.
+
+### Fluxos alternativos
+
+- Direcao cancela antes de confirmar.
+- Pessoa afetada recupera acesso sozinha por salvaguarda antes do reset.
+
+### Fluxos de excecao
+
+- Apoio de gestao tenta redefinir senha: bloquear.
+- Usuario comum tenta redefinir senha: bloquear.
+- Direcao tenta redefinir a propria senha por este fluxo: bloquear e orientar
+  usar recuperacao local.
+- Pessoa inativa: bloquear.
+- Falha ao salvar reset: nao alterar conta e informar erro operacional.
+
+### Regras de negocio
+
+- Apenas direcao atual pode executar este fluxo.
+- Reset administrativo nao mostra senha antiga, token, frase, resposta ou hash.
+- Senha temporaria `123456` deve ser persistida apenas como hash.
+- Conta resetada nao pode entrar no Radar antes de concluir primeiro acesso.
+- Salvaguarda anterior deve deixar de valer depois do reset administrativo.
+- Recuperacao tecnica da direcao que perdeu tudo fica fora da V1 funcional.
+
+### Mensagens de UX
+
+- "Use apenas quando a pessoa perdeu senha e salvaguarda."
+- "A senha voltara para 123456 e devera ser trocada no proximo acesso."
+- "A salvaguarda anterior deixara de valer."
+- "O proximo acesso deve ser feito em privacidade."
+- "Nao peca para a pessoa informar nova senha, token ou resposta na sua frente."
+
+### Criterios de aceite
+
+- Direcao redefine senha de pessoa permitida.
+- Apoio e usuario comum sao bloqueados.
+- Direcao nao redefine a propria senha por este fluxo.
+- Conta resetada exige primeiro acesso.
+- Senha temporaria nao fica em texto claro.
+- Salvaguarda anterior nao recupera mais a conta.
+- Auditoria registra reset sem segredo.
+
+### Testes minimos
+
+- Reset pela direcao.
+- Bloqueio para apoio.
+- Bloqueio para usuario comum.
+- Bloqueio de reset da propria direcao.
+- Primeiro acesso obrigatorio apos reset.
+- Salvaguarda anterior invalidada.
+- Auditoria sem segredo.
+
+### Issues minimas e modulares sugeridas
+
+- Model: regra de reset administrativo.
+- Application: redefinir senha temporaria.
+- View: acao de reset com confirmacao forte.
+- QA: reset, bloqueios e primeiro acesso.
+
+## UC-026 Validar MVP completo
 
 ### Objetivo
 
