@@ -76,6 +76,20 @@ Ainda nao possui:
 - documentacao operacional final dos comandos Docker;
 - integracao explicita entre plano Docker e matriz de issues.
 
+## Premissas Tecnicas Atuais
+
+- A CI usa Node.js 24.
+- O projeto usa npm e `package-lock.json`.
+- O Vite esta configurado com porta fixa `1420`.
+- O teste E2E usa Playwright e base URL `http://127.0.0.1:1420`.
+- O Playwright esta configurado hoje para usar o canal `chrome`.
+- O ambiente alvo de desenvolvimento pode ser Windows, WSL2, Linux ou runner
+  temporario.
+- Docker Desktop/WSL2 pode ter custo de disco e desempenho diferente em
+  maquinas Windows.
+- O fluxo local sem Docker continua sendo suportado por `npm ci`, `npm test`,
+  `npm run typecheck`, `npm run build` e `npm run test:e2e`.
+
 ## Principios
 
 - Docker e ferramenta de engenharia, nao produto.
@@ -86,6 +100,8 @@ Ainda nao possui:
 - O build Windows do instalador continua no GitHub Actions Windows runner ou em
   maquina Windows com toolchain nativa.
 - Nenhum secret, cache pesado ou artefato gerado deve ser versionado.
+- Dependencias instaladas no container nao devem poluir a maquina local.
+- O plano deve considerar espaco em disco como restricao real de uso.
 - A documentacao publica deve continuar centrada em desktop local Windows.
 
 ## Arquitetura Alvo Da Dockerizacao
@@ -98,6 +114,7 @@ Deve cobrir:
 
 - Node.js 24;
 - npm;
+- `package-lock.json` como fonte de instalacao reproduzivel;
 - `npm ci`;
 - `npm test`;
 - `npm run typecheck`;
@@ -118,12 +135,14 @@ Deve cobrir:
 
 - browser necessario para Playwright;
 - `npm run test:e2e`;
-- porta Vite usada pelo scaffold;
+- porta Vite `1420`;
 - relatorios e traces como artefatos locais ignorados.
 
 Ponto de atencao:
 
 - imagens com browsers podem ser pesadas;
+- o canal `chrome` precisa existir dentro da imagem escolhida, ou a estrategia
+  E2E deve documentar uma configuracao especifica para container;
 - essa camada deve ser opcional se o custo ficar alto demais para contribuidores
   iniciantes.
 
@@ -174,6 +193,10 @@ Deve impedir envio de arquivos desnecessarios ao contexto Docker:
 - `playwright-report`;
 - `test-results`;
 - `src-tauri/target`;
+- `.env`;
+- `.env.*`;
+- `*.log`;
+- `*.tmp`;
 - logs e temporarios.
 
 ### `Dockerfile.dev`
@@ -183,10 +206,31 @@ Deve ser o primeiro artefato executavel da dockerizacao.
 Responsabilidades:
 
 - partir de imagem Node adequada;
+- usar Node 24 para alinhar com a CI;
+- copiar `package.json` e `package-lock.json` antes do restante do codigo quando
+  isso ajudar cache de build;
 - instalar dependencias via `npm ci`;
 - permitir comandos de validacao do scaffold;
+- evitar que `node_modules` do container seja escrito no host por acidente;
 - nao embutir segredos;
 - nao gerar artefatos versionados.
+
+### Estrategia De Dependencias E Volumes
+
+A primeira versao deve evitar ambiguidade entre dependencias do host e
+dependencias do container.
+
+Direcoes aceitaveis:
+
+- instalar dependencias dentro da imagem durante o build;
+- ou usar volume nomeado para `node_modules`, se houver modo dev interativo.
+
+Direcoes a evitar:
+
+- montar `node_modules` do Windows dentro do container;
+- sobrescrever `node_modules` local sem intencao clara;
+- depender de caches locais nao documentados;
+- exigir que contributors limpem manualmente arquivos gerados sem orientacao.
 
 ### `Dockerfile.e2e` Ou Estrategia Equivalente
 
@@ -255,10 +299,12 @@ Entregas:
 
 Criterios de aceite:
 
+- imagem dev e construida com sucesso;
 - container executa `npm ci`;
 - container executa `npm test`;
 - container executa `npm run typecheck`;
 - container executa `npm run build`;
+- tamanho aproximado da imagem e tempo de build sao registrados;
 - README ou doc operacional aponta para o fluxo;
 - CI continua verde;
 - nenhum artefato gerado entra no Git.
@@ -292,6 +338,8 @@ Opcoes:
 Criterios de aceite:
 
 - decisao registrada;
+- compatibilidade entre Playwright, browser disponivel e canal `chrome` foi
+  validada;
 - se implementado, `npm run test:e2e` roda no container;
 - relatorios e traces continuam ignorados;
 - custo de imagem e tempo de execucao sao aceitaveis.
@@ -384,6 +432,19 @@ Mitigacao:
 - adiar E2E em Docker ate medir custo;
 - evitar instalar toolchains desnecessarias.
 
+### Consumo De Disco E Limpeza
+
+Risco: Docker aumentar muito uso de disco em maquinas de contribuidores ou na
+maquina de manutencao do projeto.
+
+Mitigacao:
+
+- medir tamanho da imagem na primeira entrega;
+- documentar comando de limpeza seguro;
+- evitar caches persistentes sem necessidade;
+- nao baixar browsers no container basico;
+- manter E2E em camada separada se a imagem ficar pesada.
+
 ### Duplicacao Com CI
 
 Risco: Docker duplicar a CI sem ganho real.
@@ -402,6 +463,18 @@ Mitigacao:
 
 - documentar que Docker nao valida instalador Windows;
 - manter `Desktop Release` e smoke Windows como validacao final.
+
+### Caminhos, Permissoes E WSL2
+
+Risco: volume montado a partir do Windows ter desempenho ruim, permissao
+inesperada ou comportamento diferente no WSL2.
+
+Mitigacao:
+
+- documentar comandos testados no Windows/PowerShell e, quando aplicavel, WSL2;
+- evitar depender de permissao Unix especifica para arquivos gerados;
+- manter artefatos de teste em diretorios ja ignorados;
+- validar que o container nao cria arquivos com permissao inconveniente no host.
 
 ### Atrito Para Iniciantes
 
@@ -422,7 +495,9 @@ Uma dockerizacao sera considerada saudavel quando:
 - rodar validacoes principais em container;
 - nao exigir Docker para contribuicoes simples;
 - nao aumentar muito o custo de disco e tempo;
+- documentar tamanho aproximado da imagem e comando de limpeza;
 - nao commitar artefatos gerados;
+- nao poluir o host com `node_modules` ou caches sem intencao;
 - nao enfraquecer guardrails de seguranca;
 - manter CI verde;
 - manter documentacao atualizada.
@@ -438,8 +513,13 @@ Estas tarefas podem virar issues depois de revisao:
 - validar `npm test` em container;
 - validar `npm run typecheck` em container;
 - validar `npm run build` em container;
+- medir tamanho da imagem dev;
+- documentar limpeza segura de imagens, containers e volumes do projeto;
+- validar comportamento em Windows com Docker Desktop/WSL2;
+- decidir estrategia de `node_modules` no container;
 - decidir estrategia E2E em Docker;
 - implementar E2E em Docker, se aprovado;
+- validar canal `chrome` do Playwright em container ou definir alternativa;
 - documentar limpeza de artefatos locais;
 - revisar impacto em disco;
 - revisar se Docker deve ou nao entrar na CI;
@@ -453,6 +533,10 @@ Estas tarefas podem virar issues depois de revisao:
 - O projeto deve adicionar comandos npm como atalho para Docker?
 - A validacao Docker deve ser exigida em algum tipo especifico de PR?
 - Qual limite aceitavel de tamanho da imagem para contributors iniciantes?
+- `node_modules` deve ficar em camada da imagem ou em volume nomeado?
+- O E2E em container deve usar Chrome real, Chromium ou configuracao separada?
+- Qual comando de limpeza sera recomendado sem risco de apagar recursos de
+  outros projetos?
 
 ## Recomendacao Inicial
 
