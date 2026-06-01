@@ -5,6 +5,13 @@ test("executa o CRUD do playground com status relacionado", async ({ page }) => 
   await page.goto("/");
 
   const startButton = page.getByRole("button", { name: "Iniciar playground" });
+  const hasHorizontalOverflow = await page.evaluate(
+    () =>
+      document.documentElement.scrollWidth >
+      document.documentElement.clientWidth,
+  );
+
+  expect(hasHorizontalOverflow).toBe(false);
   await expect(startButton).toBeVisible();
   await expect(startButton).toBeInViewport();
   await startButton.click();

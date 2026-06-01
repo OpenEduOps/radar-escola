@@ -32,7 +32,8 @@ body {
 }
 
 .intro {
-  width: min(1040px, 100%);
+  width: min(960px, 100%);
+  max-width: calc(100vw - 48px);
   display: grid;
   gap: 12px;
 }
@@ -65,7 +66,10 @@ h1 {
 .status-panel {
   display: grid;
   gap: 8px;
+  justify-self: start;
+  width: 100%;
   max-width: 920px;
+  overflow: hidden;
   padding: 14px 16px;
   border: 1px solid #cad2c5;
   border-radius: 8px;
@@ -80,6 +84,7 @@ h1 {
 .status-panel span {
   color: #3d4b58;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .playground-button {
