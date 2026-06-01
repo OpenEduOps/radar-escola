@@ -182,3 +182,261 @@ Esta visao prototipal esta pronta para virar issues de interface e QA quando:
 - cada bloqueio importante estiver visivel;
 - cada fluxo principal da V1 tiver caminho de entrada e saida;
 - os rascunhos nao criarem funcionalidades fora da V1.
+
+## Acesso Local
+
+### Primeira Abertura E Configuracao Da Escola
+
+Objetivo: criar a escola local, a direcao inicial e a salvaguarda da direcao.
+
+Permissao:
+
+- [D] configura na primeira abertura.
+- [S] detecta que ainda nao existe escola configurada.
+
+```text
++------------------------------------------------------------+
+| Radar Escola                                               |
+| Veja o que sua escola precisa resolver.                    |
++------------------------------------------------------------+
+|                                                            |
+| Vamos preparar o uso nesta escola.                         |
+|                                                            |
+| Nome da escola                                             |
+| [ Escola Municipal ____________________________________ ]   |
+|                                                            |
+| Responsavel principal                                      |
+| [ Maria Silva ________________________________________ ]   |
+|                                                            |
+| Usuario de acesso                                          |
+| [ direcao.maria ______________________________________ ]   |
+|                                                            |
+| Senha                                                      |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Salvaguarda local                                          |
+| Token gerado: RE-48291                                     |
+| Frase de recuperacao                                       |
+| [ Bairro onde cresci _________________________________ ]   |
+| Resposta                                                   |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Atencao                                                    |
+| Guarde usuario, senha e salvaguarda em local seguro.       |
+| Se essas informacoes forem perdidas, o acesso              |
+| administrativo pode ser perdido.                           |
+|                                                            |
+| [ Comecar a usar ]                                         |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Campo obrigatorio vazio: manter na tela e explicar o que falta.
+- Usuario ja reservado: pedir outro usuario.
+- Erro ao salvar localmente: informar erro operacional e permitir tentar de
+  novo.
+
+### Login
+
+Objetivo: permitir entrada por usuario e senha.
+
+Permissao:
+
+- [D], [A] e [U] entram com usuario e senha.
+- [S] redireciona para primeiro acesso quando a senha for temporaria.
+
+```text
++------------------------------------------------------------+
+| Radar Escola                                               |
+| Veja o que sua escola precisa resolver.                    |
++------------------------------------------------------------+
+|                                                            |
+| Usuario                                                    |
+| [ maria.silva ________________________________________ ]   |
+|                                                            |
+| Senha                                                      |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| [ Entrar ]                                                 |
+|                                                            |
+| Esqueci meu acesso                                         |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Usuario ou senha invalido: mostrar mensagem generica.
+- Conta inativa: bloquear acesso.
+- Primeiro acesso pendente: abrir tela de primeiro acesso.
+
+### Primeiro Acesso
+
+Objetivo: trocar senha temporaria `123456` e configurar salvaguarda privada.
+
+Permissao:
+
+- [A] e [U] fazem quando cadastrados pela direcao/apoio.
+- [D] tambem usa esse padrao se sua conta for resetada em evolucao futura.
+- [S] bloqueia uso normal ate concluir.
+
+```text
++------------------------------------------------------------+
+| Primeiro acesso                                    [Sair]   |
++------------------------------------------------------------+
+| Sua senha inicial e temporaria.                            |
+| Crie uma senha propria e salve sua salvaguarda.             |
+| Faca isso em privacidade.                                  |
++------------------------------------------------------------+
+|                                                            |
+| Usuario                                                    |
+| joao.tecnico                                               |
+|                                                            |
+| Senha atual                                                |
+| [ 123456 ____________________________________________ ]    |
+|                                                            |
+| Nova senha                                                 |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Confirmar nova senha                                       |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Salvaguarda                                                |
+| Token: RE-73924                                            |
+| Frase de recuperacao                                       |
+| [ Bairro onde cresci _________________________________ ]   |
+| Resposta                                                   |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Anote o token em local seguro. Se tirar foto para anotar    |
+| depois, apague a foto. O token nao sera gerado novamente.  |
+|                                                            |
+| [ Salvar e entrar ]                                        |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Nova senha igual a `123456`: bloquear.
+- Confirmacao diferente: bloquear.
+- Salvaguarda incompleta: bloquear.
+- Pessoa tenta pular: voltar para esta tela.
+
+### Recuperacao Local De Acesso
+
+Objetivo: recuperar acesso sem e-mail, WhatsApp ou internet.
+
+Permissao:
+
+- [D], [A] e [U] podem tentar recuperar a propria conta.
+- [U] sem salvaguarda deve procurar a direcao para reset administrativo.
+- [D] sem senha e sem salvaguarda pode perder acesso administrativo ate existir
+  procedimento tecnico futuro.
+
+```text
++------------------------------------------------------------+
+| Recuperar acesso                                   [Voltar] |
++------------------------------------------------------------+
+| Use sua salvaguarda local.                          |
+| Esta recuperacao nao usa e-mail nem internet.               |
++------------------------------------------------------------+
+|                                                            |
+| Usuario ou nome                                            |
+| [ joao.tecnico _______________________________________ ]   |
+|                                                            |
+| Escolha uma forma de recuperacao                           |
+| ( ) Token de recuperacao                                   |
+| ( ) Resposta da frase                                      |
+|                                                            |
+| Token                                                      |
+| [ RE-73924 ___________________________________________ ]   |
+|                                                            |
+| Frase cadastrada                                           |
+| Bairro onde cresci                                         |
+|                                                            |
+| Resposta                                                   |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Nova senha                                                 |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Confirmar nova senha                                       |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| [ Recuperar acesso ]                                       |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Usuario nao encontrado: mensagem generica.
+- Salvaguarda invalida: mensagem generica.
+- Nova senha invalida: explicar regra.
+- Perdeu tudo: orientar procurar direcao, quando nao for a propria direcao.
+
+### Sair Da Conta
+
+Objetivo: encerrar sessao em computador compartilhado.
+
+Permissao:
+
+- [D], [A] e [U] podem sair da propria conta.
+
+```text
++------------------------------------------------------------+
+| Sair da conta                                              |
++------------------------------------------------------------+
+|                                                            |
+| Voce esta usando a conta:                                  |
+| Maria Silva                                                |
+|                                                            |
+| Ao sair, as informacoes da tela deixam de ficar visiveis.   |
+|                                                            |
+| [ Cancelar ]                         [ Sair da conta ]     |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Formulario com dado nao salvo: pedir confirmacao antes de sair.
+- Erro ao limpar estado: voltar ao login e nao exibir dados sensiveis.
+
+### Sessao Bloqueada Por Inatividade
+
+Objetivo: reduzir risco de computador compartilhado com sessao aberta.
+
+Permissao:
+
+- [S] bloqueia apos 30 minutos sem atividade.
+- [D], [A] e [U] desbloqueiam com a propria senha.
+- Outro usuario precisa sair e entrar com a propria conta.
+
+```text
++------------------------------------------------------------+
+| Sessao bloqueada                                           |
++------------------------------------------------------------+
+| A sessao ficou 30 minutos sem uso.                         |
+| Digite sua senha para continuar.                           |
++------------------------------------------------------------+
+|                                                            |
+| Usuario                                                    |
+| Maria Silva                                                |
+|                                                            |
+| Senha                                                      |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| [ Desbloquear ]                  [ Sair e trocar usuario ] |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Senha incorreta: manter bloqueado.
+- Conta inativada durante sessao: encerrar e voltar ao login.
+- Contexto nao pode ser preservado: desbloquear voltando ao Radar.
