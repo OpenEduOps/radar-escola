@@ -1380,7 +1380,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 - Tipo: `qa`
 - Camada: `qa`
-- Fonte: PER-001 a PER-010
+- Fonte: PER-001 a PER-011
 - Objetivo: validar schema, repositorios e integridade.
 - Escopo:
   - banco temporario;
@@ -1415,7 +1415,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - checklist aplicavel por QA junior;
   - termos proibidos rastreados.
 - Testes esperados: manual.
-- Dependencias: VIEW-001 a VIEW-007.
+- Dependencias: VIEW-001 a VIEW-011.
 - Labels: `qa`, `ux`, `accessibility`.
 
 ### QA-006 Criar teste de exportacao/restauracao
