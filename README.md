@@ -66,6 +66,46 @@ Na pratica, o primeiro bloco tecnico deve consolidar dominio, persistencia
 SQLite, bootstrap local e fluxos de acesso antes de avancar para as telas do
 Radar de Necessidades.
 
+## Como Rodar Localmente
+
+Instale as dependencias:
+
+```text
+npm ci
+```
+
+Execute o app web em modo desenvolvimento:
+
+```text
+npm run dev
+```
+
+Execute as verificacoes locais principais:
+
+```text
+npm test
+npm run test:e2e
+npm run typecheck
+npm run build
+```
+
+Esses comandos validam regras puras do playground, fluxo E2E do CRUD de
+referencia, TypeScript e build Vite.
+
+## App Desktop Local
+
+O projeto usa Tauri 2 como casca desktop.
+
+Com a toolchain nativa instalada, o caminho esperado para build desktop local e:
+
+```text
+npm run tauri -- build
+```
+
+No ambiente local usado ate aqui, Rust/Cargo e Visual Studio Build Tools/MSVC
+nao estavam instalados. Por isso, o instalador Windows foi gerado e validado
+pelo workflow `Desktop Release` no GitHub Actions.
+
 ## Documentacao
 
 - [`CONTEXTO_INICIAL.md`](CONTEXTO_INICIAL.md): contexto educacional, decisao
