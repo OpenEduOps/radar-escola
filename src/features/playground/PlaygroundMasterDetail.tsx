@@ -295,27 +295,40 @@ export function PlaygroundMasterDetail() {
       ) : null}
 
       <div className="master-detail-grid">
-        <aside className="master-list" aria-label="Registros playground">
-          <div className="master-header" aria-hidden="true">
-            <span>Nome</span>
-            <span>Status</span>
-            <span>Acoes</span>
+        <aside
+          className="master-list"
+          aria-label="Registros playground"
+          role="table"
+        >
+          <div className="master-header" role="row">
+            <span role="columnheader">Nome</span>
+            <span role="columnheader">Status</span>
+            <span role="columnheader">Acoes</span>
           </div>
           {records.map((record) => (
             <div
               className="master-row"
               data-selected={record.id === selectedRecord?.id}
               key={record.id}
+              role="row"
             >
-              <button
-                className="master-select"
-                onClick={() => selectRecord(record.id)}
-                type="button"
+              <div className="master-cell" role="cell">
+                <button
+                  className="master-select"
+                  onClick={() => selectRecord(record.id)}
+                  type="button"
+                >
+                  {record.nome}
+                </button>
+              </div>
+              <span className="master-status" role="cell">
+                {getStatusName(statusRecords, record.codigoStatus)}
+              </span>
+              <div
+                className="row-actions"
+                aria-label={`Acoes de ${record.nome}`}
+                role="cell"
               >
-                <span>{record.nome}</span>
-                <small>{getStatusName(statusRecords, record.codigoStatus)}</small>
-              </button>
-              <div className="row-actions" aria-label={`Acoes de ${record.nome}`}>
                 <button
                   className="row-action"
                   onClick={() => startEditing(record)}

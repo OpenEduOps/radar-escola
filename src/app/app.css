@@ -306,7 +306,7 @@ h3 {
 
 .master-header {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(96px, auto) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(96px, 120px) auto;
   gap: 10px;
   padding: 10px 12px;
   border-bottom: 1px solid #cad2c5;
@@ -323,7 +323,7 @@ h3 {
 
 .master-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(96px, 120px) auto;
   gap: 10px;
   align-items: center;
   width: 100%;
@@ -332,6 +332,11 @@ h3 {
   border-bottom: 1px solid #dde3da;
   color: #17212b;
   background: transparent;
+}
+
+.master-cell {
+  display: block;
+  min-width: 0;
 }
 
 .master-row:last-child {
@@ -344,25 +349,29 @@ h3 {
 }
 
 .master-select {
-  display: grid;
-  gap: 6px;
+  display: block;
+  width: 100%;
   min-width: 0;
+  overflow: hidden;
   padding: 0;
   border: 0;
   color: inherit;
   background: transparent;
   font: inherit;
   text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   cursor: pointer;
 }
 
-.master-select span {
+.master-select {
   font-weight: 800;
 }
 
-.master-select small {
+.master-status {
   color: #4d5b66;
   font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .row-actions {

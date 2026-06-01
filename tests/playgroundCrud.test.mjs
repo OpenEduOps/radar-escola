@@ -32,6 +32,20 @@ describe("playgroundCrud", () => {
     assert.equal(result.statusRecords.length, 4);
   });
 
+  it("gera codigo de status usando apenas codigos validos do dominio", () => {
+    const result = registerStatusPlayground(
+      [
+        ...statusPlaygroundRecords,
+        { codigoStatus: "SP-invalido", nome: "Status invalido" },
+        { codigoStatus: "OUT-999", nome: "Status fora do dominio" },
+      ],
+      "Status E",
+    );
+
+    assert.ok(result);
+    assert.equal(result.statusRecord.codigoStatus, "SP-004");
+  });
+
   it("reaproveita status existente sem duplicar cadastro", () => {
     const result = registerStatusPlayground(
       statusPlaygroundRecords,
@@ -54,6 +68,34 @@ describe("playgroundCrud", () => {
     assert.equal(result.record.id, "PG-004");
     assert.equal(result.record.codigoStatus, "SP-002");
     assert.equal(result.records.length, 4);
+  });
+
+  it("gera codigo playground usando apenas ids validos do dominio", () => {
+    const result = createPlaygroundRecord(
+      [
+        ...playgroundRecords,
+        {
+          id: "PG-invalido",
+          nome: "Registro invalido",
+          descricao: "Nao deve influenciar a sequencia.",
+          codigoStatus: "SP-001",
+        },
+        {
+          id: "OUT-999",
+          nome: "Registro fora do dominio",
+          descricao: "Nao deve influenciar a sequencia.",
+          codigoStatus: "SP-001",
+        },
+      ],
+      {
+        nome: "Novo fluxo",
+        descricao: "Validar criacao de registro no CRUD.",
+        codigoStatus: "SP-002",
+      },
+    );
+
+    assert.ok(result);
+    assert.equal(result.record.id, "PG-004");
   });
 
   it("edita um registro playground existente", () => {

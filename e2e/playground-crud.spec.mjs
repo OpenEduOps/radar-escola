@@ -8,11 +8,12 @@ test("executa o CRUD do playground com status relacionado", async ({ page }) => 
   await expect(page.getByRole("heading", { name: "Master detalhe" })).toBeVisible();
   await expect(page.getByText("Tabela: playground")).toBeVisible();
   await expect(page.getByText("Tabela: status_playground")).toBeVisible();
-  await expect(page.locator(".master-header")).toContainText("Nome");
-  await expect(page.locator(".master-header")).toContainText("Status");
-  await expect(page.locator(".master-header")).toContainText("Acoes");
+  await expect(page.getByRole("columnheader", { name: "Nome" })).toBeVisible();
+  await expect(page.getByRole("columnheader", { name: "Status" })).toBeVisible();
+  await expect(page.getByRole("columnheader", { name: "Acoes" })).toBeVisible();
 
   const firstRow = page.locator(".master-row").filter({ hasText: "Primeiro uso" });
+  await expect(firstRow.locator(".master-status")).toHaveText("Status A");
   await firstRow.getByRole("button", { name: "Editar" }).click();
   await expect(page.locator("article.detail-panel form.detail-form")).toBeVisible();
 

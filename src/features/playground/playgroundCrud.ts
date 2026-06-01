@@ -19,9 +19,11 @@ export type PlaygroundCreationResult = {
 };
 
 function buildNextCode(currentCodes: string[], prefix: string) {
+  const codePattern = new RegExp(`^${prefix}-(\\d+)$`);
   const nextNumber =
     currentCodes.reduce((highest, currentCode) => {
-      const codeNumber = Number(currentCode.replace(`${prefix}-`, ""));
+      const codeMatch = currentCode.match(codePattern);
+      const codeNumber = codeMatch ? Number(codeMatch[1]) : Number.NaN;
 
       return Number.isFinite(codeNumber) && codeNumber > highest
         ? codeNumber
