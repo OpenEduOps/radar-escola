@@ -85,7 +85,7 @@ Exemplos:
 
 Fluxo de excecao mostra o comportamento quando alguem encosta na cerca.
 
-## Documentos Que Serao Gerados
+## Documentos Gerados ou Planejados
 
 ### 1. `DETALHAMENTO_REQUISITOS_V1.md`
 
@@ -191,6 +191,23 @@ Deve conter:
 - matriz CRUD por perfil;
 - regras de integridade;
 - impacto em testes.
+
+### 4. `MATRIZ_ISSUES_V1.md`
+
+Documento de planejamento para quebrar a especificacao em tarefas pequenas.
+
+Deve conter:
+
+- issues de validacao de requisitos;
+- issues de regras de dominio;
+- issues de persistencia SQLite;
+- issues de application/controller;
+- issues de view;
+- issues de QA;
+- dependencias;
+- criterios de aceite;
+- testes esperados;
+- labels candidatas.
 
 ## Modelo Relacional na Arquitetura Atual
 
