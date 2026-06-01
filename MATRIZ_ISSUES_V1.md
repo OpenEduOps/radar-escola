@@ -1446,6 +1446,33 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: APP-019.
 - Labels: `frontend`, `ux`, `security`.
 
+### VIEW-014 Criar controle de apoio de gestao
+
+- Tipo: `view`
+- Camada: `view`
+- Fonte: UC-007, BT-001
+- Objetivo: permitir que a direcao defina ou remova ate duas pessoas como apoio
+  de gestao sem transformar cargo em permissao automatica.
+- Escopo:
+  - lista de apoios atuais;
+  - busca de pessoa ativa;
+  - explicacao das permissoes delegadas;
+  - bloqueio visual ao atingir limite de dois apoios;
+  - acao de remover apoio existente;
+  - bloqueio visual para apoio e usuario comum.
+- Fora de escopo:
+  - hierarquia complexa;
+  - permissao automatica por cargo/funcao;
+  - mais de duas pessoas delegadas.
+- Criterios de aceite:
+  - direcao entende o limite de dois apoios;
+  - terceiro apoio fica bloqueado;
+  - apoio/usuario comum nao veem acao permitida para delegar;
+  - tela explica que apoio nao acessa seguranca, restauracao ou auditoria.
+- Testes esperados: interface/QA.
+- Dependencias: APP-005.
+- Labels: `frontend`, `ux`, `security`.
+
 ## Issues de QA e Testes
 
 ### QA-001 Criar roteiro QA do fluxo minimo
@@ -1550,7 +1577,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - checklist aplicavel por QA junior;
   - termos proibidos rastreados.
 - Testes esperados: manual.
-- Dependencias: VIEW-001 a VIEW-013.
+- Dependencias: VIEW-001 a VIEW-014.
 - Labels: `qa`, `ux`, `accessibility`.
 
 ### QA-006 Criar teste de exportacao/restauracao
