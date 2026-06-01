@@ -49,16 +49,18 @@ apenas esse nome para nao depender de nomes de matrix ou jobs auxiliares.
   conseguir gerar artefatos reais. Em execucao manual, informa pendencias sem
   publicar artefatos; em tag `v*`, falha se o app ainda nao existir.
 
-## Comandos locais equivalentes
+## Validacao Local Equivalente
 
-Quando Node estiver disponivel:
+Os checks documentais principais da CI sao scripts Python inline no proprio
+workflow `.github/workflows/ci.yml`. Eles verificam documentos obrigatorios,
+links internos, arquivos vazios, tabs e espacos sobrando.
 
-```bash
-npx --yes markdownlint-cli2@0.16.0 "**/*.md"
-```
+Para reproduzir exatamente esses checks, consulte e rode os blocos do workflow.
+Para uma checagem rapida de escopo alterado, use `git diff --check`.
 
-Os checks de consistencia documental e higiene estao descritos no proprio
-workflow `ci.yml`.
+`markdownlint` pode ser usado como apoio local, mas nao e o contrato atual da
+CI. Se for usado dentro da imagem Docker, prefira apontar arquivos especificos
+do projeto para nao incluir dependencias instaladas em `node_modules`.
 
 ## Evolucao do App
 

@@ -32,8 +32,8 @@ Este documento nao deve substituir:
 
 - [`docs/development-docker.md`](docs/development-docker.md): guia operacional
   com comandos Docker reais.
-- [`docs/ci.md`](docs/ci.md): CI atual e decisao de nao depender de Docker por
-  padrao.
+- [`docs/ci.md`](docs/ci.md): CI atual, incluindo validacao Docker adicional
+  sem substituir os checks principais nem o release desktop.
 - [`docs/oss-guardrails.md`](docs/oss-guardrails.md): limites publicos de
   contribuicao e narrativa.
 - [`docs/desktop-release.md`](docs/desktop-release.md): fonte do caminho final
@@ -253,9 +253,9 @@ Docker nao substitui:
 - build real do instalador `.exe`;
 - smoke test do app instalado no Windows.
 
-## Entregaveis Planejados
+## Entregaveis E Status
 
-### Entregaveis Da Primeira Fase
+### Entregaveis Da Primeira Fase Implementada
 
 - `.dockerignore`;
 - `Dockerfile.dev`;
@@ -265,15 +265,14 @@ Docker nao substitui:
 - registro de tempo aproximado de build;
 - orientacao de limpeza limitada aos recursos do projeto.
 
-### Entregaveis Posteriores
+### Entregaveis Posteriores Ou Ainda Deliberados
 
 - decisao sobre Playwright em Docker;
 - estrategia de E2E em container, se aprovada;
 - avaliacao de uso ou nao de `docker-compose.yml`;
 - integracao futura com testes SQLite;
-- decisao sobre uso de Docker em CI;
-- atualizacao explicita da matriz de issues se a iniciativa entrar no backlog
-  formal.
+- revisoes futuras da matriz de issues se a estrategia Docker crescer alem da
+  validacao Node basica ja concluida.
 
 ## Fases Do Projeto
 
@@ -483,6 +482,8 @@ Regras:
 - nao recomendar limpeza global destrutiva como caminho padrao;
 - nao criar caches persistentes sem beneficio claro;
 - manter browsers fora da imagem basica.
+- manter artefatos locais de release, instaladores Windows e checksums fora do
+  contexto Docker.
 
 ## Matriz De Validacao
 

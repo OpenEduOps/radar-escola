@@ -14,6 +14,13 @@ test-results
 # Tauri/Rust artifacts
 src-tauri/target
 
+# Desktop/release artifacts
+dist-artifacts
+*.msi
+*.sha256
+*-setup.exe
+*_x64-setup.exe
+
 # Logs and temporary files
 *.log
 *.tmp

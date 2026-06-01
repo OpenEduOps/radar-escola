@@ -66,7 +66,7 @@ Docker nao deve:
 
 ## Fluxo Local Continua Principal
 
-Enquanto Docker nao existir, use os comandos locais:
+Para validar sem Docker, use os comandos locais:
 
 ```text
 npm ci
@@ -79,9 +79,9 @@ npm run build
 Mesmo depois da dockerizacao, esses comandos devem continuar documentados e
 funcionais para quem nao usar Docker.
 
-## Linha Operacional Esperada
+## Linha Operacional Implementada
 
-A primeira entrega Docker deve ser pequena:
+A primeira entrega Docker permanece pequena:
 
 ```text
 .dockerignore
@@ -90,7 +90,7 @@ validacao de instalacao, testes, typecheck e build
 limpeza segura limitada ao projeto
 ```
 
-Ficam fora da primeira entrega:
+Continuam fora desta fase:
 
 - Playwright em Docker, se exigir imagem pesada;
 - `docker-compose.yml`, se nao houver ganho imediato;
@@ -98,6 +98,10 @@ Ficam fora da primeira entrega:
 - geracao de instalador Windows;
 - banco SQLite real;
 - fluxo funcional de MVP.
+
+Artefatos locais de release, como `dist-artifacts`, instaladores Windows,
+arquivos `.msi` e checksums `.sha256`, tambem ficam fora do contexto Docker por
+meio do `.dockerignore`.
 
 ## Comandos
 
