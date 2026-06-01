@@ -3,6 +3,10 @@ import { expect, test } from "@playwright/test";
 test("executa o CRUD do playground com status relacionado", async ({ page }) => {
   await page.setViewportSize({ width: 960, height: 600 });
   await page.goto("/");
+  await page.evaluate(() =>
+    localStorage.removeItem("radar-escola:playground:v1"),
+  );
+  await page.reload();
 
   const startButton = page.getByRole("button", { name: "Iniciar playground" });
   const hasHorizontalOverflow = await page.evaluate(
@@ -91,7 +95,15 @@ test("executa o CRUD do playground com status relacionado", async ({ page }) => 
   await expect(createdRow).toBeVisible();
   await expect(createdRow).toContainText("Status E2E");
 
-  await createdRow.getByRole("button", { name: "Editar" }).click();
+  await page.reload();
+  await page.getByRole("button", { name: "Iniciar playground" }).click();
+  const persistedRow = page
+    .locator(".master-row")
+    .filter({ hasText: "Registro E2E" });
+  await expect(persistedRow).toBeVisible();
+  await expect(persistedRow).toContainText("Status E2E");
+
+  await persistedRow.getByRole("button", { name: "Editar" }).click();
   const editForm = page.locator("article.detail-panel form.detail-form");
   await editForm.getByLabel("Nome").fill("   ");
   await expect(editForm.getByRole("button", { name: "Salvar" })).toBeDisabled();
