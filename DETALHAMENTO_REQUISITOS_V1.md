@@ -185,7 +185,7 @@ Cada caso de uso usa este formato:
 - **Mensagens de UX**: textos ou intencoes de texto.
 - **Criterios de aceite**: validacao objetiva.
 - **Testes minimos**: testes esperados.
-- **Issues minimas sugeridas**: blocos pequenos para futura matriz.
+- **Issues modulares sugeridas**: blocos pequenos para futura matriz.
 
 ## UC-001 Configurar escola no primeiro uso
 
@@ -267,7 +267,7 @@ Criar a configuracao local inicial para que a escola possa usar o Radar Escola.
 - Hash de senha.
 - Registro de auditoria inicial.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Requisito: validar fluxo de primeiro uso.
 - Model: modelar escola e direcao inicial.
@@ -345,7 +345,7 @@ Permitir que pessoa cadastrada acesse o Radar Escola.
 - Conta inativa.
 - Conta em primeiro acesso.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: regra de autenticacao.
 - Application: caso de uso de login.
@@ -431,7 +431,7 @@ salvaguarda privada antes de usar o sistema.
 - Bloqueio de salvaguarda ausente.
 - Privacidade dos dados de recuperacao.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Requisito: validar privacidade do primeiro acesso.
 - Model: estado de primeiro acesso.
@@ -512,7 +512,7 @@ lembra nome/usuario e salvaguarda.
 - Tentativas invalidas.
 - Senha redefinida como hash.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: regras de salvaguarda.
 - Application: recuperar acesso.
@@ -583,7 +583,7 @@ Permitir organizar pessoas por cargo ou funcao sem criar perfil complexo.
 - Permissao.
 - Fluxo embutido no cadastro de pessoa.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: entidade cargo.
 - Persistencia: CRUD de cargo ativo.
@@ -666,7 +666,7 @@ necessidades.
 - Cargo criado no fluxo.
 - Auditoria de cadastro.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: pessoa e conta.
 - Application: cadastrar pessoa.
@@ -746,7 +746,7 @@ Permitir que direcao delegue acoes operacionais para ate duas pessoas.
 - Bloquear usuario sem permissao.
 - Auditoria.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: delegacao de apoio.
 - Application: definir/remover apoio.
@@ -832,7 +832,7 @@ Registrar uma necessidade operacional da escola em linguagem simples.
 - Necessidade sem equipamento.
 - Historico inicial.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: entidade necessidade.
 - Application: registrar necessidade.
@@ -908,7 +908,7 @@ Mostrar o que a escola precisa acompanhar agora.
 - Classificacao de parada.
 - Resolvidas recentes.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Query: buscar radar.
 - Application: montar visao do radar.
@@ -983,7 +983,7 @@ Indicar pessoas cadastradas que devem acompanhar uma necessidade.
 - Bloquear pessoa inativa.
 - Historico de alteracao.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: vinculo necessidade-pessoa.
 - Application: marcar envolvidos.
@@ -1062,7 +1062,7 @@ Registrar o que aconteceu com a necessidade para manter memoria operacional.
 - Atualizar ultima movimentacao.
 - Solicitar fechamento tecnico.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: andamento.
 - Application: registrar andamento.
@@ -1132,7 +1132,7 @@ Permitir combinar proximos passos sem criar gerenciador complexo de tarefas.
 - Concluir item.
 - Bloquear item vazio.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: item de plano.
 - Application: manter plano simples.
@@ -1203,7 +1203,7 @@ encerrar oficialmente.
 - Conversao por gestao.
 - Bloqueio sem descricao.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: estado de fechamento tecnico.
 - Application: solicitar fechamento.
@@ -1286,7 +1286,7 @@ Encerrar oficialmente uma necessidade com validacao da gestao.
 - Bloquear usuario comum.
 - Auditoria e historico.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: transicao para resolvida.
 - Application: marcar resolvida.
@@ -1373,7 +1373,7 @@ engano, preservando memoria operacional.
 - Bloquear usuario comum.
 - Historico e auditoria.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: cancelamento.
 - Application: corrigir/cancelar.
@@ -1442,7 +1442,7 @@ Permitir que a escola veja o que aconteceu com uma necessidade.
 - Historico de resolvida.
 - Historico de cancelada.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Query: historico da necessidade.
 - View: timeline/historico.
@@ -1513,7 +1513,7 @@ Cadastrar equipamento basico para vinculo com necessidades.
 - Campos obrigatorios.
 - Duplicidade de identificacao.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: equipamento.
 - Persistencia: equipamento.
@@ -1582,7 +1582,7 @@ Relacionar necessidade a equipamento para facilitar historico recorrente.
 - Remover vinculo.
 - Criar equipamento no fluxo.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Application: vincular equipamento.
 - Query: necessidades por equipamento.
@@ -1659,7 +1659,7 @@ Permitir que direcao gere copia de seguranca restauravel e legivel.
 - Conteudo sem senha clara.
 - Erro de caminho.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Application: exportar seguranca.
 - Infra: gerar CSVs.
@@ -1740,7 +1740,7 @@ dados locais atuais.
 - Bloqueio por perfil.
 - Substituicao total.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Application: restaurar seguranca.
 - Infra: parser/validador CSV.
@@ -1808,7 +1808,7 @@ Permitir que direcao consulte eventos sensiveis.
 - Bloqueio como usuario comum.
 - Conteudo sem segredo.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Query: listar auditoria.
 - View: tela simples de auditoria.
@@ -1884,7 +1884,7 @@ Permitir continuidade quando a pessoa responsavel principal muda.
 - Permissoes apos transferencia.
 - Auditoria.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: responsavel principal.
 - Application: transferir direcao.
@@ -1950,7 +1950,7 @@ Permitir encerrar sessao em computador compartilhado.
 - Logout em cada perfil.
 - Dados ocultos apos logout.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Application: encerrar sessao.
 - View: acao de sair.
@@ -2021,7 +2021,7 @@ Reduzir risco de sessao aberta em computador compartilhado.
 - Erro de senha.
 - Logout bloqueado.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - Model: regra de sessao.
 - Application: bloquear/desbloquear.
@@ -2091,7 +2091,7 @@ escola.
 - Teste manual guiado.
 - Checklist de QA.
 
-### Issues minimas sugeridas
+### Issues modulares sugeridas
 
 - QA: roteiro MVP completo.
 - QA: matriz de regressao.

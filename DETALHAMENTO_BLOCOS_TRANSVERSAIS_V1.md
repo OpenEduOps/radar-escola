@@ -28,7 +28,7 @@ Cada bloco tem:
 - guardrails;
 - criterios de aceite;
 - testes minimos;
-- tarefas minimas candidatas.
+- tarefas modulares candidatas.
 
 ## BT-001 Auditoria minima
 
@@ -116,7 +116,7 @@ importantes sem depender de memoria, conversa informal ou suporte tecnico.
 - Permissao: direcao acessa; apoio/usuario comum nao acessam.
 - Conteudo: evento nao contem senha, token ou resposta.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Especificar eventos de auditoria.
 - Criar tabela `audit_events`.
@@ -192,7 +192,7 @@ simples.
 - Interface: senha incorreta.
 - Interface: sair a partir da tela bloqueada.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Definir modelo de sessao local.
 - Implementar timer de inatividade.
@@ -260,7 +260,7 @@ provedor externo.
 - Reset administrativo.
 - Token exibido uma unica vez.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Escolher estrategia de hash na arquitetura.
 - Modelar salvaguarda.
@@ -317,7 +317,7 @@ manter o produto focado em operacao escolar.
 - Teste de UI confirmando ausencia de campos de estudante.
 - Checklist de exportacao sem campos de estudante.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Revisar campos do MVP.
 - Criar checklist LGPD operacional.
@@ -393,7 +393,7 @@ Garantir que a interface seja compreensivel por pessoas nao tecnicas da escola.
 - Teste de UI para labels essenciais.
 - QA manual com checklist de termos proibidos.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Criar glossario de UI.
 - Revisar textos de formularios.
@@ -448,7 +448,7 @@ escola.
 - Teste de foco em modal.
 - Checklist visual de contraste.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Definir padrao de formulario.
 - Definir padrao de botao/confirmacao.
@@ -525,7 +525,7 @@ no equipamento.
 - CSV sem senha clara.
 - Bloqueio por perfil.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Definir pacote CSV.
 - Implementar exportador.
@@ -584,7 +584,7 @@ Evitar que mudanca de gestao da escola quebre continuidade do app.
 - Permissoes depois da transferencia.
 - Auditoria.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Modelar direcao atual.
 - Implementar transferencia.
@@ -631,7 +631,7 @@ Permitir historico por equipamento sem transformar V1 em controle patrimonial.
 - Vinculo com necessidade.
 - Bloqueio de exclusao fisica com historico.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Definir campos de equipamento.
 - Criar tabela de equipamento.
@@ -693,7 +693,7 @@ porcentagem artificial de cobertura.
 - Permissoes criticas tem teste negativo.
 - Exportacao/restauracao tem teste com dados ficticios.
 
-### Tarefas minimas candidatas
+### Tarefas modulares candidatas
 
 - Criar estrategia de testes.
 - Configurar teste unitario.

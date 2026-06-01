@@ -51,14 +51,15 @@ testes a partir dos documentos da V0.
   modelo relacional, regras de dominio e issues por camada.
 - [`DETALHAMENTO_REQUISITOS_V1.md`](DETALHAMENTO_REQUISITOS_V1.md): casos de
   uso em estilo RUP simplificado, com fluxos principais, excecoes, regras,
-  aceite, testes e tarefas minimas.
+  aceite, testes e tarefas modulares.
 - [`DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md`](DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md):
   guardrails transversais da V1 para auditoria, sessao, seguranca local,
   privacidade, acessibilidade, exportacao/restauracao e testes.
 - [`REGRAS_DE_DOMINIO_V1.md`](REGRAS_DE_DOMINIO_V1.md): modelo relacional,
   dominios, tabelas, operacoes CRUD, queries e regras de integridade.
-- [`MATRIZ_ISSUES_V1.md`](MATRIZ_ISSUES_V1.md): planejamento de issues minimas
-  por requisitos, dominio, persistencia, application, view, QA e documentacao.
+- [`MATRIZ_ISSUES_V1.md`](MATRIZ_ISSUES_V1.md): planejamento de issues
+  modulares por requisitos, dominio, persistencia, application, view, QA e
+  documentacao.
 - [`CI_CD_OSS.md`](CI_CD_OSS.md): estrategia de CI/CD OSS para o produto.
 - [`docs/project-context.md`](docs/project-context.md): contexto duravel do
   projeto.

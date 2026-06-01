@@ -333,7 +333,7 @@ Exemplos:
 
 ## Quebra de Issues por Camada
 
-Cada bloco minimo de tarefa deve poder virar issue.
+Cada bloco modular de tarefa deve poder virar issue.
 
 Uma mesma funcionalidade pode gerar issues separadas por camada.
 
