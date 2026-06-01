@@ -89,6 +89,9 @@ Ainda nao possui:
   maquinas Windows.
 - O fluxo local sem Docker continua sendo suportado por `npm ci`, `npm test`,
   `npm run typecheck`, `npm run build` e `npm run test:e2e`.
+- Dependencias npm exigem acesso a registry durante `npm ci`, salvo cache local
+  ja existente.
+- Docker nao deve ser apresentado como estrategia offline para a escola.
 
 ## Principios
 
@@ -97,6 +100,8 @@ Ainda nao possui:
 - A dockerizacao deve reduzir atrito, nao adicionar ritual.
 - O caminho local sem Docker deve continuar existindo.
 - A imagem deve ser simples, previsivel e barata de manter.
+- Tags de imagem devem ser explicitas o suficiente para evitar `latest` como
+  dependencia invisivel.
 - O build Windows do instalador continua no GitHub Actions Windows runner ou em
   maquina Windows com toolchain nativa.
 - Nenhum secret, cache pesado ou artefato gerado deve ser versionado.
@@ -207,6 +212,7 @@ Responsabilidades:
 
 - partir de imagem Node adequada;
 - usar Node 24 para alinhar com a CI;
+- evitar tag `latest`;
 - copiar `package.json` e `package-lock.json` antes do restante do codigo quando
   isso ajudar cache de build;
 - instalar dependencias via `npm ci`;
@@ -230,7 +236,25 @@ Direcoes a evitar:
 - montar `node_modules` do Windows dentro do container;
 - sobrescrever `node_modules` local sem intencao clara;
 - depender de caches locais nao documentados;
-- exigir que contributors limpem manualmente arquivos gerados sem orientacao.
+- exigir que pessoas contribuidoras limpem manualmente arquivos gerados sem
+  orientacao.
+
+### Estrategia De Comandos
+
+A primeira versao deve diferenciar dois momentos:
+
+- build da imagem: prepara ambiente e valida instalacao de dependencias;
+- execucao do container: roda comandos de verificacao do projeto.
+
+Comandos documentados devem deixar claro:
+
+- se `npm ci` roda durante `docker build`, durante `docker run` ou nos dois;
+- qual diretorio do host e montado;
+- quais arquivos podem ser gerados;
+- como limpar containers, imagens e volumes criados pelo projeto.
+
+Evitar comandos magicos que escondam comportamento importante. Uma pessoa
+contribuidora iniciante precisa entender o que esta sendo validado.
 
 ### `Dockerfile.e2e` Ou Estrategia Equivalente
 
@@ -250,7 +274,7 @@ Pode entrar se houver ganho real para:
 
 - subir Vite com porta previsivel;
 - rodar E2E contra servidor local;
-- padronizar comandos para contributors.
+- padronizar comandos para pessoas contribuidoras.
 
 Se for criado, deve ser tratado como ambiente de desenvolvimento.
 
@@ -286,6 +310,21 @@ Criterios de aceite:
 - plano diferencia ambiente dev, E2E, persistencia e release Windows;
 - plano define primeira entrega minima.
 
+### Dependencias Entre Fases
+
+- Fase 1 nao depende de `docker-compose.yml`, Playwright em Docker, SQLite ou
+  Rust.
+- Fase 2 depende da Fase 1 validada e deve ser descartada se nao reduzir atrito
+  real.
+- Fase 3 depende de decisao explicita sobre custo de imagem e compatibilidade do
+  browser.
+- Fase 4 depende da implementacao real de SQLite no MVP.
+- Fase 5 depende de evidencia de que Docker reduz divergencia com a CI.
+- Fase 6 nao depende de Docker e nao deve ser bloqueada por Docker.
+
+Essa ordem existe para impedir que uma primeira PR de dockerizacao cresca alem
+do necessario.
+
 ### Fase 1: Docker Basico Para Validacao Node
 
 Objetivo: permitir validacao tecnica inicial em container.
@@ -300,7 +339,7 @@ Entregas:
 Criterios de aceite:
 
 - imagem dev e construida com sucesso;
-- container executa `npm ci`;
+- instalacao de dependencias via `npm ci` e validada no fluxo definido;
 - container executa `npm test`;
 - container executa `npm run typecheck`;
 - container executa `npm run build`;
@@ -308,8 +347,9 @@ Criterios de aceite:
 - README ou doc operacional aponta para o fluxo;
 - CI continua verde;
 - nenhum artefato gerado entra no Git.
+- nao ha alteracao de `package-lock.json` sem mudanca real de dependencia.
 
-### Fase 2: Ergonomia De Uso Para Contributors
+### Fase 2: Ergonomia De Uso Para Pessoas Contribuidoras
 
 Objetivo: tornar o fluxo Docker mais facil para contribuicoes pequenas.
 
@@ -409,6 +449,43 @@ Fica fora da primeira entrega:
 - geracao de instalador Windows;
 - banco SQLite real;
 - fluxo de MVP funcional.
+
+Qualquer proposta que inclua E2E em Docker, compose, CI com Docker e build
+Tauri na mesma primeira entrega deve ser quebrada antes de virar issue.
+
+## Definicao De Pronto Para Issues De Docker
+
+Toda issue de dockerizacao deve declarar:
+
+- objetivo exato;
+- comandos executados;
+- ambiente onde foi testada;
+- se Docker Desktop/WSL2 foi usado;
+- impacto observado em disco quando aplicavel;
+- arquivos gerados e confirmacao de que nao foram versionados;
+- relacao com a UX final desktop Windows;
+- motivo para nao exigir Docker de todas as pessoas contribuidoras, quando
+  aplicavel.
+
+Uma PR de Docker nao deve ser considerada pronta se:
+
+- misturar primeira entrega com E2E pesado sem decisao previa;
+- alterar fluxo de release Windows sem necessidade;
+- adicionar Docker como requisito de usuario final;
+- adicionar comando destrutivo de limpeza sem escopo seguro;
+- deixar ambigua a origem de `node_modules`;
+- introduzir `latest` como base de imagem sem justificativa.
+
+## Matriz De Validacao Planejada
+
+| Camada | Obrigatoria Na Fase 1 | Validacao |
+| --- | --- | --- |
+| Host local sem Docker | Sim | comandos npm continuam documentados |
+| Docker Node basico | Sim | `npm ci`, testes, typecheck e build |
+| Docker E2E | Nao | decisao futura sobre Playwright/browser |
+| Docker SQLite | Nao | depende da persistencia real |
+| Docker Tauri/Windows | Nao | nao substitui runner Windows |
+| GitHub Actions Windows | Sim para release | continua fonte do instalador |
 
 ## Riscos
 
@@ -532,7 +609,8 @@ Estas tarefas podem virar issues depois de revisao:
 - Playwright em Docker entra na primeira entrega ou fica para fase posterior?
 - O projeto deve adicionar comandos npm como atalho para Docker?
 - A validacao Docker deve ser exigida em algum tipo especifico de PR?
-- Qual limite aceitavel de tamanho da imagem para contributors iniciantes?
+- Qual limite aceitavel de tamanho da imagem para pessoas contribuidoras
+  iniciantes?
 - `node_modules` deve ficar em camada da imagem ou em volume nomeado?
 - O E2E em container deve usar Chrome real, Chromium ou configuracao separada?
 - Qual comando de limpeza sera recomendado sem risco de apagar recursos de
@@ -549,7 +627,7 @@ Depois da Fase 1, medir:
 
 - tempo de build da imagem;
 - espaco em disco usado;
-- facilidade para contributor iniciante;
+- facilidade para pessoa contribuidora iniciante;
 - impacto real nos testes;
 - necessidade ou nao de Playwright em Docker.
 
