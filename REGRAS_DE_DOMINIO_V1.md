@@ -537,7 +537,8 @@ Constraints:
 
 - nome obrigatorio;
 - local obrigatorio;
-- identificador pode ser unico quando informado, decisao a validar;
+- estado atual obrigatorio;
+- identificador deve ser unico quando informado;
 - equipamento vinculado a necessidade nao deve ser apagado fisicamente.
 - usuario comum pode criar equipamento simples quando precisar vincular a uma
   necessidade;

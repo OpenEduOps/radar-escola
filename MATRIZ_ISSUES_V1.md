@@ -371,6 +371,8 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - patrimonio completo.
 - Criterios de aceite:
   - nome/local obrigatorios;
+  - estado atual obrigatorio;
+  - identificacao informada e unica;
   - equipamento com historico nao e apagado fisicamente;
   - edicao/inativacao ficam restritas a gestao.
 - Testes esperados: unitarios.

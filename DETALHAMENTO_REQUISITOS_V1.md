@@ -810,7 +810,7 @@ Registrar uma necessidade operacional da escola em linguagem simples.
 
 - Titulo vazio: bloquear.
 - Descricao vazia: bloquear ou pedir resumo minimo.
-- Local vazio: bloquear se definido como obrigatorio final.
+- Local vazio: bloquear.
 - Prioridade invalida: bloquear.
 - Equipamento inexistente: pedir selecionar outro ou criar equipamento.
 
@@ -1496,15 +1496,17 @@ Cadastrar equipamento basico para vinculo com necessidades.
 ### Fluxos de excecao
 
 - Nome vazio: bloquear.
-- Local vazio: bloquear se definido como obrigatorio final.
-- Identificacao duplicada: alertar e pedir confirmacao ou bloquear conforme
-  regra final.
+- Local vazio: bloquear.
+- Estado atual vazio: bloquear.
+- Identificacao duplicada: bloquear e orientar usar equipamento existente ou
+  revisar identificacao.
 
 ### Regras de negocio
 
 - Equipamento nao e patrimonio completo.
 - Vinculo com necessidade e opcional.
 - Equipamento com historico nao deve sumir sem cuidado.
+- Identificacao/patrimonio, quando informada, deve ser unica.
 - Usuario comum pode criar cadastro simples de equipamento quando precisar
   vincular a uma necessidade.
 - Edicao cadastral e inativacao de equipamento ficam restritas a direcao ou

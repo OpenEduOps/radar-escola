@@ -1128,8 +1128,8 @@ Estados:
 - Local vazio: bloquear.
 - Estado atual vazio: bloquear.
 - Identificacao/patrimonio e opcional.
-- Identificacao duplicada: alertar e bloquear ou pedir confirmacao conforme
-  regra final.
+- Identificacao duplicada: bloquear e orientar usar equipamento existente ou
+  revisar identificacao.
 - [U] volta ao registro da necessidade com equipamento selecionado.
 - [U] nao ve opcoes de editar ou inativar depois do cadastro simples.
 
