@@ -56,8 +56,8 @@ instalar -> abrir -> configurar -> entrar -> registrar necessidade
 - Sem Docker para pessoa usuaria final.
 - Sem telemetria por padrao.
 
-Docker pode ser avaliado apenas como apoio tecnico para desenvolvimento, QA e
-contribuicao OSS. Ele nao altera o modelo de execucao do produto.
+Docker existe apenas como apoio tecnico para desenvolvimento, QA e contribuicao
+OSS. Ele nao altera o modelo de execucao do produto.
 
 ## Fronteira Atual do Workflow
 
@@ -213,12 +213,12 @@ Automatizar:
 - checks de workflow/permissoes;
 - release desktop quando houver tag e scaffold valido.
 
-Avaliar como apoio tecnico:
+Usar como apoio tecnico opcional:
 
-- ambiente Docker opcional para reduzir divergencia entre maquinas de
-  desenvolvimento;
+- ambiente Docker para reduzir divergencia entre maquinas de desenvolvimento;
 - validacoes Node basicas em container;
-- uso de Docker em CI apenas se houver ganho claro e decisao documentada.
+- validacao Docker adicional na CI, sem substituir os checks principais nem o
+  release desktop.
 
 Manter manual na V0:
 

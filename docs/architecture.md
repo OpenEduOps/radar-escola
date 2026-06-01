@@ -61,8 +61,9 @@ src-tauri/src
 
 ## Ambiente Tecnico
 
-Docker pode ser adotado como apoio ao ambiente de desenvolvimento e QA tecnico,
-conforme [`PROJETO_DOCKERIZACAO_AMBIENTE.md`](../PROJETO_DOCKERIZACAO_AMBIENTE.md).
+Docker foi adotado como apoio ao ambiente de desenvolvimento e QA tecnico,
+conforme [`PROJETO_DOCKERIZACAO_AMBIENTE.md`](../PROJETO_DOCKERIZACAO_AMBIENTE.md)
+e [`docs/development-docker.md`](development-docker.md).
 
 Ele nao faz parte da arquitetura de runtime do produto.
 

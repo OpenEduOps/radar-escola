@@ -21,9 +21,10 @@ seguro para contribuidores.
 - `main` deve depender de `All CI checks`.
 - Workflows devem usar permissoes minimas.
 - CI central nao deve depender de servicos pagos ou credenciais privadas.
-- Docker nao deve virar requisito de CI sem decisao documentada e ganho claro.
-- Docker, quando existir, deve ser apoio tecnico opcional para dev/QA, nao
-  artefato de release.
+- Docker so deve permanecer na CI como validacao adicional documentada, com
+  ganho claro e sem substituir os checks principais.
+- Docker deve continuar sendo apoio tecnico opcional para dev/QA, nao artefato
+  de release.
 - Forks nao devem executar codigo em workflows `pull_request_target`.
 - O job `Agent name guard` deve permanecer dentro de `All CI checks`.
 - Auto-merge automatico e permitido apenas para PRs do usuario `Will-thom`,
