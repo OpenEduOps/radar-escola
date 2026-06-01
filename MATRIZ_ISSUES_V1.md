@@ -793,31 +793,6 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: APP-017, PER-003, PER-008, DOM-001.
 - Labels: `application`.
 
-### APP-017 Implementar cadastro de cargo ou funcao
-
-- Tipo: `application`
-- Camada: `controller`
-- Fonte: UC-005
-- Objetivo: cadastrar cargo/funcao sem transformar texto de cargo em permissao.
-- Escopo:
-  - validar permissao de direcao ou apoio;
-  - validar nome obrigatorio;
-  - validar duplicidade normalizada;
-  - criar cargo/funcao ativo;
-  - permitir uso no fluxo de cadastro de pessoa.
-- Fora de escopo:
-  - permissao automatica por cargo;
-  - hierarquia complexa;
-  - organograma.
-- Criterios de aceite:
-  - direcao cadastra cargo/funcao;
-  - apoio cadastra cargo/funcao;
-  - usuario comum e bloqueado;
-  - duplicidade normalizada e bloqueada ou orientada.
-- Testes esperados: caso de uso.
-- Dependencias: PER-003, DOM-003, DOM-001.
-- Labels: `application`, `good first issue`.
-
 ### APP-005 Implementar apoio de gestao
 
 - Tipo: `application`
@@ -1093,6 +1068,31 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Testes esperados: caso de uso e permissao.
 - Dependencias: PER-002, PER-003, PER-008, DOM-001.
 - Labels: `application`, `tests`, `security`.
+
+### APP-017 Implementar cadastro de cargo ou funcao
+
+- Tipo: `application`
+- Camada: `controller`
+- Fonte: UC-005
+- Objetivo: cadastrar cargo/funcao sem transformar texto de cargo em permissao.
+- Escopo:
+  - validar permissao de direcao ou apoio;
+  - validar nome obrigatorio;
+  - validar duplicidade normalizada;
+  - criar cargo/funcao ativo;
+  - permitir uso no fluxo de cadastro de pessoa.
+- Fora de escopo:
+  - permissao automatica por cargo;
+  - hierarquia complexa;
+  - organograma.
+- Criterios de aceite:
+  - direcao cadastra cargo/funcao;
+  - apoio cadastra cargo/funcao;
+  - usuario comum e bloqueado;
+  - duplicidade normalizada e bloqueada ou orientada.
+- Testes esperados: caso de uso.
+- Dependencias: PER-003, DOM-003, DOM-001.
+- Labels: `application`, `good first issue`.
 
 ### APP-018 Implementar equipamento e vinculo operacional
 
