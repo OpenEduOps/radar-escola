@@ -171,6 +171,7 @@ Quero fazer uma copia de seguranca
 - [D] pode redefinir senha de usuario comum para `123456`.
 - [A] e [U] nao redefinem senha de terceiros.
 - Equipamento e apoio operacional, nao patrimonio completo.
+- Equipamento precisa ter nome, local e estado atual simples.
 - Recuperacao local nao usa e-mail, WhatsApp ou internet.
 
 ## Criterio De Pronto Desta Visao
@@ -216,6 +217,7 @@ Permissao:
 |                                                            |
 | Salvaguarda local                                          |
 | Token gerado: RE-48291                                     |
+| O token sera exibido apenas agora.                         |
 | Frase de recuperacao                                       |
 | [ Bairro onde cresci _________________________________ ]   |
 | Resposta                                                   |
@@ -235,6 +237,9 @@ Estados:
 
 - Campo obrigatorio vazio: manter na tela e explicar o que falta.
 - Usuario ja reservado: pedir outro usuario.
+- Token deve aparecer no momento de configuracao e nao reaparecer em consulta
+  normal.
+- Conclusao gera auditoria `SCHOOL_CONFIGURED`.
 - Erro ao salvar localmente: informar erro operacional e permitir tentar de
   novo.
 
@@ -313,6 +318,8 @@ Permissao:
 | Anote o token em local seguro. Se tirar foto para anotar    |
 | depois, apague a foto. O token nao sera gerado novamente.  |
 |                                                            |
+| [ ] Entendo que preciso guardar minha salvaguarda.         |
+|                                                            |
 | [ Salvar e entrar ]                                        |
 |                                                            |
 +------------------------------------------------------------+
@@ -323,6 +330,7 @@ Estados:
 - Nova senha igual a `123456`: bloquear.
 - Confirmacao diferente: bloquear.
 - Salvaguarda incompleta: bloquear.
+- Confirmacao de guarda da salvaguarda vazia: bloquear.
 - Pessoa tenta pular: voltar para esta tela.
 
 ### Recuperacao Local De Acesso
@@ -340,7 +348,7 @@ Permissao:
 +------------------------------------------------------------+
 | Recuperar acesso                                   [Voltar] |
 +------------------------------------------------------------+
-| Use sua salvaguarda local.                          |
+| Use sua salvaguarda local.                                 |
 | Esta recuperacao nao usa e-mail nem internet.               |
 +------------------------------------------------------------+
 |                                                            |
@@ -376,6 +384,7 @@ Estados:
 - Usuario nao encontrado: mensagem generica.
 - Salvaguarda invalida: mensagem generica.
 - Nova senha invalida: explicar regra.
+- Nova senha igual a `123456`: bloquear.
 - Perdeu tudo: orientar procurar direcao, quando nao for a propria direcao.
 
 ### Sair Da Conta
@@ -541,6 +550,7 @@ Estados:
 - Titulo vazio: bloquear.
 - Descricao vazia: bloquear.
 - Local vazio: bloquear.
+- Ao salvar, sistema cria status inicial `nova` e andamento inicial.
 - Equipamento nao e obrigatorio.
 - Envolvidos podem ser adicionados depois.
 
@@ -629,6 +639,8 @@ Estados:
 - Pessoa inativa nao aparece para selecao.
 - Pessoa ja envolvida nao deve duplicar.
 - Necessidade final bloqueia alteracao.
+- Nao ha aviso externo automatico; envolvidos consultam o Radar Escola neste
+  computador.
 
 ### Registrar Andamento
 
@@ -745,6 +757,8 @@ Estados:
 
 - Texto vazio: bloquear.
 - Necessidade final: bloquear.
+- Historico registra solicitacao de fechamento tecnico.
+- Necessidade fica destacada para revisao da gestao.
 - [D] e [A] podem resolver direto se fizer sentido.
 
 ### Marcar Como Resolvido
@@ -781,6 +795,9 @@ Estados:
 - [U] tenta acessar: mostrar bloqueio e oferecer "Solicitar fechamento tecnico".
 - Resumo vazio: bloquear.
 - Necessidade ja resolvida: informar estado atual.
+- Se havia fechamento tecnico solicitado, mostrar essa informacao antes da
+  confirmacao.
+- Resolucao gera historico e auditoria `NEED_RESOLVED`.
 
 ### Cancelar Ou Corrigir
 
@@ -818,6 +835,8 @@ Estados:
 - [U] ve uma versao como solicitacao, sem botao de cancelar direto.
 - Motivo vazio para cancelamento: bloquear.
 - Necessidade resolvida: cancelamento fica fora da V1.
+- Correcao relevante fica rastreada no historico.
+- Cancelamento gera historico e auditoria `NEED_CANCELLED`.
 
 ### Historico
 
@@ -921,6 +940,7 @@ Permissao:
 +------------------------------------------------------------+
 | A pessoa usara a senha inicial 123456 apenas uma vez.      |
 | No primeiro acesso ela deve trocar senha e criar salvaguarda.|
+| Esse primeiro acesso deve ser feito em privacidade.        |
 +------------------------------------------------------------+
 |                                                            |
 | Nome                                                       |
@@ -947,6 +967,7 @@ Estados:
 - Usuario vazio ou duplicado: bloquear.
 - Pessoa criada fica com troca obrigatoria de senha no primeiro acesso.
 - Direcao/apoio nao define senha final, token, frase nem resposta da pessoa.
+- Cadastro de pessoa gera auditoria `USER_CREATED`.
 
 ### Definir Apoio De Gestao
 
@@ -991,6 +1012,8 @@ Estados:
 - Ja existem 2 apoios: bloquear novo apoio ate remover um atual.
 - Apoio tenta acessar: bloquear com mensagem simples.
 - Pessoa inativa nao pode virar apoio.
+- Definir ou remover apoio gera auditoria `MANAGEMENT_SUPPORT_GRANTED` ou
+  `MANAGEMENT_SUPPORT_REVOKED`.
 
 ### Redefinir Senha De Usuario Comum
 
@@ -1010,6 +1033,7 @@ Permissao:
 +------------------------------------------------------------+
 | Use apenas quando a pessoa perdeu senha e salvaguarda.      |
 | A senha voltara para 123456 e exigira novo primeiro acesso. |
+| O proximo acesso da pessoa deve ser feito em privacidade.  |
 +------------------------------------------------------------+
 |                                                            |
 | Pessoa                                                     |
@@ -1060,6 +1084,9 @@ Permissao:
 | Local comum                                                |
 | [ Sala 8 ______________________________________________ ]  |
 |                                                            |
+| Estado atual                                               |
+| ( ) Em uso   ( ) Com problema   ( ) Fora de uso            |
+|                                                            |
 | Identificacao ou patrimonio, se houver                     |
 | [ PATR-000123 ________________________________________ ]   |
 |                                                            |
@@ -1074,7 +1101,11 @@ Permissao:
 Estados:
 
 - Nome vazio: bloquear.
+- Local vazio: bloquear.
+- Estado atual vazio: bloquear.
 - Identificacao/patrimonio e opcional.
+- Identificacao duplicada: alertar e bloquear ou pedir confirmacao conforme
+  regra final.
 - [U] volta ao registro da necessidade com equipamento selecionado.
 - [U] nao ve opcoes de editar ou inativar depois do cadastro simples.
 
@@ -1118,6 +1149,7 @@ Estados:
 - Necessidade final bloqueia novo vinculo.
 - Uma necessidade tem zero ou um equipamento na V1.
 - Equipamento inativo nao aparece como opcao padrao.
+- Vinculo ou remocao de vinculo fica registrado no historico da necessidade.
 
 ### Equipamentos
 
@@ -1196,7 +1228,7 @@ Estados:
 
 - [A] ou [U] tenta acessar: bloquear.
 - Falha ao gerar arquivo: explicar e nao registrar sucesso.
-- Exportacao concluida gera auditoria `SECURITY_EXPORTED`.
+- Exportacao concluida gera auditoria `SECURITY_EXPORT_CREATED`.
 - Interface deve recomendar salvar copia fora do computador principal.
 
 ### Restauracao De Seguranca
@@ -1241,6 +1273,8 @@ Estados:
 - Confirmacao diferente de `RESTAURAR`: bloquear.
 - Falha durante restauracao: preservar estado anterior quando tecnicamente
   possivel.
+- Restauracao concluida gera auditoria `SECURITY_IMPORT_RESTORED`, quando
+  tecnicamente possivel.
 - Sucesso leva ao login ou Radar conforme sessao valida depois da restauracao.
 
 ### Auditoria
@@ -1275,7 +1309,7 @@ Permissao:
 | 13/05/2026 15:40 | NEED_RESOLVED                           |
 | Marta Souza marcou necessidade #12 como resolvida          |
 |                                                            |
-| 14/05/2026 08:20 | SECURITY_EXPORTED                       |
+| 14/05/2026 08:20 | SECURITY_EXPORT_CREATED                 |
 | Direcao gerou exportacao de seguranca                      |
 +------------------------------------------------------------+
 ```
@@ -1329,4 +1363,5 @@ Estados:
 - Pessoa inativa: bloquear.
 - Direcao tenta transferir para si mesma: informar que ja e responsavel.
 - Transferencia gera auditoria `DIRECTORSHIP_TRANSFERRED`.
+- Direcao anterior perde acoes exclusivas, salvo se tiver outra delegacao.
 - Depois da transferencia, sistema deve orientar revisar apoios de gestao.
