@@ -189,9 +189,9 @@ documentacao operacional.
 Como essas bases ja existem, Docker pode ser citado como caminho tecnico
 opcional de validacao. Ele nao substitui o fluxo local sem Docker.
 
-A `DOCKER-009` funciona como gate final da trilha: primeiro fecham as issues de
-base, depois Docker pode entrar na CI. A validacao atual da CI cobre apenas a
-imagem dev Node basica e nao substitui `Desktop Release`.
+A `DOCKER-009` funcionou como gate final da trilha: primeiro foram fechadas as
+issues de base, depois Docker entrou na CI. A validacao atual da CI cobre apenas
+a imagem dev Node basica e nao substitui `Desktop Release`.
 
 ## Guardrails Operacionais
 

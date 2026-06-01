@@ -406,7 +406,8 @@ Criterios de aceite:
 - Fase 2 depende da Fase 1 validada.
 - Fase 3 depende de medidas reais de custo da Fase 1.
 - Fase 4 depende da implementacao real de SQLite no MVP.
-- Fase 5 depende de evidencia de que Docker reduz divergencia com a CI.
+- Fase 5 foi executada depois da validacao local mostrar ganho suficiente para
+  manter Docker como check adicional pequeno na CI.
 - Fase 6 nao depende de Docker e nao deve ser bloqueada por Docker.
 
 Essa ordem impede que uma primeira PR de dockerizacao cresca alem do necessario.

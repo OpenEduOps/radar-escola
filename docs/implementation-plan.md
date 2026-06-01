@@ -45,8 +45,8 @@ Ainda nao existe:
 - O scaffold nao deve fingir funcionalidade ainda nao implementada.
 - A V0 deve preservar simplicidade antes de crescer permissoes, notificacoes ou
   integracoes.
-- Docker pode apoiar desenvolvimento e QA tecnico, mas nao deve entrar como
-  requisito da pessoa usuaria final nem substituir o release Windows.
+- Docker apoia desenvolvimento e QA tecnico, mas nao deve entrar como requisito
+  da pessoa usuaria final nem substituir o release Windows.
 
 ## Fase 1: Scaffold Executavel
 
