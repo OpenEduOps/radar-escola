@@ -2,40 +2,28 @@ export const PLAYGROUND_TABLE_NAME = "playground";
 
 export type PlaygroundRecord = {
   id: string;
-  title: string;
+  nome: string;
+  descricao: string;
   status: "rascunho" | "em_validacao" | "pronto";
-  owner: string;
-  updatedAt: string;
-  summary: string;
-  nextStep: string;
 };
 
 export const playgroundRecords: PlaygroundRecord[] = [
   {
     id: "PG-001",
-    title: "Primeiro uso",
+    nome: "Primeiro uso",
+    descricao: "Validar abertura do app, configuracao inicial e leitura do menu.",
     status: "em_validacao",
-    owner: "Direcao",
-    updatedAt: "2026-06-01",
-    summary: "Validar abertura do app, configuracao inicial e leitura do menu.",
-    nextStep: "Conectar este fluxo ao bootstrap SQLite.",
   },
   {
     id: "PG-002",
-    title: "Radar inicial",
+    nome: "Radar inicial",
+    descricao: "Experimentar a navegacao entre lista e detalhe antes do MVP.",
     status: "rascunho",
-    owner: "Equipe de produto",
-    updatedAt: "2026-06-01",
-    summary: "Experimentar a navegacao entre lista e detalhe antes do MVP.",
-    nextStep: "Trocar seed local por consulta da tabela playground.",
   },
   {
     id: "PG-003",
-    title: "Validacao QA",
+    nome: "Validacao QA",
+    descricao: "Conferir estados basicos, selecao e detalhe do registro.",
     status: "pronto",
-    owner: "QA",
-    updatedAt: "2026-06-01",
-    summary: "Conferir estados basicos, selecao e detalhe do registro.",
-    nextStep: "Criar teste automatizado quando o runner de UI existir.",
   },
 ];

@@ -37,7 +37,7 @@ export function PlaygroundMasterDetail() {
               onClick={() => setSelectedId(record.id)}
               type="button"
             >
-              <span>{record.title}</span>
+              <span>{record.nome}</span>
               <small>
                 {record.id} - {statusLabels[record.status]}
               </small>
@@ -49,7 +49,7 @@ export function PlaygroundMasterDetail() {
           <div className="detail-heading">
             <div>
               <span className="record-id">{selectedRecord.id}</span>
-              <h3>{selectedRecord.title}</h3>
+              <h3>{selectedRecord.nome}</h3>
             </div>
             <span className="status-badge">
               {statusLabels[selectedRecord.status]}
@@ -58,20 +58,16 @@ export function PlaygroundMasterDetail() {
 
           <dl className="detail-fields">
             <div>
-              <dt>Responsavel</dt>
-              <dd>{selectedRecord.owner}</dd>
+              <dt>Nome</dt>
+              <dd>{selectedRecord.nome}</dd>
             </div>
             <div>
-              <dt>Atualizado em</dt>
-              <dd>{selectedRecord.updatedAt}</dd>
+              <dt>Descricao</dt>
+              <dd>{selectedRecord.descricao}</dd>
             </div>
             <div>
-              <dt>Resumo</dt>
-              <dd>{selectedRecord.summary}</dd>
-            </div>
-            <div>
-              <dt>Proximo passo</dt>
-              <dd>{selectedRecord.nextStep}</dd>
+              <dt>Status</dt>
+              <dd>{statusLabels[selectedRecord.status]}</dd>
             </div>
           </dl>
         </article>
