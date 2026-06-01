@@ -21,8 +21,8 @@ Ja existem:
 - playground CRUD master-detail para referencia tecnica;
 - testes unitarios do playground;
 - teste E2E Playwright do playground;
-- CI em `main` com checks de documentacao, higiene, frontend, testes e
-  guardrail de metadados publicos;
+- CI em `main` com checks de documentacao, higiene, frontend, testes,
+  validacao Docker dev e guardrail de metadados publicos;
 - workflow `Desktop Release` para gerar instalador Windows tecnico do
   scaffold;
 - documento de projeto para dockerizacao do ambiente tecnico;

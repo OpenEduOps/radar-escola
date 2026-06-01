@@ -1,6 +1,6 @@
 # Docker Para Desenvolvimento
 
-Este documento sera o guia operacional de Docker para pessoas desenvolvedoras,
+Este documento e o guia operacional de Docker para pessoas desenvolvedoras,
 QA tecnico e contribuidoras OSS.
 
 A decisao de projeto, fases, riscos e criterios de corte estao em
@@ -39,7 +39,7 @@ Docker nao faz parte da experiencia final do Radar Escola.
 
 ## O Que Docker Deve Resolver
 
-Quando implementado, Docker deve ajudar a:
+Docker deve ajudar a:
 
 - reduzir diferencas entre maquinas de desenvolvimento;
 - validar o scaffold com Node.js 24;

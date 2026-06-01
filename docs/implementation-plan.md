@@ -16,7 +16,8 @@ Ja existe:
 - tela inicial tecnica do Radar Escola;
 - playground CRUD de referencia acionado por menu nativo;
 - `package-lock.json`;
-- CI com qualidade documental, higiene, `npm ci`, typecheck e build frontend;
+- CI com qualidade documental, higiene, `npm ci`, typecheck, testes, E2E do
+  playground, build frontend e validacao Docker dev;
 - workflow de release desktop gerando instalador tecnico do scaffold;
 - documentacao de CI/CD OSS;
 - documento de projeto para dockerizacao do ambiente tecnico;
@@ -238,7 +239,7 @@ Criterios de aceite iniciais:
 - tamanho da imagem e tempo de build sao registrados;
 - guia operacional documenta comandos reais;
 - fluxo local sem Docker continua funcionando;
-- `Desktop Release` continua sendo o caminho do instalador Windows.
+- `Desktop Release` continua sendo o caminho do instalador Windows;
 - validacao Docker em CI existe apenas para a imagem dev Node basica;
 - Playwright/E2E, SQLite e build Tauri/Windows continuam fora do Docker nesta
   fase.

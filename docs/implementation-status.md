@@ -157,7 +157,8 @@ A CI valida:
 - higiene do repositorio;
 - testes unitarios;
 - teste E2E Playwright do playground;
-- frontend build.
+- frontend build;
+- validacao Docker dev adicional.
 
 ### Docker Dev
 

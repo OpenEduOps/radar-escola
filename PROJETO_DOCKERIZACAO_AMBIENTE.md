@@ -374,7 +374,7 @@ Criterios de aceite:
 
 Objetivo:
 
-- decidir se Docker deve entrar na CI.
+- registrar como Docker entra na CI sem substituir os checks principais.
 
 Status: implementada para validacao Node basica.
 
