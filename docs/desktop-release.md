@@ -106,6 +106,7 @@ Ele testa hoje:
 
 - instalador encontrado;
 - instalacao sem erro;
+- executavel instalado usa o subsistema Windows GUI, nao Console;
 - aplicativo abre sem crash imediato;
 - janela principal e criada;
 - menu nativo `Playground > Iniciar playground` existe;
@@ -217,6 +218,8 @@ Correcoes necessarias para chegar nesse estado:
 - configurar `base: "./"` no Vite para assets relativos no app empacotado;
 - adicionar capability Tauri `core:default` para permitir a ponte de eventos da
   janela principal.
+- compilar builds release do Tauri com subsistema Windows GUI para evitar que
+  um prompt apareca atras da janela principal.
 
 ## Tentativa Local De Build Tauri
 

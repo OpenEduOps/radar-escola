@@ -96,6 +96,67 @@ function Find-InstalledApp {
     return $null
 }
 
+function Get-PortableExecutableSubsystem {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.IO.FileInfo]
+        $Executable
+    )
+
+    $stream = [System.IO.File]::OpenRead($Executable.FullName)
+
+    try {
+        $reader = New-Object System.IO.BinaryReader($stream)
+
+        if ($stream.Length -lt 0x100) {
+            throw "Executable is too small to be a valid Portable Executable: $($Executable.FullName)"
+        }
+
+        $stream.Seek(0x3c, [System.IO.SeekOrigin]::Begin) | Out-Null
+        $peHeaderOffset = $reader.ReadInt32()
+
+        if ($peHeaderOffset -lt 0 -or ($peHeaderOffset + 0x5c) -ge $stream.Length) {
+            throw "Portable Executable header offset is invalid for $($Executable.FullName)."
+        }
+
+        $stream.Seek($peHeaderOffset, [System.IO.SeekOrigin]::Begin) | Out-Null
+        $signature = $reader.ReadUInt32()
+
+        if ($signature -ne 0x00004550) {
+            throw "Portable Executable signature was not found in $($Executable.FullName)."
+        }
+
+        $optionalHeaderOffset = $peHeaderOffset + 4 + 20
+        $stream.Seek($optionalHeaderOffset + 68, [System.IO.SeekOrigin]::Begin) | Out-Null
+
+        return $reader.ReadUInt16()
+    }
+    finally {
+        $stream.Dispose()
+    }
+}
+
+function Assert-WindowsGuiSubsystem {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.IO.FileInfo]
+        $Executable
+    )
+
+    $subsystem = Get-PortableExecutableSubsystem -Executable $Executable
+
+    if ($subsystem -eq 2) {
+        Write-Host "Installed executable uses Windows GUI subsystem."
+        return
+    }
+
+    if ($subsystem -eq 3) {
+        throw "Installed executable uses Windows Console subsystem. Release builds must not open a prompt behind the app."
+    }
+
+    throw "Installed executable uses unexpected Portable Executable subsystem: $subsystem."
+}
+
 function Wait-MainWindow {
     param(
         [Parameter(Mandatory = $true)]
@@ -289,6 +350,7 @@ try {
     }
 
     Write-Host "Installed executable found: $($installedApp.FullName)"
+    Assert-WindowsGuiSubsystem -Executable $installedApp
     Assert-AppLaunchFlow -Executable $installedApp
     Write-Host "Windows installer smoke check passed."
 }
