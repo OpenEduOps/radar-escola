@@ -108,6 +108,12 @@ Ainda nao possui:
 - Dependencias instaladas no container nao devem poluir a maquina local.
 - O plano deve considerar espaco em disco como restricao real de uso.
 - A documentacao publica deve continuar centrada em desktop local Windows.
+- Docker deve ser reversivel: se a experiencia piorar, o projeto deve conseguir
+  voltar ao fluxo local sem perda de caminho tecnico.
+- Imagens, containers e volumes criados pelo projeto devem ter nomes associados
+  ao Radar Escola para facilitar limpeza segura.
+- A primeira fase nao deve publicar imagem em GHCR, Docker Hub ou qualquer
+  registry externo.
 
 ## Arquitetura Alvo Da Dockerizacao
 
@@ -221,6 +227,22 @@ Responsabilidades:
 - nao embutir segredos;
 - nao gerar artefatos versionados.
 
+### Seguranca Da Imagem
+
+A dockerizacao deve evitar aumentar a superficie de risco do projeto.
+
+Direcoes:
+
+- usar imagem base oficial ou confiavel;
+- evitar tag `latest`;
+- registrar a tag escolhida e o motivo;
+- nao copiar `.env`, `.npmrc`, tokens ou arquivos locais sensiveis;
+- nao montar `docker.sock`;
+- nao usar `--privileged`;
+- nao usar `--network host` sem justificativa;
+- preferir usuario nao-root quando isso nao prejudicar a primeira entrega;
+- manter `npm audit` e checks de workflow na CI como controles independentes.
+
 ### Estrategia De Dependencias E Volumes
 
 A primeira versao deve evitar ambiguidade entre dependencias do host e
@@ -255,6 +277,18 @@ Comandos documentados devem deixar claro:
 
 Evitar comandos magicos que escondam comportamento importante. Uma pessoa
 contribuidora iniciante precisa entender o que esta sendo validado.
+
+### Nomeacao E Publicacao De Imagens
+
+A primeira fase deve criar apenas imagem local de desenvolvimento.
+
+Direcoes:
+
+- usar nome de imagem associado ao projeto, como `radar-escola-dev`;
+- nao publicar imagem em GHCR, Docker Hub ou registry externo;
+- nao tratar imagem local como artefato de release;
+- se volumes ou containers nomeados forem criados, usar prefixo do projeto para
+  facilitar limpeza segura.
 
 ### `Dockerfile.e2e` Ou Estrategia Equivalente
 
@@ -603,6 +637,40 @@ Estas tarefas podem virar issues depois de revisao:
 - atualizar `docs/development-docker.md` com comandos reais;
 - atualizar matriz de issues se a dockerizacao entrar no backlog formal.
 
+## Quebra Inicial Sugerida Em Issues
+
+Esta quebra ainda nao cria issues. Ela serve para transformar o plano em tarefas
+pequenas, revisaveis e com escopo controlado.
+
+| Issue sugerida | Objetivo | Dependencia |
+| --- | --- | --- |
+| DOCKER-001 | Criar `.dockerignore` com exclusoes seguras | nenhuma |
+| DOCKER-002 | Criar `Dockerfile.dev` com Node 24 e tag explicita | DOCKER-001 |
+| DOCKER-003 | Documentar comandos minimos em `docs/development-docker.md` | DOCKER-002 |
+| DOCKER-004 | Validar `npm ci`, testes, typecheck e build no container | DOCKER-002 |
+| DOCKER-005 | Medir tempo, tamanho da imagem e impacto em disco | DOCKER-004 |
+| DOCKER-006 | Documentar limpeza segura limitada a recursos do projeto | DOCKER-005 |
+| DOCKER-007 | Decidir se E2E em Docker entra na fase seguinte | DOCKER-005 |
+| DOCKER-008 | Atualizar matriz de issues se Docker entrar no backlog formal | DOCKER-007 |
+
+Cada issue deve manter a narrativa de que Docker e ambiente tecnico opcional, nao
+parte da experiencia final da escola.
+
+## Criterios Para Pausar Ou Reverter
+
+Docker deve ser pausado, simplificado ou revertido se:
+
+- a imagem ficar pesada demais para uma primeira contribuicao;
+- o fluxo com Docker ficar mais confuso que o fluxo local;
+- o consumo de disco crescer sem ganho claro;
+- Docker passar a parecer requisito para PR simples;
+- a manutencao dos arquivos Docker superar o beneficio de reproducibilidade;
+- a documentacao gerar confusao com a UX final desktop Windows.
+
+Se isso acontecer, o projeto deve preservar comandos locais e CI como caminho
+principal. O plano Docker pode permanecer como registro historico ou voltar para
+estado experimental.
+
 ## Decisoes Abertas
 
 - Usar ou nao `docker-compose.yml` na primeira versao?
@@ -615,6 +683,9 @@ Estas tarefas podem virar issues depois de revisao:
 - O E2E em container deve usar Chrome real, Chromium ou configuracao separada?
 - Qual comando de limpeza sera recomendado sem risco de apagar recursos de
   outros projetos?
+- Qual nome padrao deve ser usado para imagem, containers e volumes?
+- O `Dockerfile.dev` deve rodar como usuario root ou nao-root na primeira fase?
+- Publicacao de imagem deve continuar fora de escopo ate qual marco do projeto?
 
 ## Recomendacao Inicial
 
