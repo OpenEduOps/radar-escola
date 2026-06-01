@@ -67,7 +67,7 @@ o que a CI executa.
 
 O scaffold atual contem:
 
-- app React/TypeScript minimo;
+- interface React/TypeScript minima;
 - Vite para build frontend;
 - Tauri 2 como casca desktop;
 - janela inicial do Radar Escola;

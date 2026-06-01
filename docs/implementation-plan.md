@@ -53,7 +53,7 @@ Criterios de aceite:
 - `npm ci` passa;
 - `npm run typecheck` passa;
 - `npm run build` passa;
-- app React renderiza tela inicial honesta;
+- interface React renderiza tela inicial honesta;
 - Tauri possui configuracao minima;
 - instalador tecnico do scaffold e gerado pelo workflow `Desktop Release`;
 - app instalado abre sem crash imediato;

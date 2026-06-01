@@ -259,7 +259,7 @@ temporario para evitar deadlock operacional.
 Configurar `.github/dependabot.yml` desde a Fase 0 para:
 
 - GitHub Actions;
-- npm, quando o app React existir;
+- npm, quando a interface React existir;
 - cargo, quando o app Tauri/Rust existir.
 
 Atualizacoes devem ser pequenas e revisaveis.
