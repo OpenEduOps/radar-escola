@@ -414,12 +414,15 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - `need_updates`;
   - `need_action_plan_items`;
   - `equipment`;
-  - `audit_events`.
+  - `audit_events`;
+  - `security_exports`;
+  - `security_imports`.
 - Fora de escopo:
-  - CSV export/import.
+  - geracao, parsing e restauracao de CSV.
 - Criterios de aceite:
   - migration roda em banco vazio;
   - constraints basicas existem;
+  - tabelas de metadados de seguranca existem;
   - testes de criacao do schema passam.
 - Testes esperados: persistencia.
 - Dependencias: DOM-002 a DOM-011.
