@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { listen } from "@tauri-apps/api/event";
+import { PlaygroundMasterDetail } from "../features/playground/PlaygroundMasterDetail";
 
 export function App() {
   const [playgroundStarted, setPlaygroundStarted] = useState(false);
@@ -45,7 +46,17 @@ export function App() {
               ? "Playground iniciado a partir do menu do aplicativo."
               : "Use o menu Playground > Iniciar playground para validar o primeiro acionamento nativo."}
           </span>
+          {!playgroundStarted ? (
+            <button
+              className="playground-button"
+              onClick={() => setPlaygroundStarted(true)}
+              type="button"
+            >
+              Iniciar playground
+            </button>
+          ) : null}
         </div>
+        {playgroundStarted ? <PlaygroundMasterDetail /> : null}
       </section>
     </main>
   );
