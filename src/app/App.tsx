@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { listen } from "@tauri-apps/api/event";
 import { PlaygroundMasterDetail } from "../features/playground/PlaygroundMasterDetail";
+import { RadarMvpFlow } from "../features/radar/RadarMvpFlow";
 
 export function App() {
   const [playgroundStarted, setPlaygroundStarted] = useState(false);
@@ -23,47 +24,32 @@ export function App() {
     };
   }, []);
 
-  return (
-    <main className="app-shell">
-      <section
-        className={`intro ${playgroundStarted ? "intro--active" : ""}`}
-        aria-labelledby="product-title"
-      >
-        <p className="eyebrow">OpenEduOps</p>
-        <h1 id="product-title">Radar Escola</h1>
-        {!playgroundStarted ? (
-          <p className="summary">
-            Aplicativo desktop local para validar o Radar Escola no Windows.
-          </p>
-        ) : null}
-        {!playgroundStarted ? (
-          <div className="status-panel" aria-label="Estado do produto">
-            <strong>Estado atual</strong>
-            <span>
-              Este build valida a casca desktop, o instalador e o playground de
-              referencia. O MVP funcional ainda sera implementado.
-            </span>
-          </div>
-        ) : null}
-        <div className="status-panel" aria-label="Playground">
-          <strong>Playground</strong>
-          <span>
-            {playgroundStarted
-              ? "Playground iniciado a partir do menu do aplicativo."
-              : "Use o menu Playground > Iniciar playground ou o botao abaixo para abrir o CRUD de referencia."}
-          </span>
-          {!playgroundStarted ? (
+  if (playgroundStarted) {
+    return (
+      <main className="app-shell">
+        <section className="intro intro--active" aria-labelledby="product-title">
+          <p className="eyebrow">OpenEduOps</p>
+          <h1 id="product-title">Radar Escola</h1>
+          <div className="status-panel" aria-label="Playground">
+            <strong>Playground</strong>
+            <span>Playground iniciado a partir do menu do aplicativo.</span>
             <button
-              className="playground-button"
-              onClick={() => setPlaygroundStarted(true)}
+              className="secondary-action"
+              onClick={() => setPlaygroundStarted(false)}
               type="button"
             >
-              Iniciar playground
+              Voltar ao Radar
             </button>
-          ) : null}
-        </div>
-        {playgroundStarted ? <PlaygroundMasterDetail /> : null}
-      </section>
+          </div>
+          <PlaygroundMasterDetail />
+        </section>
+      </main>
+    );
+  }
+
+  return (
+    <main className="app-shell">
+      <RadarMvpFlow onStartPlayground={() => setPlaygroundStarted(true)} />
     </main>
   );
 }
