@@ -59,6 +59,21 @@ src-tauri/src
   runtime nativo minimo do aplicativo desktop
 ```
 
+## Ambiente Tecnico
+
+Docker pode ser adotado como apoio ao ambiente de desenvolvimento e QA tecnico,
+conforme [`PROJETO_DOCKERIZACAO_AMBIENTE.md`](../PROJETO_DOCKERIZACAO_AMBIENTE.md).
+
+Ele nao faz parte da arquitetura de runtime do produto.
+
+Regras:
+
+- Docker nao substitui Tauri;
+- Docker nao substitui SQLite local;
+- Docker nao substitui instalador Windows;
+- Docker nao deve ser dependencia da pessoa usuaria final;
+- codigo de produto nao deve assumir que roda dentro de container.
+
 ## Direcao Das Dependencias
 
 Dependencias devem apontar para dentro:

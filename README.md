@@ -258,9 +258,9 @@ Para entender engenharia, CI e release:
 - [`docs/architecture.md`](docs/architecture.md): arquitetura inicial de codigo,
   camadas e responsabilidades.
 - [`docs/ci.md`](docs/ci.md): funcionamento da CI do produto.
-- [`docs/development-docker.md`](docs/development-docker.md): por que Docker
-  pode ajudar no desenvolvimento e quais limites preservam a UX desktop local
-  Windows.
+- [`docs/development-docker.md`](docs/development-docker.md): guia operacional
+  futuro de Docker para desenvolvimento, subordinado ao documento de projeto e
+  aos limites da UX desktop local Windows.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): orientacoes para contribuir e politica
   de metadados publicos.
 - [`docs/permissions.md`](docs/permissions.md): politica de permissoes minimas

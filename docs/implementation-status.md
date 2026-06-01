@@ -63,6 +63,14 @@ Automacao:
 - `.github/workflows/desktop-release.yml`;
 - `scripts/smoke-windows.ps1`.
 
+Docker:
+
+- `PROJETO_DOCKERIZACAO_AMBIENTE.md` documenta a iniciativa de projeto;
+- `docs/development-docker.md` reserva o guia operacional futuro;
+- `.dockerignore` ainda nao existe;
+- `Dockerfile.dev` ainda nao existe;
+- Docker ainda nao faz parte da CI.
+
 Estrutura planejada:
 
 - `src/application`;
@@ -192,6 +200,7 @@ Ainda nao foi implementado:
 - auditoria;
 - exportacao/restauracao;
 - testes de dominio da V0 funcional.
+- artefatos Docker executaveis.
 
 ## Fronteira Atual da Fonte
 

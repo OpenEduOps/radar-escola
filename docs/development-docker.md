@@ -1,154 +1,158 @@
 # Docker Para Desenvolvimento
 
-Este documento explica por que Docker pode ser util no desenvolvimento do Radar
-Escola e quais limites devem ser preservados para nao confundir a proposta do
-produto.
+Este documento sera o guia operacional de Docker para pessoas desenvolvedoras,
+QA tecnico e contribuidoras OSS.
 
-## Decisao
+A decisao de projeto, fases, riscos e criterios de corte estao em
+[`PROJETO_DOCKERIZACAO_AMBIENTE.md`](../PROJETO_DOCKERIZACAO_AMBIENTE.md).
 
-Docker pode ser usado para desenvolvimento, QA tecnico e contribuicao OSS.
+## Estado Atual
 
-Docker nao deve fazer parte da experiencia da pessoa usuaria final da escola.
+Docker ainda nao esta implementado no repositorio.
 
-Regra curta:
+Ainda nao existem:
+
+- `.dockerignore`;
+- `Dockerfile.dev`;
+- imagem local validada;
+- comando padrao para rodar validacoes em container;
+- estrategia Docker para Playwright;
+- `docker-compose.yml`.
+
+Por enquanto, este guia registra a abordagem operacional esperada. Ele deve ser
+atualizado com comandos reais somente quando os artefatos Docker forem criados e
+validados.
+
+## Regra Principal
+
+Docker e opcional e tecnico.
 
 ```text
-dev/QA/contribuicao OSS -> Docker pode ajudar
-pessoa usuaria final -> instalador Windows
+desenvolvimento / QA tecnico / contribuicao OSS -> Docker pode ajudar
+pessoa usuaria final da escola -> instalador Windows
 ```
 
-## Por Que Usar Docker No Projeto
+Docker nao faz parte da experiencia final do Radar Escola.
 
-### Onboarding De Pessoas Desenvolvedoras
+## O Que Docker Deve Resolver
 
-Uma pessoa nova pode validar o scaffold sem instalar manualmente toda a cadeia
-de dependencias na maquina local.
+Quando implementado, Docker deve ajudar a:
 
-O objetivo e reduzir atrito para comandos como:
+- reduzir diferencas entre maquinas de desenvolvimento;
+- validar o scaffold com Node.js 24;
+- executar testes unitarios;
+- executar typecheck;
+- executar build frontend;
+- apoiar QA tecnico;
+- facilitar contribuicoes OSS pequenas e revisaveis.
 
-```text
-npm ci
-npm test
-npm run typecheck
-npm run build
-npm run test:e2e
-```
+Docker deve continuar fora do caminho final de uso da escola.
 
-### Ambiente Mais Reproduzivel
-
-Docker reduz diferencas entre maquinas, versoes de Node, npm, dependencias de
-teste e configuracoes locais.
-
-Isso e especialmente importante em um projeto OSS, onde contribuidores podem
-usar Windows, Linux, WSL ou ambientes temporarios.
-
-### Menos Erro Em Contribuicoes OSS
-
-Issues pequenas e bem delimitadas ficam mais faceis de validar quando existe um
-ambiente previsivel para rodar testes e build antes da abertura de pull request.
-
-Isso aumenta a chance de uma contribuicao iniciante chegar revisavel, pequena e
-integravel.
-
-### QA Tecnico Mais Confiavel
-
-Docker pode ajudar a rodar:
-
-- testes unitarios;
-- typecheck;
-- build frontend;
-- testes E2E com Playwright;
-- validacoes de documentacao;
-- checks auxiliares de qualidade.
-
-O objetivo nao e substituir a CI, mas aproximar a validacao local da validacao
-automatizada.
-
-### Isolamento Da Maquina Local
-
-Dependencias ficam contidas no ambiente de desenvolvimento, reduzindo risco de
-poluir a maquina da pessoa desenvolvedora com versoes conflitantes de Node,
-pacotes, navegadores de teste ou ferramentas auxiliares.
-
-### Referencia Para O Playground
-
-Enquanto o MVP ainda nao existe, o playground CRUD serve como referencia tecnica.
-
-Docker pode ajudar pessoas desenvolvedoras a rodar esse scaffold, executar os
-testes e estudar o fluxo master-detail sem depender tanto da configuracao local.
-
-## O Que Docker Nao Deve Fazer
+## O Que Docker Nao Deve Resolver
 
 Docker nao deve:
 
 - ser usado pela escola;
-- ser requisito para instalar o Radar Escola;
 - substituir o instalador Windows;
-- aparecer como caminho de uso para a pessoa usuaria final;
-- expor banco, servidor local ou container como parte da experiencia do produto;
-- enfraquecer a narrativa de aplicativo desktop local para Windows.
+- substituir o workflow `Desktop Release`;
+- substituir smoke test do app instalado no Windows;
+- virar requisito obrigatorio para toda contribuicao;
+- publicar container como artefato do produto;
+- criar narrativa de app web, PWA, site ou sistema em navegador;
+- esconder a necessidade de toolchain nativa Windows para build Tauri.
 
-## Relacao Com O App Desktop
+## Fluxo Local Continua Principal
 
-O Radar Escola continua sendo um aplicativo desktop local Windows-first.
-
-A entrega final esperada para a escola e:
+Enquanto Docker nao existir, use os comandos locais:
 
 ```text
-baixar instalador -> instalar no Windows -> abrir pelo icone -> usar localmente
+npm ci
+npm test
+npm run test:e2e
+npm run typecheck
+npm run build
 ```
 
-Docker, quando existir, sera apenas ferramenta de engenharia para quem
-desenvolve, testa ou revisa o projeto.
+Mesmo depois da dockerizacao, esses comandos devem continuar documentados e
+funcionais para quem nao usar Docker.
 
-## Limite Tecnico Importante
+## Linha Operacional Esperada
 
-Docker ajuda muito no frontend, nos testes e na automacao de desenvolvimento.
-
-Ele nao substitui completamente o build nativo do aplicativo desktop Windows.
-O build real do instalador Tauri depende de toolchain nativa Windows, Rust/Cargo
-e Visual Studio Build Tools/MSVC.
-
-Por isso, o caminho principal para gerar o instalador continua sendo o workflow
-`Desktop Release` em runner Windows do GitHub Actions, ou uma maquina Windows
-local com a toolchain nativa instalada.
-
-## Caminho Recomendado
-
-Quando o projeto for dockerizado, a abordagem recomendada e criar uma camada
-explicitamente dev-only:
+A primeira entrega Docker deve ser pequena:
 
 ```text
-Dockerfile.dev
 .dockerignore
-docs/development-docker.md
+Dockerfile.dev
+validacao de instalacao, testes, typecheck e build
+limpeza segura limitada ao projeto
 ```
 
-Um `docker-compose.yml` pode ser adicionado apenas se houver ganho real de
-ergonomia para desenvolvimento.
+Ficam fora da primeira entrega:
 
-O escopo inicial deveria cobrir:
+- Playwright em Docker, se exigir imagem pesada;
+- `docker-compose.yml`, se nao houver ganho imediato;
+- build Tauri completo;
+- geracao de instalador Windows;
+- banco SQLite real;
+- fluxo funcional de MVP.
 
-- instalacao de dependencias;
-- testes unitarios;
-- typecheck;
-- build frontend;
-- testes E2E, se o custo de imagem e manutencao continuar razoavel.
+## Comandos Futuros
 
-## Guardrails
+Esta secao deve receber comandos reais somente apos implementacao e validacao.
 
-- Documentar Docker sempre como ambiente de desenvolvimento.
-- Nao chamar Docker de instalador, distribuicao ou modo de uso do Radar Escola.
-- Nao exigir Docker para contribuir quando comandos locais simples forem
-  suficientes.
-- Evitar imagens pesadas sem necessidade.
-- Nao commitar caches, relatorios, artefatos de build ou arquivos gerados pelo
-  container.
-- Manter a documentacao publica centrada em Windows desktop local.
+Quando existirem, os comandos devem deixar claro:
+
+- nome da imagem;
+- tag base usada;
+- se dependencias sao instaladas no build da imagem ou na execucao;
+- quais validacoes rodam;
+- quais arquivos podem ser gerados;
+- como limpar imagens, containers e volumes do projeto.
+
+Nao adicionar comandos exemplares que ainda nao foram testados no repositorio.
+
+## Guardrails Operacionais
+
+- Usar imagem base oficial ou confiavel.
+- Evitar tag `latest`.
+- Nao copiar `.env`, `.npmrc`, tokens ou arquivos sensiveis.
+- Nao montar `docker.sock`.
+- Nao usar `--privileged`.
+- Nao usar `--network host` sem justificativa.
+- Nao montar `node_modules` do Windows dentro do container.
+- Nao escrever `node_modules` do container no host por acidente.
+- Nao recomendar limpeza global destrutiva como caminho padrao.
+- Nomear recursos com prefixo do projeto quando containers ou volumes forem
+  criados.
+
+## Relacao Com CI
+
+A CI atual nao depende de Docker.
+
+Docker so deve entrar na CI se reduzir divergencia real ou simplificar
+manutencao. A decisao precisa ser registrada antes de mudar workflows.
+
+O check protegido continua sendo:
+
+```text
+All CI checks
+```
+
+## Relacao Com Release Desktop
+
+Docker nao substitui o build Windows.
+
+O instalador do Radar Escola continua dependendo de:
+
+- Tauri;
+- Rust/Cargo;
+- toolchain nativa Windows;
+- workflow `Desktop Release`;
+- validacao do app instalado no Windows.
 
 ## Frase De Referencia
 
 ```text
-Docker facilita o desenvolvimento, mas nunca faz parte da experiencia da pessoa
+Docker facilita o ambiente tecnico, mas nunca faz parte da experiencia da pessoa
 usuaria final.
 ```

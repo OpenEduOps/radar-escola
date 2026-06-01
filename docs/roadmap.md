@@ -118,6 +118,18 @@ Resumo:
 - validacao local de instalacao e abertura;
 - release por tag.
 
+## Iniciativa Transversal: Dockerizacao Do Ambiente Tecnico
+
+Status: planejada.
+
+Resumo:
+
+- manter Docker fora da experiencia final da escola;
+- criar primeiro uma validacao Node basica em container;
+- medir tempo de build, tamanho de imagem e impacto em disco;
+- decidir depois se Playwright, compose ou CI com Docker fazem sentido;
+- preservar `Desktop Release` como caminho de instalador Windows.
+
 ## Proximos Passos Imediatos
 
 - revisar os documentos adotados do template;

@@ -71,6 +71,24 @@ A CI devera evoluir para validar:
 O scaffold minimo atual valida a casca desktop e o pipeline de release sem
 fingir funcionalidade de MVP.
 
+## Docker E CI
+
+A CI atual nao depende de Docker.
+
+A dockerizacao do ambiente esta documentada como iniciativa de projeto em
+[`PROJETO_DOCKERIZACAO_AMBIENTE.md`](../PROJETO_DOCKERIZACAO_AMBIENTE.md).
+
+Direcao atual:
+
+- manter CI simples enquanto ela ja validar o scaffold com clareza;
+- usar Docker primeiro como apoio local de desenvolvimento e QA tecnico;
+- nao trocar workflows atuais por Docker sem evidencia de ganho;
+- nao usar Docker como substituto do workflow `Desktop Release`;
+- registrar qualquer mudanca de estrategia antes de exigir Docker em CI.
+
+Se Docker entrar na CI no futuro, ele deve continuar dentro do agregado
+`All CI checks` e preservar permissoes minimas.
+
 ## Teste E2E Do Playground
 
 O script abaixo valida o CRUD de referencia do playground em navegador real:

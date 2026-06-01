@@ -21,6 +21,9 @@ seguro para contribuidores.
 - `main` deve depender de `All CI checks`.
 - Workflows devem usar permissoes minimas.
 - CI central nao deve depender de servicos pagos ou credenciais privadas.
+- Docker nao deve virar requisito de CI sem decisao documentada e ganho claro.
+- Docker, quando existir, deve ser apoio tecnico opcional para dev/QA, nao
+  artefato de release.
 - Forks nao devem executar codigo em workflows `pull_request_target`.
 - O job `Agent name guard` deve permanecer dentro de `All CI checks`.
 - Auto-merge automatico e permitido apenas para PRs do usuario `Will-thom`,
@@ -38,6 +41,10 @@ seguro para contribuidores.
   local para Windows, nao como app web, PWA, site ou sistema em navegador.
 - Termos como React, Vite, frontend e navegador devem aparecer apenas em
   contexto tecnico de implementacao, desenvolvimento ou testes automatizados.
+- Docker e containers devem aparecer apenas como contexto tecnico de ambiente
+  de desenvolvimento, QA ou contribuicao OSS.
+- Documentacao publica nao deve sugerir Docker como instalador, distribuicao ou
+  modo de uso da escola.
 - Funcionalidades novas devem respeitar `REQUISITOS_V0.md` e `GUARDRAILS_V0.md`.
 
 ## Seguranca

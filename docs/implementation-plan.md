@@ -19,6 +19,8 @@ Ja existe:
 - CI com qualidade documental, higiene, `npm ci`, typecheck e build frontend;
 - workflow de release desktop gerando instalador tecnico do scaffold;
 - documentacao de CI/CD OSS.
+- documento de projeto para dockerizacao do ambiente tecnico, ainda sem
+  artefatos Docker executaveis.
 
 Ainda nao existe:
 
@@ -41,6 +43,8 @@ Ainda nao existe:
 - O scaffold nao deve fingir funcionalidade ainda nao implementada.
 - A V0 deve preservar simplicidade antes de crescer permissoes, notificacoes ou
   integracoes.
+- Docker pode apoiar desenvolvimento e QA tecnico, mas nao deve entrar como
+  requisito da pessoa usuaria final nem substituir o release Windows.
 
 ## Fase 1: Scaffold Executavel
 
@@ -217,3 +221,20 @@ Criterios de aceite:
 - historico e consultado;
 - exportacao/restauracao preserva dados;
 - testes automatizados e smoke manual documentado passam.
+
+## Iniciativa Transversal: Dockerizacao Do Ambiente
+
+Objetivo: reduzir divergencia tecnica entre ambientes de desenvolvimento sem
+alterar a experiencia final desktop local Windows.
+
+Estado: planejado.
+
+Criterios de aceite iniciais:
+
+- `.dockerignore` existe;
+- `Dockerfile.dev` usa Node 24 com tag explicita;
+- validacoes Node basicas rodam em container;
+- tamanho da imagem e tempo de build sao registrados;
+- guia operacional documenta comandos reais;
+- fluxo local sem Docker continua funcionando;
+- `Desktop Release` continua sendo o caminho do instalador Windows.

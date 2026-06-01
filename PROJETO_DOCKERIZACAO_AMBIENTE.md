@@ -28,6 +28,20 @@ Este documento nao deve substituir:
 - documentacao de CI;
 - documentacao de release desktop.
 
+## Documentos Relacionados
+
+- [`docs/development-docker.md`](docs/development-docker.md): guia operacional
+  futuro para comandos Docker reais.
+- [`docs/ci.md`](docs/ci.md): CI atual e decisao de nao depender de Docker por
+  padrao.
+- [`docs/oss-guardrails.md`](docs/oss-guardrails.md): limites publicos de
+  contribuicao e narrativa.
+- [`docs/desktop-release.md`](docs/desktop-release.md): fonte do caminho final
+  de instalador Windows.
+
+Este documento e a fonte de verdade da decisao de projeto sobre dockerizacao. O
+guia operacional deve obedecer a estes limites.
+
 ## Decisao De Projeto
 
 Docker deve ser tratado como ferramenta de apoio ao projeto, nao como parte da
@@ -113,6 +127,9 @@ O projeto ainda nao possui:
 - estrategia Docker validada para Playwright;
 - documentacao operacional final dos comandos Docker;
 - integracao formal da dockerizacao com a matriz de issues.
+
+Portanto, qualquer documentacao operacional deve evitar comandos Docker
+definitivos ate que eles sejam implementados e testados.
 
 ## Publicos Impactados
 
