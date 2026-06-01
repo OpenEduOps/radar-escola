@@ -1007,6 +1007,32 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: APP-002, DOM-013, PER-003.
 - Labels: `application`, `tests`, `ux`.
 
+### APP-015 Implementar consulta de auditoria
+
+- Tipo: `application`
+- Camada: `controller`
+- Fonte: UC-021, BT-001
+- Objetivo: permitir que a direcao consulte eventos sensiveis sem expor
+  segredos.
+- Escopo:
+  - validar direcao;
+  - listar eventos recentes;
+  - filtrar por tipo;
+  - filtrar por periodo simples;
+  - omitir qualquer dado sensivel.
+- Fora de escopo:
+  - dashboard analitico;
+  - edicao de eventos;
+  - exportacao especifica de auditoria fora do pacote de seguranca.
+- Criterios de aceite:
+  - direcao consulta eventos;
+  - apoio e usuario comum sao bloqueados;
+  - eventos aparecem em ordem recente;
+  - conteudo nao exibe senha, token, resposta ou hash sensivel.
+- Testes esperados: caso de uso e permissao.
+- Dependencias: PER-008, DOM-011, DOM-001.
+- Labels: `application`, `tests`, `security`.
+
 ## Issues de View
 
 ### VIEW-001 Criar tela de primeiro uso
@@ -1204,6 +1230,30 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: APP-014.
 - Labels: `frontend`, `ux`, `tests`.
 
+### VIEW-010 Criar tela simples de auditoria
+
+- Tipo: `view`
+- Camada: `view`
+- Fonte: UC-021, BT-001
+- Objetivo: exibir registro de acoes sensiveis apenas para direcao.
+- Escopo:
+  - lista de eventos recentes;
+  - estado vazio;
+  - filtros simples por tipo e periodo;
+  - bloqueio visual para perfis sem permissao;
+  - linguagem de gestao, nao tecnica.
+- Fora de escopo:
+  - graficos;
+  - exportacao propria;
+  - edicao ou remocao de evento.
+- Criterios de aceite:
+  - direcao entende o que aconteceu;
+  - apoio/usuario comum nao acessam;
+  - segredos nao aparecem na tela.
+- Testes esperados: interface.
+- Dependencias: APP-015.
+- Labels: `frontend`, `qa`, `security`.
+
 ## Issues de QA e Testes
 
 ### QA-001 Criar roteiro QA do fluxo minimo
@@ -1400,6 +1450,30 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - outro usuario precisa fazer logout/login proprio.
 - Testes esperados: unitario, interface e QA manual.
 - Dependencias: APP-014, VIEW-009, DOM-013.
+- Labels: `qa`, `tests`, `security`.
+
+### QA-010 Criar testes de consulta de auditoria
+
+- Tipo: `qa`
+- Camada: `qa`
+- Fonte: UC-021, APP-015, VIEW-010
+- Objetivo: validar acesso exclusivo da direcao ao registro de acoes sensiveis.
+- Escopo:
+  - consulta como direcao;
+  - bloqueio como apoio de gestao;
+  - bloqueio como usuario comum;
+  - ordenacao por data;
+  - filtro por tipo;
+  - ausencia de segredos na resposta e na tela.
+- Fora de escopo:
+  - auditoria WCAG completa;
+  - relatorio analitico.
+- Criterios de aceite:
+  - somente direcao consulta auditoria;
+  - eventos obrigatorios aparecem;
+  - nenhum segredo ou hash sensivel aparece em resumo.
+- Testes esperados: caso de uso, interface e checklist de conteudo.
+- Dependencias: APP-015, VIEW-010, PER-008.
 - Labels: `qa`, `tests`, `security`.
 
 ## Issues de Documentacao de Apoio
