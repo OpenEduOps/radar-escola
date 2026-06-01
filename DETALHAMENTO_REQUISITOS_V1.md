@@ -454,6 +454,7 @@ lembra nome/usuario e salvaguarda.
 ### Atores
 
 - Direcao.
+- Apoio de gestao.
 - Usuario comum.
 - Sistema.
 
@@ -508,6 +509,8 @@ lembra nome/usuario e salvaguarda.
 
 - Token valido permite redefinir senha.
 - Resposta valida permite redefinir senha.
+- Direcao, apoio de gestao e usuario comum podem recuperar a propria conta
+  quando a salvaguarda e valida.
 - Dados invalidos nao revelam informacoes sensiveis.
 
 ### Testes minimos

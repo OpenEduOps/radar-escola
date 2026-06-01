@@ -959,6 +959,8 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Criterios de aceite:
   - token valido permite nova senha;
   - resposta valida permite nova senha;
+  - direcao, apoio de gestao e usuario comum recuperam a propria conta quando
+    a salvaguarda e valida;
   - dados invalidos nao revelam se usuario existe;
   - nova senha nao pode ser `123456`;
   - senha redefinida fica armazenada apenas como hash.
