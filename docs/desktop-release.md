@@ -75,7 +75,7 @@ O scaffold atual contem:
 - CRUD playground master-detail como referencia tecnica;
 - icone Windows exigido pelo empacotamento Tauri;
 - capability Tauri `core:default` para a janela principal;
-- script de smoke check para localizar artefatos Windows;
+- script de smoke check para instalar, abrir e validar o menu nativo do app;
 - `package-lock.json` para dependencias npm reproduziveis.
 
 Ele nao contem regra de negocio, banco local ou fluxos de usuario. Isso e
@@ -105,14 +105,20 @@ para confiar que o instalador nao esta quebrado.
 Ele testa hoje:
 
 - instalador encontrado;
-
-Ele deve evoluir para testar tambem:
-
 - instalacao sem erro;
 - aplicativo abre sem crash imediato;
-- banco local e criado no local esperado;
-- aplicacao encerra corretamente;
+- janela principal e criada;
+- menu nativo `Playground > Iniciar playground` existe;
+- comando do menu nativo aciona o fluxo Playground;
+- aplicativo permanece aberto apos o comando;
 - desinstalacao ou limpeza do runner quando aplicavel.
+
+Ele deve evoluir, quando o MVP funcional existir, para testar tambem:
+
+- banco local criado no local esperado;
+- fluxo minimo de primeiro uso;
+- criacao e consulta de uma necessidade;
+- exportacao/restauracao de seguranca em ambiente controlado.
 
 O smoke test nao substitui teste de UX humano, mas reduz o risco de publicar um
 instalador que sequer abre.
@@ -170,8 +176,6 @@ Ainda nao e possivel entregar a experiencia completa de produto porque faltam:
 - registro e acompanhamento de necessidades;
 - exportacao/restauracao de seguranca;
 - `Cargo.lock` gerado por ambiente Rust valido;
-- teste automatizado na CI que instale e abra o app de forma verificavel no
-  Windows;
 - decisao futura sobre assinatura de codigo.
 
 Essas pendencias devem ser resolvidas neste repositorio quando o app Radar
