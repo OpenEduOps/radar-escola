@@ -4,7 +4,7 @@ Este documento define uma direcao inicial para CI/CD profissional no OpenEduOps.
 
 Ele usa `TEMPLATE_CI_REFERENCE.md`, do projeto local `pr-maven-cli`, como
 referencia de maturidade e postura de seguranca, mas adapta as decisoes para o
-contexto do OpenEduOps e do futuro produto Radar Escola.
+contexto do OpenEduOps e do produto Radar Escola.
 
 ## Objetivo
 
@@ -54,11 +54,14 @@ representa a V0 funcional para escola.
 
 ## Fase 0: Repositorio de organizacao
 
-Estado atual:
+Estado historico:
 
 - este repositorio contem documentacao, governanca e requisitos;
-- ainda nao contem o codigo do aplicativo Radar Escola;
 - a CI inicial deve proteger qualidade documental e consistencia basica.
+
+No repositorio atual do Radar Escola, essa fase ja foi ultrapassada: o codigo do
+scaffold existe, a CI roda checks de app e a release tecnica `v0.0.1` foi
+publicada.
 
 Workflows recomendados para a Fase 0:
 
@@ -149,7 +152,8 @@ Jobs esperados:
 - `SQLite/persistence tests`: testes de persistencia, migracoes e restauracao.
 - `Security-sensitive rules`: testes de hash de senha, primeiro acesso,
   auditoria, apoio de gestao, exportacao/restauracao e sessao.
-- `Build`: build do frontend e build Tauri quando o scaffold existir.
+- `Build`: build do frontend e build Tauri sempre que a camada nativa for
+  alterada ou a release desktop for executada.
 - `Smoke test`: iniciar o app ou validar fluxo minimo em ambiente de teste.
 - `All CI checks`: agregador estavel.
 
@@ -300,7 +304,7 @@ Permissoes especiais:
 - Nao executar codigo de fork em `pull_request_target`.
 - Nao bloquear merge por scanners ruidosos antes de haver capacidade de triagem.
 - Nao prometer release assinada, SBOM gate ou distribuicao em package manager
-  antes de existir produto empacotavel.
+  antes de existir maturidade operacional para manter esses compromissos.
 - Nao copiar comandos do `pr-maven-cli` quando forem especificos de outra stack.
 
 ## Checklist de aceite da CI/CD

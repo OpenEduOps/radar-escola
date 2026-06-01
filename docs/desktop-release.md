@@ -1,7 +1,7 @@
 # Release Desktop do Radar Escola
 
-Este documento define a esteira alvo de CI/CD ponta a ponta para o futuro app
-desktop do Radar Escola.
+Este documento define a esteira alvo de CI/CD ponta a ponta para o app desktop
+do Radar Escola.
 
 ## Objetivo Final
 
@@ -235,7 +235,7 @@ Validacao realizada para `v0.0.1`:
 - item nativo `Playground > Iniciar playground` foi acionado por comando Win32;
 - tela `Master detalhe` do playground apareceu no executavel instalado.
 
-Correcoes necessarias para chegar nesse estado:
+Correcoes aplicadas para chegar nesse estado:
 
 - adicionar `src-tauri/icons/icon.ico`;
 - configurar `base: "./"` no Vite para assets relativos no app empacotado;

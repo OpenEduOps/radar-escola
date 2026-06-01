@@ -33,6 +33,8 @@ seguro para contribuidores.
   quando os checks passarem.
 - O check `Review gate` deve permanecer protegido para garantir que PRs de
   terceiros nao sejam mergeados sem aprovacao humana.
+- Releases tecnicas, como `v0.0.1`, devem ser comunicadas como validacao de
+  scaffold/esteira quando ainda nao houver MVP funcional.
 
 ## Produto
 
@@ -46,6 +48,9 @@ seguro para contribuidores.
   de desenvolvimento, QA ou contribuicao OSS.
 - Documentacao publica nao deve sugerir Docker como instalador, distribuicao ou
   modo de uso da escola.
+- Release tecnica nao deve ser apresentada como produto pronto para escola.
+  Enquanto SQLite, login e fluxo real de necessidade nao existirem, a narrativa
+  correta e "instalador tecnico do scaffold".
 - Funcionalidades novas devem respeitar `REQUISITOS_V0.md` e `GUARDRAILS_V0.md`.
 
 ## Seguranca

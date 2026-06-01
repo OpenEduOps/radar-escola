@@ -32,9 +32,10 @@ linha de corte propria neste documento.
 | `QA` | Testes, QA funcional, seguranca, acessibilidade e regressao | 15 |
 | `DOC` | Documentacao de apoio para execucao e validacao | 2 |
 
-Observacao: este numero e uma base de planejamento. Antes de criar issues reais
-no GitHub, cada entrada ainda pode ser mantida, agrupada, dividida, renomeada ou
-descartada durante revisao.
+Observacao: este numero nasceu como base de planejamento e ja foi usado para
+cadastrar as issues reais no GitHub. Mudancas futuras devem preservar a
+rastreabilidade com as issues abertas ou registrar claramente quando uma issue
+for substituida, dividida, agrupada ou encerrada por decisao de produto.
 
 ## Convencoes
 
@@ -869,6 +870,9 @@ descartada durante revisao.
 - Fonte: `docs/desktop-release.md`, `docs/final-testable-delivery.md`
 - Objetivo: transformar a esteira de release em entrega baixavel quando o MVP
   estiver funcional.
+- Nota pos-`v0.0.1`: a release tecnica do scaffold ja publica instalador e
+  checksum. Esta issue continua existindo para validar a release funcional do
+  MVP, com SQLite, login e fluxo real de necessidade.
 - Escopo:
   - gerar instalador Windows;
   - publicar artefato em release versionada;
@@ -2103,7 +2107,11 @@ Algumas issues podem andar em paralelo:
 - QA pode criar roteiros antes da tela final;
 - dominio pode ser implementado antes de SQLite;
 - infraestrutura de hash e bootstrap precisa existir antes dos fluxos de acesso;
-- release desktop so deve avancar depois do smoke do fluxo minimo.
+- release funcional do MVP so deve avancar depois do smoke do fluxo minimo.
+
+Nota pos-`v0.0.1`: a esteira desktop tecnica ja avancou para validar scaffold,
+instalador, checksum, janela sem prompt, abertura maximizada e Playground. Isso
+nao substitui a release funcional planejada para o MVP.
 
 ## Regra Para Criar Issues Reais
 

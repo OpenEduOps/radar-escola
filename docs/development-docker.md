@@ -244,6 +244,10 @@ O instalador do Radar Escola continua dependendo de:
 - workflow `Desktop Release`;
 - validacao do app instalado no Windows.
 
+Na tag `v0.0.1`, esse caminho ja publicou um instalador tecnico com checksum.
+Docker nao participa desse empacotamento e nao deve ser apresentado como
+alternativa de instalacao.
+
 ## Frase De Referencia
 
 ```text

@@ -20,8 +20,13 @@ Criar uma ponte entre:
 - testes;
 - issues de implementacao e validacao.
 
-A meta nao e escrever codigo ainda. A meta e reduzir ambiguidade antes da
-implementacao.
+Na origem deste guia, a meta nao era escrever codigo ainda. A meta era reduzir
+ambiguidade antes da implementacao.
+
+Estado apos a tag `v0.0.1`: a especificacao, a matriz de issues e o scaffold
+tecnico ja existem. Este guia passa a servir como mapa de leitura para iniciar
+as issues fundacionais do MVP sem perder a rastreabilidade entre requisitos,
+dominio, persistencia, UI, QA e release.
 
 ## Por Que V1
 
@@ -196,6 +201,10 @@ Deve conter:
 ### 4. `MATRIZ_ISSUES_V1.md`
 
 Documento de planejamento para quebrar a especificacao em tarefas pequenas.
+
+Estado atual: a matriz V1 ja foi usada para cadastrar as 85 issues principais
+do MVP no GitHub. Ela deve continuar sendo revisada quando regras mudarem, mas
+nao deve ser recriada do zero sem decisao explicita.
 
 Deve conter:
 
@@ -394,7 +403,9 @@ Issues de infraestrutura:
 - inicializar banco local no diretorio do app;
 - conectar migrations ao bootstrap do aplicativo;
 - evoluir CI para testes automatizados;
-- validar release desktop e smoke tecnico.
+- manter release desktop e smoke tecnico do scaffold;
+- evoluir release desktop para smoke funcional do MVP quando SQLite, login e
+  fluxo de necessidade existirem.
 
 ### Application ou Controller
 
@@ -465,6 +476,14 @@ Cada issue deve ter:
 12. Abrir issues de view.
 13. Abrir issues de QA/testes.
 14. Abrir issues de release desktop depois do smoke do MVP.
+
+Estado atual dessa ordem:
+
+- passos 1 a 13 ja foram executados documentalmente;
+- a release tecnica `v0.0.1` validou scaffold, instalador, checksum e smoke
+  Windows;
+- o item 14 continua valendo para release funcional do MVP, nao para a release
+  tecnica do scaffold.
 
 ## Definicao de Pronto Para Implementar
 
