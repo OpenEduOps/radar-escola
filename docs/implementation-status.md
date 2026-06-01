@@ -67,6 +67,7 @@ Docker:
 
 - `PROJETO_DOCKERIZACAO_AMBIENTE.md` documenta a iniciativa de projeto;
 - `docs/development-docker.md` reserva o guia operacional futuro;
+- issues `DOCKER-001` a `DOCKER-009` foram cadastradas como trilha transversal;
 - `.dockerignore` ainda nao existe;
 - `Dockerfile.dev` ainda nao existe;
 - Docker ainda nao faz parte da CI.

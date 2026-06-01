@@ -526,31 +526,30 @@ voltar para estado experimental.
 
 A matriz atual do MVP permanece com 85 issues cadastradas e voltadas ao produto.
 
-As issues Docker descritas neste documento sao candidatas transversais. Elas nao
-alteram automaticamente o total da V1 e nao devem ser misturadas com requisitos
-funcionais do Radar Escola sem uma atualizacao explicita da matriz.
+As issues Docker descritas neste documento foram cadastradas como trilha
+transversal de engenharia. Elas nao alteram o total da V1 do MVP e nao devem ser
+misturadas com requisitos funcionais do Radar Escola.
 
-Se a dockerizacao entrar no backlog formal, ela deve ser registrada em uma
-secao separada, com prefixo `DOCKER`, dependencias claras e sem bloquear o fluxo
-normal do MVP. A validacao em CI deve ficar em uma issue final dependente das
-issues anteriores de dockerizacao.
+A trilha Docker deve permanecer em secao separada, com prefixo `DOCKER`,
+dependencias claras e sem bloquear o fluxo normal do MVP. A validacao em CI deve
+ficar em uma issue final dependente das issues anteriores de dockerizacao.
 
-## Quebra Inicial Sugerida Em Issues
+## Issues Cadastradas
 
-Esta quebra ainda nao cria issues. Ela serve para transformar o projeto em
-tarefas pequenas, revisaveis e com escopo controlado.
+Esta quebra transforma o projeto Docker em tarefas pequenas, revisaveis e com
+escopo controlado.
 
-| Issue sugerida | Objetivo | Dependencia |
+| Issue | Objetivo | Dependencia |
 | --- | --- | --- |
-| DOCKER-001 | Criar `.dockerignore` com exclusoes seguras | nenhuma |
-| DOCKER-002 | Criar `Dockerfile.dev` com Node 24 e tag explicita | DOCKER-001 |
-| DOCKER-003 | Documentar comandos minimos em `docs/development-docker.md` | DOCKER-002 |
-| DOCKER-004 | Validar instalacao, testes, typecheck e build no container | DOCKER-002 |
-| DOCKER-005 | Medir tempo, tamanho da imagem e impacto em disco | DOCKER-004 |
-| DOCKER-006 | Documentar limpeza segura limitada a recursos do projeto | DOCKER-005 |
-| DOCKER-007 | Decidir se E2E em Docker entra na fase seguinte | DOCKER-005 |
-| DOCKER-008 | Preparar validacao Docker em CI somente apos as bases estarem prontas | DOCKER-001 a DOCKER-007 |
-| DOCKER-009 | Atualizar matriz de issues se Docker entrar no backlog formal | DOCKER-008 |
+| [DOCKER-001](https://github.com/OpenEduOps/radar-escola/issues/89) | Criar `.dockerignore` com exclusoes seguras | nenhuma |
+| [DOCKER-002](https://github.com/OpenEduOps/radar-escola/issues/90) | Criar `Dockerfile.dev` com Node 24 e tag explicita | DOCKER-001 |
+| [DOCKER-003](https://github.com/OpenEduOps/radar-escola/issues/91) | Validar build local da imagem dev | DOCKER-002 |
+| [DOCKER-004](https://github.com/OpenEduOps/radar-escola/issues/92) | Validar testes, typecheck e build frontend no container | DOCKER-003 |
+| [DOCKER-005](https://github.com/OpenEduOps/radar-escola/issues/93) | Medir tempo, tamanho da imagem e impacto em disco | DOCKER-004 |
+| [DOCKER-006](https://github.com/OpenEduOps/radar-escola/issues/94) | Documentar comandos reais e limpeza segura | DOCKER-005 |
+| [DOCKER-007](https://github.com/OpenEduOps/radar-escola/issues/95) | Decidir estrategia E2E Playwright em Docker | DOCKER-005 |
+| [DOCKER-008](https://github.com/OpenEduOps/radar-escola/issues/96) | Validar guardrails da primeira entrega Docker | DOCKER-001 a DOCKER-007 |
+| [DOCKER-009](https://github.com/OpenEduOps/radar-escola/issues/97) | Avaliar validacao Docker em CI apos bases prontas | DOCKER-001 a DOCKER-008 |
 
 Cada issue deve manter a narrativa de que Docker e ambiente tecnico opcional, nao
 parte da experiencia final da escola.

@@ -16,6 +16,7 @@ Ja existem:
 - especificacao executavel V1;
 - matriz de regras de dominio e modelo relacional planejado;
 - matriz de issues V1 com 85 issues cadastradas no GitHub;
+- trilha transversal Docker com 9 issues cadastradas para ambiente tecnico;
 - app minimo Tauri + React + TypeScript;
 - playground CRUD master-detail para referencia tecnica;
 - testes unitarios do playground;
@@ -240,8 +241,8 @@ Para entender engenharia, CI e release:
 - [`REGRAS_DE_DOMINIO_V1.md`](REGRAS_DE_DOMINIO_V1.md): modelo relacional,
   dominios, tabelas, operacoes CRUD, queries e regras de integridade.
 - [`MATRIZ_ISSUES_V1.md`](MATRIZ_ISSUES_V1.md): planejamento de 85 issues
-  minimas e modulares, ja cadastradas no GitHub, por requisitos, dominio,
-  persistencia, application, view, QA e documentacao.
+  minimas e modulares do MVP, ja cadastradas no GitHub, e linha de corte
+  separada para issues Docker transversais.
 - [`PROJETO_DOCKERIZACAO_AMBIENTE.md`](PROJETO_DOCKERIZACAO_AMBIENTE.md):
   documento de projeto para dockerizar o ambiente tecnico sem alterar a
   experiencia final desktop local Windows.

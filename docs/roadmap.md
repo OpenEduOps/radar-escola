@@ -120,7 +120,7 @@ Resumo:
 
 ## Iniciativa Transversal: Dockerizacao Do Ambiente Tecnico
 
-Status: planejada.
+Status: planejada com issues cadastradas.
 
 Resumo:
 

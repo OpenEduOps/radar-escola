@@ -17,8 +17,9 @@ testes, QA de software, release desktop e documentacao de apoio.
 
 Observacao sobre Docker: a dockerizacao do ambiente tecnico esta documentada em
 `PROJETO_DOCKERIZACAO_AMBIENTE.md` como iniciativa transversal candidata. Ela
-nao altera o total de 85 issues da V1 ate que suas issues sejam explicitamente
-aprovadas, cadastradas e registradas nesta matriz.
+nao altera o total de 85 issues da V1 do MVP. As issues Docker foram
+cadastradas depois como uma trilha transversal de engenharia, registrada em
+linha de corte propria neste documento.
 
 | Grupo | Foco | Quantidade |
 | --- | --- | --- |
@@ -2209,3 +2210,20 @@ As issues abaixo foram cadastradas no GitHub a partir desta matriz.
 | QA-015 | https://github.com/OpenEduOps/radar-escola/issues/86 |
 | DOC-001 | https://github.com/OpenEduOps/radar-escola/issues/87 |
 | DOC-002 | https://github.com/OpenEduOps/radar-escola/issues/88 |
+
+## Linha De Corte: Issues Docker Cadastradas
+
+As issues abaixo foram cadastradas como trilha transversal de dockerizacao do
+ambiente tecnico. Elas nao alteram o total original de 85 issues do MVP.
+
+| ID | Issue GitHub |
+| --- | --- |
+| DOCKER-001 | https://github.com/OpenEduOps/radar-escola/issues/89 |
+| DOCKER-002 | https://github.com/OpenEduOps/radar-escola/issues/90 |
+| DOCKER-003 | https://github.com/OpenEduOps/radar-escola/issues/91 |
+| DOCKER-004 | https://github.com/OpenEduOps/radar-escola/issues/92 |
+| DOCKER-005 | https://github.com/OpenEduOps/radar-escola/issues/93 |
+| DOCKER-006 | https://github.com/OpenEduOps/radar-escola/issues/94 |
+| DOCKER-007 | https://github.com/OpenEduOps/radar-escola/issues/95 |
+| DOCKER-008 | https://github.com/OpenEduOps/radar-escola/issues/96 |
+| DOCKER-009 | https://github.com/OpenEduOps/radar-escola/issues/97 |

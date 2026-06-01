@@ -113,12 +113,13 @@ Nao adicionar comandos exemplares que ainda nao foram testados no repositorio.
 
 ## Relacao Com Issues
 
-As tarefas Docker ainda sao candidatas transversais.
+As tarefas Docker foram cadastradas como trilha transversal `DOCKER-001` a
+`DOCKER-009`.
 
-Elas devem ser pequenas, executaveis e independentes do uso final da escola. A
-validacao Docker em CI, se aprovada, deve ser uma etapa final dependente das
-issues de base: `.dockerignore`, `Dockerfile.dev`, validacao local, medicao de
-custo e documentacao operacional.
+Elas devem continuar pequenas, executaveis e independentes do uso final da
+escola. A validacao Docker em CI, se aprovada, deve ser uma etapa final
+dependente das issues de base: `.dockerignore`, `Dockerfile.dev`, validacao
+local, medicao de custo e documentacao operacional.
 
 Enquanto essas bases nao existirem, nenhuma documentacao deve sugerir que Docker
 ja e caminho oficial de validacao do projeto.
