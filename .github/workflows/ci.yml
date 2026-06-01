@@ -189,6 +189,8 @@ jobs:
   frontend-build:
     name: Frontend build
     runs-on: ubuntu-latest
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -205,8 +207,14 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Unit tests
+        run: npm test
+
       - name: Build frontend
         run: npm run build
+
+      - name: Playground E2E
+        run: npm run test:e2e
 
   all-checks:
     name: All CI checks

@@ -1,6 +1,8 @@
 # Frontend
 node_modules/
 dist/
+playwright-report/
+test-results/
 
 # Tauri/Rust
 src-tauri/target/

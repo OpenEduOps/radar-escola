@@ -13,7 +13,8 @@ Por isso, a CI atual valida:
 - presenca dos documentos centrais;
 - links internos;
 - higiene do repositorio;
-- typecheck e build do scaffold React/TypeScript;
+- typecheck, testes unitarios, E2E Playwright e build do scaffold
+  React/TypeScript;
 - postura minima de permissoes dos workflows.
 
 ## Check protegido
@@ -30,8 +31,8 @@ apenas esse nome para nao depender de nomes de matrix ou jobs auxiliares.
 ## Workflows
 
 - `.github/workflows/ci.yml`: valida documentacao e higiene do repositorio.
-  Tambem valida `npm ci`, `npm run typecheck` e `npm run build` para o scaffold
-  frontend.
+  Tambem valida `npm ci`, `npm run typecheck`, `npm test`,
+  `npm run build` e `npm run test:e2e` para o scaffold frontend.
 - `.github/workflows/security.yml`: valida postura de seguranca dos workflows e
   executa auditoria de dependencias de producao com `npm audit`.
 - `.github/workflows/owner-auto-merge.yml`: habilita auto-merge apenas para
@@ -69,6 +70,30 @@ A CI devera evoluir para validar:
 
 O scaffold minimo atual valida a casca desktop e o pipeline de release sem
 fingir funcionalidade de MVP.
+
+## Teste E2E Do Playground
+
+O script abaixo valida o CRUD de referencia do playground em navegador real:
+
+```text
+npm run test:e2e
+```
+
+Esse teste usa Playwright com o Chrome instalado no ambiente. Para evitar
+download pesado de browser durante instalacao de dependencias, a CI define:
+
+```text
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+```
+
+O teste cobre:
+
+- abertura do playground;
+- cadastro de status em `status_playground`;
+- cadastro de registro em `playground`;
+- edicao de registro;
+- exibicao de `codigo_status`;
+- exclusao de registro.
 
 ## Guarda De Metadados Publicos
 

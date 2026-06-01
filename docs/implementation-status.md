@@ -19,6 +19,7 @@ Comandos npm existentes:
 npm ci
 npm run dev
 npm test
+npm run test:e2e
 npm run typecheck
 npm run build
 npm run tauri -- --version
@@ -89,6 +90,7 @@ Validado por:
 ```text
 npm ci
 npm test
+npm run test:e2e
 npm run typecheck
 npm run build
 ```
@@ -117,12 +119,14 @@ Os testes ficam em:
 
 ```text
 tests/playgroundCrud.test.mjs
+e2e/playground-crud.spec.mjs
 ```
 
 Validado por:
 
 ```text
 npm test
+npm run test:e2e
 npm run typecheck
 npm run build
 ```
@@ -135,6 +139,8 @@ A CI valida:
 - documentos centrais;
 - links internos;
 - higiene do repositorio;
+- testes unitarios;
+- teste E2E Playwright do playground;
 - frontend build.
 
 ### Release Desktop
@@ -183,6 +189,8 @@ Verificacoes locais atualmente usadas:
 
 ```text
 npm ci
+npm test
+npm run test:e2e
 npm run typecheck
 npm run build
 ```
