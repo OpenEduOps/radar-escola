@@ -15,8 +15,9 @@ configurar escola, entrar, cadastrar pessoa, registrar necessidade, marcar
 envolvidos, atualizar andamento e marcar como resolvido.
 
 Esse fluxo ainda nao representa a V0 funcional completa, porque a persistencia
-definitiva SQLite, recuperacao local, auditoria persistida e
-exportacao/restauracao ainda nao foram implementadas.
+definitiva SQLite do dominio real, recuperacao local, auditoria persistida e
+exportacao/restauracao ainda nao foram implementadas. O playground de referencia
+ja possui persistencia SQLite local no runtime Tauri.
 
 Versao tecnica atual:
 
@@ -63,6 +64,7 @@ Frontend:
 - `src/app/app.css`;
 - `src/features/radar/RadarMvpFlow.tsx`;
 - `src/features/playground/PlaygroundMasterDetail.tsx`;
+- `src/features/playground/playgroundRepository.ts`;
 - `src/main.tsx`;
 - `index.html`;
 - `vite.config.ts`;
@@ -84,6 +86,7 @@ Desktop/Tauri:
 - `src-tauri/capabilities/default.json`;
 - `src-tauri/icons/icon.ico`;
 - `src-tauri/src/main.rs`;
+- `src-tauri/src/playground.rs`;
 - `src-tauri/tauri.conf.json`.
 
 Automacao:
@@ -144,7 +147,7 @@ npm run build
 
 O scaffold executavel contem um playground de referencia para desenvolvedores.
 
-O playground implementa, em estado local:
+O playground implementa, com persistencia SQLite local no desktop:
 
 - cadastro de status em `status_playground`;
 - cadastro de registros em `playground`;
@@ -154,16 +157,40 @@ O playground implementa, em estado local:
 - exclusao de registros;
 - relacao logica `playground.codigo_status -> status_playground.codigo_status`.
 
+No runtime Tauri, o schema real contem:
+
+```text
+status_playground(codigo_status, nome, created_at)
+playground(id, nome, descricao, codigo_status, created_at, updated_at)
+```
+
+O banco local e criado em `radar-escola.sqlite3` dentro da pasta de dados do app.
+No navegador de desenvolvimento, o repositorio usa `localStorage` como fallback
+para preservar o mesmo contrato assincrono nos testes E2E.
+
 As regras puras ficam em:
 
 ```text
 src/features/playground/playgroundCrud.ts
 ```
 
+O repositorio frontend fica em:
+
+```text
+src/features/playground/playgroundRepository.ts
+```
+
+Os comandos SQLite/Tauri ficam em:
+
+```text
+src-tauri/src/playground.rs
+```
+
 Os testes ficam em:
 
 ```text
 tests/playgroundCrud.test.mjs
+tests/playgroundRepository.test.mjs
 e2e/playground-crud.spec.mjs
 ```
 
@@ -232,6 +259,7 @@ A CI valida:
 - higiene do repositorio;
 - testes unitarios;
 - teste E2E Playwright do playground;
+- teste E2E Playwright de persistencia por reload no playground;
 - teste E2E Playwright do fluxo inicial do Radar;
 - frontend build;
 - validacao Docker dev adicional.
@@ -301,7 +329,7 @@ Validacao local realizada sobre o artefato baixado da release:
 
 Ainda nao foi implementado:
 
-- SQLite;
+- SQLite para o fluxo principal do Radar;
 - repositorios definitivos;
 - recuperacao local de acesso;
 - hashing forte no runtime nativo;
@@ -327,13 +355,14 @@ O projeto ja saiu da fase de apenas documentacao inicial. A fronteira atual e:
 - release tecnica `v0.0.1` publicada com instalador Windows e checksum;
 - instalador Windows tecnico gerado, instalado e validado via CI/smoke.
 
-A proxima etapa e endurecer essa fatia inicial com SQLite, repositorios,
-recuperacao local, auditoria e exportacao/restauracao, mantendo cada entrega
-pequena, testavel e rastreavel.
+A proxima etapa e levar para o fluxo principal do Radar o padrao validado no
+playground: schema SQLite, comandos Tauri, repositorios e testes de persistencia.
+Depois disso, seguem recuperacao local, auditoria e exportacao/restauracao,
+mantendo cada entrega pequena, testavel e rastreavel.
 
 ## Proximas Prioridades
 
-1. Implementar persistencia SQLite e bootstrap local.
+1. Implementar persistencia SQLite e bootstrap local do fluxo principal.
 2. Separar repositorios e casos de uso definitivos.
 3. Endurecer hashing e recuperacao local.
 4. Persistir auditoria minima das acoes sensiveis.

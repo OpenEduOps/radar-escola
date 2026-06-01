@@ -8,14 +8,14 @@ que o scaffold cresca de forma acidental e vire um bloco dificil de manter.
 ## Estado Atual
 
 A arquitetura ja possui um scaffold executavel Tauri + React + TypeScript,
-release tecnica `v0.0.1`, playground CRUD de referencia e uma primeira fatia
-funcional do Radar. Esse estado valida casca desktop, empacotamento Windows,
-menu nativo, teste E2E, separacao inicial de pastas e fluxo principal
-demonstravel.
+release tecnica `v0.0.1`, playground CRUD persistente de referencia e uma
+primeira fatia funcional do Radar. Esse estado valida casca desktop,
+empacotamento Windows, menu nativo, teste E2E, separacao inicial de pastas,
+SQLite local no playground e fluxo principal demonstravel.
 
-A arquitetura alvo do MVP ainda precisa implementar persistencia SQLite,
-repositorios definitivos, recuperacao local, auditoria persistida,
-exportacao/restauracao e guardrails de seguranca finais.
+A arquitetura alvo do MVP ainda precisa levar a persistencia SQLite ao fluxo
+principal do Radar, implementar repositorios definitivos, recuperacao local,
+auditoria persistida, exportacao/restauracao e guardrails de seguranca finais.
 
 ## Principios
 

@@ -157,9 +157,14 @@ O teste cobre:
 - abertura do playground;
 - cadastro de status em `status_playground`;
 - cadastro de registro em `playground`;
+- persistencia do registro ao recarregar a pagina no fallback web;
 - edicao de registro;
 - exibicao de `codigo_status`;
 - exclusao de registro.
+
+No desktop Tauri, o mesmo contrato de repositorio usa SQLite local por meio dos
+comandos nativos do playground. No E2E web, o fallback em `localStorage` permite
+validar a experiencia de reload sem exigir runtime Tauri no Playwright.
 
 ## Guarda De Metadados Publicos
 

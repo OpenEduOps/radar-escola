@@ -2,8 +2,9 @@
 
 Camada de experiencia por fluxo de usuario.
 
-Estado atual em `v0.0.1`: `src/features/playground` contem o CRUD master-detail
-de referencia do scaffold. As features reais da V0 ainda serao implementadas a
+Estado atual: `src/features/playground` contem o CRUD master-detail persistente
+de referencia do scaffold, e `src/features/radar` contem a primeira fatia
+funcional demonstravel do Radar. O fluxo principal ainda sera endurecido a
 partir das issues do MVP.
 
 Responsabilidades:
@@ -14,8 +15,9 @@ Responsabilidades:
 - formularios;
 - mensagens para a pessoa usuaria.
 
-As features podem chamar casos de uso da camada `application`, mas nao devem
-acessar SQLite ou Tauri diretamente.
+As features podem chamar casos de uso da camada `application` ou repositorios de
+infraestrutura. Elas nao devem espalhar SQL nem detalhes de Tauri diretamente na
+interface.
 
 Exemplos planejados para o MVP:
 

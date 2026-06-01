@@ -18,9 +18,9 @@ Ja existem:
 - matriz de issues V1 com 85 issues cadastradas no GitHub;
 - trilha transversal Docker com 9 issues concluidas para ambiente tecnico;
 - app minimo Tauri + React + TypeScript;
-- playground CRUD master-detail para referencia tecnica;
+- playground CRUD master-detail com persistencia SQLite local no desktop;
 - testes unitarios do playground;
-- teste E2E Playwright do playground;
+- teste E2E Playwright do playground, incluindo persistencia por reload;
 - CI em `main` com checks de documentacao, higiene, frontend, testes,
   validacao Docker dev e guardrail de metadados publicos;
 - workflow `Desktop Release` para gerar instalador Windows tecnico do
@@ -36,9 +36,10 @@ Ja existem:
 - imagem Docker dev validada para typecheck, testes unitarios e build frontend.
 
 O app atual ainda nao e o MVP funcional completo. Ele ja demonstra o fluxo
-principal do Radar, mas ainda usa armazenamento local do WebView como ponte
-tecnica enquanto SQLite, repositorios definitivos e hardening de seguranca nao
-sao implementados.
+principal do Radar, mas esse fluxo ainda usa armazenamento local do WebView como
+ponte tecnica enquanto SQLite, repositorios definitivos e hardening de seguranca
+nao sao implementados para o dominio real. O playground ja usa SQLite local no
+runtime Tauri como referencia tecnica.
 
 ## Direcao Do Produto
 
@@ -49,18 +50,18 @@ sao implementados.
 - Linguagem em Portugues Brasileiro.
 - Sem internet obrigatoria na V0.
 
-SQLite faz parte da arquitetura alvo, mas ainda nao foi implementado no fluxo
-principal atual.
+SQLite faz parte da arquitetura alvo. Ele ja foi implementado no playground de
+referencia e ainda precisa ser levado ao fluxo principal do Radar.
 
 Por isso, o fluxo atual deve ser lido como primeira fatia de produto
 demonstravel, e o playground continua como referencia tecnica de CRUD,
-master-detail, estado, regras puras e testes.
+master-detail, estado, regras puras, comandos Tauri, SQLite e testes.
 
 ## Fora Do MVP Implementado Hoje
 
 Ainda nao existem de forma definitiva no app:
 
-- banco SQLite local;
+- banco SQLite local para o fluxo principal do Radar;
 - repositorios de persistencia definitivos;
 - recuperacao local de acesso;
 - hashing forte no runtime nativo;
@@ -76,9 +77,11 @@ Evoluir o fluxo inicial para a arquitetura alvo, seguindo a ordem sugerida:
 REQ -> DOM -> PER -> ENG -> APP -> VIEW -> QA
 ```
 
-Na pratica, o proximo bloco tecnico deve substituir a persistencia demonstravel
-por SQLite, separar melhor casos de uso/repositorios e endurecer salvaguardas de
-acesso antes de expandir equipamentos, auditoria e exportacao/restauracao.
+Na pratica, o proximo bloco tecnico deve aplicar ao fluxo principal o padrao ja
+validado no playground: schema SQLite, comandos Tauri, repositorios e testes de
+persistencia. Depois disso, separar melhor casos de uso/repositorios e endurecer
+salvaguardas de acesso antes de expandir equipamentos, auditoria e
+exportacao/restauracao.
 
 A estrategia de o fundador tocar pessoalmente as issues fundacionais do MVP, sem
 fechar a entrada de colaboradores, esta registrada em
@@ -137,9 +140,10 @@ npm run typecheck
 npm run build
 ```
 
-Esses comandos validam regras puras do playground, regras iniciais do Radar,
-fluxo E2E do CRUD de referencia, fluxo E2E inicial do produto, TypeScript e
-build Vite.
+Esses comandos validam regras puras do playground, repositório persistente do
+playground no fallback web, regras iniciais do Radar, fluxo E2E do CRUD de
+referencia com persistencia por reload, fluxo E2E inicial do produto, TypeScript
+e build Vite.
 
 ## Docker Para Desenvolvimento
 
@@ -173,7 +177,7 @@ Mapa rapido:
 - `src/app`: composicao raiz da aplicacao;
 - `src/features`: telas e fluxos de usuario;
 - `src/features/radar`: primeiro fluxo utilizavel do Radar de Necessidades;
-- `src/features/playground`: CRUD de referencia do scaffold atual;
+- `src/features/playground`: CRUD persistente de referencia do scaffold atual;
 - `src/application`: casos de uso e orquestracao futura;
 - `src/domain`: entidades e regras puras por dominio;
 - `src/domain/radar`: dominio inicial demonstravel do fluxo principal;
@@ -181,7 +185,8 @@ Mapa rapido:
   futuro;
 - `src/shared`: UI e utilitarios reutilizaveis;
 - `src/testing`: fixtures e helpers de teste;
-- `src-tauri/src`: runtime nativo minimo do desktop.
+- `src-tauri/src`: runtime nativo minimo do desktop, incluindo comandos SQLite
+  do playground.
 
 Regra pratica: regra de negocio deve nascer testavel fora da interface, e tela
 nao deve acessar banco diretamente.
