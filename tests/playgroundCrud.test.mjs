@@ -4,6 +4,7 @@ import {
   createPlaygroundRecord,
   deletePlaygroundRecord,
   getStatusName,
+  isPlaygroundDraftComplete,
   registerStatusPlayground,
   updatePlaygroundRecord,
 } from "../src/features/playground/playgroundCrud.ts";
@@ -68,6 +69,41 @@ describe("playgroundCrud", () => {
     assert.equal(result.record.id, "PG-004");
     assert.equal(result.record.codigoStatus, "SP-002");
     assert.equal(result.records.length, 4);
+  });
+
+  it("identifica rascunhos incompletos antes de criar ou editar", () => {
+    assert.equal(
+      isPlaygroundDraftComplete({
+        nome: "  ",
+        descricao: "Descricao valida.",
+        codigoStatus: "SP-001",
+      }),
+      false,
+    );
+    assert.equal(
+      isPlaygroundDraftComplete({
+        nome: "Registro valido",
+        descricao: "  ",
+        codigoStatus: "SP-001",
+      }),
+      false,
+    );
+    assert.equal(
+      isPlaygroundDraftComplete({
+        nome: "Registro valido",
+        descricao: "Descricao valida.",
+        codigoStatus: "",
+      }),
+      false,
+    );
+    assert.equal(
+      isPlaygroundDraftComplete({
+        nome: "Registro valido",
+        descricao: "Descricao valida.",
+        codigoStatus: "SP-001",
+      }),
+      true,
+    );
   });
 
   it("gera codigo playground usando apenas ids validos do dominio", () => {

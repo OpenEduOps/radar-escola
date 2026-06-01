@@ -10,6 +10,7 @@ import {
   createPlaygroundRecord,
   deletePlaygroundRecord,
   getStatusName,
+  isPlaygroundDraftComplete,
   registerStatusPlayground,
   type PlaygroundDraft,
   updatePlaygroundRecord,
@@ -42,6 +43,10 @@ export function PlaygroundMasterDetail() {
   const [newStatusName, setNewStatusName] = useState("");
   const selectedRecord =
     records.find((record) => record.id === selectedId) ?? records[0] ?? null;
+  const isNewPlaygroundDraftComplete =
+    isPlaygroundDraftComplete(newPlaygroundDraft);
+  const isEditDraftComplete = draft ? isPlaygroundDraftComplete(draft) : false;
+  const isNewStatusNameComplete = Boolean(newStatusName.trim());
 
   function startEditing(record: PlaygroundRecord) {
     setSelectedId(record.id);
@@ -120,6 +125,10 @@ export function PlaygroundMasterDetail() {
 
   function saveDraft() {
     if (!draft || !editingId) {
+      return;
+    }
+
+    if (!isPlaygroundDraftComplete(draft)) {
       return;
     }
 
@@ -233,7 +242,11 @@ export function PlaygroundMasterDetail() {
               type="text"
               value={newStatusName}
             />
-            <button className="primary-action" type="submit">
+            <button
+              className="primary-action"
+              disabled={!isNewStatusNameComplete}
+              type="submit"
+            >
               Salvar status
             </button>
           </form>
@@ -305,7 +318,11 @@ export function PlaygroundMasterDetail() {
             >
               Cancelar
             </button>
-            <button className="primary-action" type="submit">
+            <button
+              className="primary-action"
+              disabled={!isNewPlaygroundDraftComplete}
+              type="submit"
+            >
               Salvar playground
             </button>
           </div>
@@ -438,7 +455,11 @@ export function PlaygroundMasterDetail() {
                     >
                       Cancelar
                     </button>
-                    <button className="primary-action" type="submit">
+                    <button
+                      className="primary-action"
+                      disabled={!isEditDraftComplete}
+                      type="submit"
+                    >
                       Salvar
                     </button>
                   </div>

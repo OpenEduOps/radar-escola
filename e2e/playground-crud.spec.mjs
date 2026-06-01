@@ -13,6 +13,14 @@ test("executa o CRUD do playground com status relacionado", async ({ page }) => 
   await expect(page.getByRole("columnheader", { name: "Acoes" })).toBeVisible();
 
   await page.getByRole("button", { name: "Cadastrar status" }).click();
+  const statusForm = page.locator("form.status-registration-form");
+  await expect(
+    statusForm.getByRole("button", { name: "Salvar status" }),
+  ).toBeDisabled();
+  await page.getByLabel("Nome do status").fill("   ");
+  await expect(
+    statusForm.getByRole("button", { name: "Salvar status" }),
+  ).toBeDisabled();
   await page.getByLabel("Nome do status").fill("Status temporario");
   await page.getByRole("button", { name: "Cadastrar playground" }).click();
   await expect(page.locator("form.status-registration-form")).toHaveCount(0);
@@ -50,6 +58,14 @@ test("executa o CRUD do playground com status relacionado", async ({ page }) => 
 
   await page.getByRole("button", { name: "Cadastrar playground" }).click();
   const createForm = page.locator("form.playground-create-form");
+  await expect(
+    createForm.getByRole("button", { name: "Salvar playground" }),
+  ).toBeDisabled();
+  await createForm.getByLabel("Nome").fill("   ");
+  await createForm.getByLabel("Descricao").fill("   ");
+  await expect(
+    createForm.getByRole("button", { name: "Salvar playground" }),
+  ).toBeDisabled();
   await createForm.getByLabel("Nome").fill("Registro E2E");
   await createForm
     .getByLabel("Descricao")
@@ -65,6 +81,8 @@ test("executa o CRUD do playground com status relacionado", async ({ page }) => 
 
   await createdRow.getByRole("button", { name: "Editar" }).click();
   const editForm = page.locator("article.detail-panel form.detail-form");
+  await editForm.getByLabel("Nome").fill("   ");
+  await expect(editForm.getByRole("button", { name: "Salvar" })).toBeDisabled();
   await editForm.getByLabel("Nome").fill("Registro E2E editado");
   await editForm
     .getByLabel("Descricao")

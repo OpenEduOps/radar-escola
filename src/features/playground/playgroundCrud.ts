@@ -108,6 +108,12 @@ export function createPlaygroundRecord(
   };
 }
 
+export function isPlaygroundDraftComplete(draft: PlaygroundDraft) {
+  return Boolean(
+    draft.nome.trim() && draft.descricao.trim() && draft.codigoStatus,
+  );
+}
+
 export function updatePlaygroundRecord(
   records: PlaygroundRecord[],
   id: string,
