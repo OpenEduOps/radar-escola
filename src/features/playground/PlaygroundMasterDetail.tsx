@@ -195,9 +195,7 @@ export function PlaygroundMasterDetail() {
                 type="button"
               >
                 <span>{record.nome}</span>
-                <small>
-                  {record.id} - {getStatusName(record.codigoStatus)}
-                </small>
+                <small>{getStatusName(record.codigoStatus)}</small>
               </button>
               <div className="row-actions" aria-label={`Acoes de ${record.nome}`}>
                 <button
