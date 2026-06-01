@@ -859,3 +859,175 @@ Estados:
 - Sem resultado: mostrar estado vazio e limpar filtro.
 - Usuario comum consulta historico, mas nao consulta auditoria administrativa.
 - Historico nao mostra senha, token, resposta ou hash.
+
+## Gestao De Pessoas
+
+### Cadastrar Cargo Ou Funcao
+
+Objetivo: permitir que direcao ou apoio organize pessoas por papel operacional
+sem transformar cargo em permissao automatica.
+
+Permissao:
+
+- [D] e [A] cadastram cargo ou funcao.
+- [U] nao cadastra cargo ou funcao.
+- [S] cargo/função nao concede permissao por si so.
+
+```text
++------------------------------------------------------------+
+| Cargos e funcoes                                   [Voltar] |
++------------------------------------------------------------+
+| Use cargos para organizar pessoas.                         |
+| Permissoes especiais dependem de direcao ou apoio.         |
++------------------------------------------------------------+
+|                                                            |
+| Novo cargo ou funcao                                       |
+| [ Coordenacao pedagogica _____________________________ ]   |
+|                                                            |
+| [ Cadastrar ]                                              |
+|                                                            |
+| Cargos ativos                                              |
+| ---------------------------------------------------------- |
+| Direcao                                                    |
+| Coordenacao pedagogica                                     |
+| Secretaria                                                 |
+| Professor(a)                                               |
+| Tecnico(a)                                                 |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Nome vazio: bloquear.
+- Nome duplicado: bloquear.
+- Cargo usado por pessoa nao deve ser apagado fisicamente na V1.
+- Cadastro dentro do fluxo de pessoa deve voltar com cargo selecionado.
+
+### Cadastrar Pessoa
+
+Objetivo: cadastrar pessoas que poderao entrar no sistema, acompanhar
+necessidades e serem marcadas como envolvidas.
+
+Permissao:
+
+- [D] e [A] cadastram pessoas.
+- [U] nao cadastra pessoas.
+- [S] senha inicial sempre temporaria: `123456`.
+
+```text
++------------------------------------------------------------+
+| Cadastrar pessoa                                   [Voltar] |
++------------------------------------------------------------+
+| A pessoa usara a senha inicial 123456 apenas uma vez.      |
+| No primeiro acesso ela deve trocar senha e criar salvaguarda.|
++------------------------------------------------------------+
+|                                                            |
+| Nome                                                       |
+| [ Joao Pereira _______________________________________ ]   |
+|                                                            |
+| Cargo ou funcao                                            |
+| [ Tecnico(a) _____________________________ ] [ Novo cargo ]|
+|                                                            |
+| Usuario de entrada                                         |
+| [ joao.pereira _______________________________________ ]   |
+|                                                            |
+| Observacao operacional opcional                            |
+| [ Atua no laboratorio e manutencao simples ___________ ]   |
+|                                                            |
+| [ Criar pessoa com senha inicial 123456 ]                  |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Nome vazio: bloquear.
+- Cargo vazio: orientar cadastrar cargo ou selecionar existente.
+- Usuario vazio ou duplicado: bloquear.
+- Pessoa criada fica com troca obrigatoria de senha no primeiro acesso.
+- Direcao/apoio nao define senha final, token, frase nem resposta da pessoa.
+
+### Definir Apoio De Gestao
+
+Objetivo: permitir que a direcao delegue parte da rotina operacional para ate
+duas pessoas de confianca.
+
+Permissao:
+
+- [D] define ou remove apoio de gestao.
+- [A] nao define outro apoio.
+- [U] nao define apoio.
+- [S] apoio nao exporta, nao restaura, nao consulta auditoria e nao transfere
+  direcao.
+
+```text
++------------------------------------------------------------+
+| Apoio de gestao                                    [Voltar] |
++------------------------------------------------------------+
+| A direcao pode escolher ate 2 pessoas como apoio.           |
+| Apoio ajuda a cadastrar pessoas, corrigir e resolver casos. |
++------------------------------------------------------------+
+|                                                            |
+| Apoios atuais                                              |
+| ---------------------------------------------------------- |
+| 1. Marta Souza - Coordenacao pedagogica       [ Remover ]  |
+| 2. Joao Pereira - Tecnico(a)                  [ Remover ]  |
+|                                                            |
+| Limite atingido: 2 de 2                                    |
+|                                                            |
+| Buscar pessoa para delegar                                 |
+| [ nome, usuario, cargo ou funcao _____________________ ]   |
+|                                                            |
+| Resultado                                                  |
+| Ana Costa - Secretaria                        [ Bloqueado ]|
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Menos de 2 apoios: permitir adicionar pessoa ativa.
+- Ja existem 2 apoios: bloquear novo apoio ate remover um atual.
+- Apoio tenta acessar: bloquear com mensagem simples.
+- Pessoa inativa nao pode virar apoio.
+
+### Redefinir Senha De Usuario Comum
+
+Objetivo: permitir que direcao ajude quando usuario comum perdeu senha e
+salvaguarda, sem expor segredos pessoais.
+
+Permissao:
+
+- [D] redefine senha de usuario comum para `123456`.
+- [A] nao redefine senha.
+- [U] nao redefine senha.
+- [S] reset nao mostra senha antiga, token, frase, resposta nem hash.
+
+```text
++------------------------------------------------------------+
+| Redefinir senha                                    [Voltar] |
++------------------------------------------------------------+
+| Use apenas quando a pessoa perdeu senha e salvaguarda.      |
+| A senha voltara para 123456 e exigira novo primeiro acesso. |
++------------------------------------------------------------+
+|                                                            |
+| Pessoa                                                     |
+| Joao Pereira - Tecnico(a)                                  |
+| Usuario: joao.pereira                                      |
+|                                                            |
+| Confirmacao                                                |
+| [ ] Entendo que a pessoa tera de entrar novamente com      |
+|     123456 e criar nova senha e salvaguarda.               |
+|                                                            |
+| [ Redefinir para 123456 ]                                  |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Sem confirmacao: bloquear.
+- Diretor atual nao deve resetar a propria senha por este fluxo.
+- Usuario redefinido fica obrigado a trocar senha antes de usar o Radar.
+- Reset gera auditoria `PASSWORD_RESET` sem expor conteudo sensivel.
