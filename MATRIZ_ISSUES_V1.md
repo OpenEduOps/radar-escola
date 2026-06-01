@@ -858,6 +858,33 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: PER-009, PER-010, PER-008.
 - Labels: `application`, `persistence`, `tests`.
 
+### APP-012 Implementar recuperacao local de acesso
+
+- Tipo: `application`
+- Camada: `controller`
+- Fonte: UC-004, BT-003
+- Objetivo: permitir redefinicao de senha por salvaguarda local sem internet.
+- Escopo:
+  - receber usuario ou nome;
+  - carregar salvaguarda disponivel;
+  - validar token ou resposta da frase;
+  - permitir nova senha quando salvaguarda for valida;
+  - salvar nova senha como hash;
+  - registrar evento sensivel quando aplicavel.
+- Fora de escopo:
+  - recuperacao por e-mail;
+  - suporte remoto;
+  - exibir token antigo.
+- Criterios de aceite:
+  - token valido permite nova senha;
+  - resposta valida permite nova senha;
+  - dados invalidos nao revelam se usuario existe;
+  - nova senha nao pode ser `123456`;
+  - senha redefinida fica armazenada apenas como hash.
+- Testes esperados: caso de uso e seguranca.
+- Dependencias: PER-003, PER-004, PER-008, DOM-004.
+- Labels: `application`, `tests`, `security`.
+
 ## Issues de View
 
 ### VIEW-001 Criar tela de primeiro uso
@@ -1005,6 +1032,30 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: APP-011.
 - Labels: `frontend`, `qa`.
 
+### VIEW-008 Criar tela de recuperacao de acesso
+
+- Tipo: `view`
+- Camada: `view`
+- Fonte: UC-004
+- Objetivo: permitir recuperacao local com linguagem simples e segura.
+- Escopo:
+  - entrada de usuario ou nome;
+  - escolha entre token ou frase quando disponivel;
+  - campo de nova senha;
+  - mensagens genericas para falha;
+  - orientacao para procurar direcao quando usuario comum perder salvaguarda.
+- Fora de escopo:
+  - e-mail;
+  - WhatsApp;
+  - exibicao de token antigo.
+- Criterios de aceite:
+  - mensagens nao revelam existencia de conta;
+  - usuario entende proximo passo quando falha;
+  - nova senha segue regras do primeiro acesso.
+- Testes esperados: interface.
+- Dependencias: APP-012.
+- Labels: `frontend`, `ux`, `tests`.
+
 ## Issues de QA e Testes
 
 ### QA-001 Criar roteiro QA do fluxo minimo
@@ -1131,6 +1182,30 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Testes esperados: integracao/manual.
 - Dependencias: APP-011.
 - Labels: `qa`, `tests`, `persistence`.
+
+### QA-007 Criar testes de recuperacao local de acesso
+
+- Tipo: `qa`
+- Camada: `qa`
+- Fonte: UC-004, APP-012, VIEW-008
+- Objetivo: validar recuperacao sem internet e sem vazamento de informacao.
+- Escopo:
+  - recuperacao por token;
+  - recuperacao por resposta da frase;
+  - usuario inexistente;
+  - salvaguarda invalida;
+  - nova senha invalida;
+  - ausencia de senha clara no banco.
+- Fora de escopo:
+  - recuperacao por e-mail;
+  - procedimento tecnico para direcao que perdeu tudo.
+- Criterios de aceite:
+  - cenarios positivos redefinem senha;
+  - cenarios negativos nao revelam dados sensiveis;
+  - testes usam dados ficticios.
+- Testes esperados: caso de uso, interface e persistencia focada.
+- Dependencias: APP-012, VIEW-008, PER-004.
+- Labels: `qa`, `tests`, `security`.
 
 ## Issues de Documentacao de Apoio
 
