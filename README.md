@@ -106,6 +106,25 @@ No ambiente local usado ate aqui, Rust/Cargo e Visual Studio Build Tools/MSVC
 nao estavam instalados. Por isso, o instalador Windows foi gerado e validado
 pelo workflow `Desktop Release` no GitHub Actions.
 
+## Executavel Windows Validado
+
+O workflow `Desktop Release` ja gerou um instalador tecnico do scaffold atual.
+
+Validacoes realizadas sobre o artefato:
+
+- workflow concluido com sucesso;
+- instalador `.exe` e arquivo `.sha256` gerados;
+- SHA-256 conferido localmente;
+- instalacao silenciosa concluida com codigo `0`;
+- executavel instalado abriu sem crash imediato;
+- tela inicial renderizou no app instalado;
+- menu nativo `Playground > Iniciar playground` foi acionado;
+- tela `Master detalhe` do playground apareceu no executavel instalado;
+- smoke Windows da CI tambem aciona o menu nativo do Playground.
+
+O artefato atual e uma validacao tecnica do scaffold. Ele ainda nao deve ser
+tratado como release funcional para escola.
+
 ## Documentacao
 
 - [`CONTEXTO_INICIAL.md`](CONTEXTO_INICIAL.md): contexto educacional, decisao
@@ -137,9 +156,9 @@ pelo workflow `Desktop Release` no GitHub Actions.
   privacidade, acessibilidade, exportacao/restauracao e testes.
 - [`REGRAS_DE_DOMINIO_V1.md`](REGRAS_DE_DOMINIO_V1.md): modelo relacional,
   dominios, tabelas, operacoes CRUD, queries e regras de integridade.
-- [`MATRIZ_ISSUES_V1.md`](MATRIZ_ISSUES_V1.md): planejamento de issues
-  minimas e modulares por requisitos, dominio, persistencia, application, view,
-  QA e documentacao.
+- [`MATRIZ_ISSUES_V1.md`](MATRIZ_ISSUES_V1.md): planejamento de 85 issues
+  minimas e modulares, ja cadastradas no GitHub, por requisitos, dominio,
+  persistencia, application, view, QA e documentacao.
 - [`CI_CD_OSS.md`](CI_CD_OSS.md): estrategia de CI/CD OSS para o produto.
 - [`docs/project-context.md`](docs/project-context.md): contexto duravel do
   projeto.
