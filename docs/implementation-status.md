@@ -67,7 +67,8 @@ Docker:
 
 - `PROJETO_DOCKERIZACAO_AMBIENTE.md` documenta a iniciativa de projeto;
 - `docs/development-docker.md` registra o guia operacional;
-- issues `DOCKER-001` a `DOCKER-009` foram cadastradas como trilha transversal;
+- issues `DOCKER-001` a `DOCKER-009` foram cadastradas e concluidas como trilha
+  transversal;
 - `.dockerignore` existe;
 - `Dockerfile.dev` existe;
 - imagem `radar-escola-dev:local` foi validada localmente;

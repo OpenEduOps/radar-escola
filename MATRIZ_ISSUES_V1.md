@@ -2211,21 +2211,28 @@ As issues abaixo foram cadastradas no GitHub a partir desta matriz.
 | DOC-001 | https://github.com/OpenEduOps/radar-escola/issues/87 |
 | DOC-002 | https://github.com/OpenEduOps/radar-escola/issues/88 |
 
-## Linha De Corte: Issues Docker Cadastradas
+## Linha De Corte: Issues Docker Concluidas
 
-As issues abaixo foram cadastradas como trilha transversal de dockerizacao do
-ambiente tecnico. Elas nao alteram o total original de 85 issues do MVP.
+As issues abaixo foram cadastradas e concluidas como trilha transversal de
+dockerizacao do ambiente tecnico. Elas nao alteram o total original de 85 issues
+do MVP.
 `DOCKER-009` deve ser tratada como gate final: ela so avanca depois que
 `DOCKER-001` a `DOCKER-008` estiverem resolvidas.
 
-| ID | Issue GitHub |
-| --- | --- |
-| DOCKER-001 | https://github.com/OpenEduOps/radar-escola/issues/89 |
-| DOCKER-002 | https://github.com/OpenEduOps/radar-escola/issues/90 |
-| DOCKER-003 | https://github.com/OpenEduOps/radar-escola/issues/91 |
-| DOCKER-004 | https://github.com/OpenEduOps/radar-escola/issues/92 |
-| DOCKER-005 | https://github.com/OpenEduOps/radar-escola/issues/93 |
-| DOCKER-006 | https://github.com/OpenEduOps/radar-escola/issues/94 |
-| DOCKER-007 | https://github.com/OpenEduOps/radar-escola/issues/95 |
-| DOCKER-008 | https://github.com/OpenEduOps/radar-escola/issues/96 |
-| DOCKER-009 | https://github.com/OpenEduOps/radar-escola/issues/97 |
+| ID | Issue GitHub | Status |
+| --- | --- | --- |
+| DOCKER-001 | https://github.com/OpenEduOps/radar-escola/issues/89 | Concluida |
+| DOCKER-002 | https://github.com/OpenEduOps/radar-escola/issues/90 | Concluida |
+| DOCKER-003 | https://github.com/OpenEduOps/radar-escola/issues/91 | Concluida |
+| DOCKER-004 | https://github.com/OpenEduOps/radar-escola/issues/92 | Concluida |
+| DOCKER-005 | https://github.com/OpenEduOps/radar-escola/issues/93 | Concluida |
+| DOCKER-006 | https://github.com/OpenEduOps/radar-escola/issues/94 | Concluida |
+| DOCKER-007 | https://github.com/OpenEduOps/radar-escola/issues/95 | Concluida |
+| DOCKER-008 | https://github.com/OpenEduOps/radar-escola/issues/96 | Concluida |
+| DOCKER-009 | https://github.com/OpenEduOps/radar-escola/issues/97 | Concluida |
+
+Validacao de fechamento:
+
+- commit final da trilha: `ca3bd406248781271410037d69bd55423e756097`;
+- CI: https://github.com/OpenEduOps/radar-escola/actions/runs/26772250073;
+- `Docker dev validation`, `All CI checks` e `Security` concluiram com sucesso.
