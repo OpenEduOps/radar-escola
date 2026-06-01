@@ -247,6 +247,7 @@ Campos propostos:
 | `recovery_question` | TEXT | Sim | Frase/pergunta visivel ao dono |
 | `recovery_answer_hash` | TEXT | Sim | Resposta protegida |
 | `token_was_shown` | INTEGER | Sim | Deve ficar 1 apos exibicao |
+| `invalidated_at` | TEXT | Nao | Preenchido quando salvaguarda deixa de valer |
 | `created_at` | TEXT | Sim | ISO datetime |
 | `updated_at` | TEXT | Sim | ISO datetime |
 
@@ -259,18 +260,21 @@ Constraints:
 - `token_hash` e `recovery_answer_hash` devem usar Argon2id no lado Tauri/Rust,
   com salt aleatorio por segredo;
 - token nao deve ser regenerado.
+- deve existir no maximo uma salvaguarda ativa por conta;
+- salvaguarda com `invalidated_at` preenchido nao pode recuperar acesso.
 
 Operacoes:
 
 - Insert: criar salvaguarda no primeiro uso/primeiro acesso.
-- Update: atualizar frase/resposta apos fluxo autenticado, se permitido.
+- Update: atualizar frase/resposta apos fluxo autenticado, se permitido;
+  invalidar salvaguarda anterior apos reset administrativo.
 - Delete: proibido na V1.
 
 Queries:
 
-- `getRecoveryByAccount(accountId)`;
-- `validateRecoveryToken(accountId, token)`;
-- `validateRecoveryAnswer(accountId, answer)`.
+- `getActiveRecoveryByAccount(accountId)`;
+- `validateActiveRecoveryToken(accountId, token)`;
+- `validateActiveRecoveryAnswer(accountId, answer)`.
 
 Eventos de auditoria:
 
@@ -701,7 +705,8 @@ Legenda:
 - C: criar;
 - R: consultar;
 - U: atualizar;
-- reset: redefinir senha de usuario comum para `123456`.
+- reset: direcao redefine senha de pessoa cadastrada que nao seja a direcao
+  atual para `123456`.
 
 ## Regras de status de necessidade
 

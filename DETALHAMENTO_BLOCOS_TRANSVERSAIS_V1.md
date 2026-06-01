@@ -228,14 +228,15 @@ provedor externo.
   administrativo.
 - Primeiro acesso deve ser privado.
 - Reset administrativo recoloca conta em primeiro acesso.
+- Reset administrativo invalida salvaguarda anterior da conta redefinida.
 
 ### Fluxos de excecao
 
 - Usuario tenta manter `123456` como senha final:
   - bloquear;
   - explicar que e senha temporaria.
-- Usuario perde senha e salvaguarda:
-  - usuario comum deve procurar direcao;
+- Pessoa perde senha e salvaguarda:
+  - pessoa que nao seja a direcao atual deve procurar direcao;
   - direcao pode perder acesso se tambem perder salvaguarda.
 - Direcao tenta ver token de pessoa cadastrada:
   - bloquear; o sistema nunca deve ter tela para isso.
@@ -262,6 +263,7 @@ provedor externo.
 - Hash/protecao da resposta.
 - Bloqueio de `123456` como senha final.
 - Reset administrativo.
+- Invalidacao da salvaguarda anterior apos reset administrativo.
 - Token exibido uma unica vez.
 
 ### Tarefas minimas e modulares candidatas
