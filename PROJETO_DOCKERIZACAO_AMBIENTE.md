@@ -116,7 +116,8 @@ O projeto ja possui:
 - teste E2E Playwright do playground;
 - CI com instalacao, typecheck, testes, build frontend e E2E;
 - workflow `Desktop Release` para instalador Windows tecnico;
-- guia conceitual em [`docs/development-docker.md`](docs/development-docker.md).
+- guia operacional futuro em
+  [`docs/development-docker.md`](docs/development-docker.md).
 
 O projeto ainda nao possui:
 
@@ -166,7 +167,8 @@ desktop local.
   maquina Windows com toolchain nativa.
 - Nenhum secret, cache pesado ou artefato gerado deve ser versionado.
 - Dependencias instaladas no container nao devem poluir a maquina local.
-- O plano deve considerar espaco em disco como restricao real de uso.
+- A decisao de projeto deve considerar espaco em disco como restricao real de
+  uso.
 - A documentacao publica deve continuar centrada em desktop local Windows.
 - Docker deve ser reversivel: se a experiencia piorar, o projeto deve conseguir
   voltar ao fluxo local sem perda de caminho tecnico.
@@ -267,7 +269,8 @@ Docker nao substitui:
 - avaliacao de uso ou nao de `docker-compose.yml`;
 - integracao futura com testes SQLite;
 - decisao sobre uso de Docker em CI;
-- atualizacao da matriz de issues se a iniciativa entrar no backlog formal.
+- atualizacao explicita da matriz de issues se a iniciativa entrar no backlog
+  formal.
 
 ## Fases Do Projeto
 
@@ -519,6 +522,19 @@ Se isso acontecer, o projeto deve preservar comandos locais e CI como caminho
 principal. A dockerizacao pode permanecer apenas como registro historico ou
 voltar para estado experimental.
 
+## Relacao Com A Matriz De Issues V1
+
+A matriz atual do MVP permanece com 85 issues cadastradas e voltadas ao produto.
+
+As issues Docker descritas neste documento sao candidatas transversais. Elas nao
+alteram automaticamente o total da V1 e nao devem ser misturadas com requisitos
+funcionais do Radar Escola sem uma atualizacao explicita da matriz.
+
+Se a dockerizacao entrar no backlog formal, ela deve ser registrada em uma
+secao separada, com prefixo `DOCKER`, dependencias claras e sem bloquear o fluxo
+normal do MVP. A validacao em CI deve ficar em uma issue final dependente das
+issues anteriores de dockerizacao.
+
 ## Quebra Inicial Sugerida Em Issues
 
 Esta quebra ainda nao cria issues. Ela serve para transformar o projeto em
@@ -533,7 +549,8 @@ tarefas pequenas, revisaveis e com escopo controlado.
 | DOCKER-005 | Medir tempo, tamanho da imagem e impacto em disco | DOCKER-004 |
 | DOCKER-006 | Documentar limpeza segura limitada a recursos do projeto | DOCKER-005 |
 | DOCKER-007 | Decidir se E2E em Docker entra na fase seguinte | DOCKER-005 |
-| DOCKER-008 | Atualizar matriz de issues se Docker entrar no backlog formal | DOCKER-007 |
+| DOCKER-008 | Preparar validacao Docker em CI somente apos as bases estarem prontas | DOCKER-001 a DOCKER-007 |
+| DOCKER-009 | Atualizar matriz de issues se Docker entrar no backlog formal | DOCKER-008 |
 
 Cada issue deve manter a narrativa de que Docker e ambiente tecnico opcional, nao
 parte da experiencia final da escola.

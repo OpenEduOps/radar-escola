@@ -86,6 +86,11 @@ Direcao atual:
 - nao usar Docker como substituto do workflow `Desktop Release`;
 - registrar qualquer mudanca de estrategia antes de exigir Docker em CI.
 
+Qualquer validacao Docker em CI deve ser tratada como etapa final da iniciativa,
+dependente das issues de base de dockerizacao. Nao deve haver job Docker
+protegido antes de existir imagem local validada, medicao de custo e
+documentacao operacional com comandos reais.
+
 Se Docker entrar na CI no futuro, ele deve continuar dentro do agregado
 `All CI checks` e preservar permissoes minimas.
 

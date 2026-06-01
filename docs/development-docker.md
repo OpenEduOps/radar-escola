@@ -111,6 +111,18 @@ Quando existirem, os comandos devem deixar claro:
 
 Nao adicionar comandos exemplares que ainda nao foram testados no repositorio.
 
+## Relacao Com Issues
+
+As tarefas Docker ainda sao candidatas transversais.
+
+Elas devem ser pequenas, executaveis e independentes do uso final da escola. A
+validacao Docker em CI, se aprovada, deve ser uma etapa final dependente das
+issues de base: `.dockerignore`, `Dockerfile.dev`, validacao local, medicao de
+custo e documentacao operacional.
+
+Enquanto essas bases nao existirem, nenhuma documentacao deve sugerir que Docker
+ja e caminho oficial de validacao do projeto.
+
 ## Guardrails Operacionais
 
 - Usar imagem base oficial ou confiavel.
@@ -131,6 +143,9 @@ A CI atual nao depende de Docker.
 
 Docker so deve entrar na CI se reduzir divergencia real ou simplificar
 manutencao. A decisao precisa ser registrada antes de mudar workflows.
+
+Uma validacao Docker parcial nao deve ser adicionada ao agregado protegido antes
+de existir uma imagem local validada e documentada.
 
 O check protegido continua sendo:
 

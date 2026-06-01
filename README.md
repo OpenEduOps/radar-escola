@@ -23,7 +23,8 @@ Ja existem:
 - CI em `main` com checks de documentacao, higiene, frontend, testes e
   guardrail de metadados publicos;
 - workflow `Desktop Release` para gerar instalador Windows tecnico do
-  scaffold.
+  scaffold;
+- documento de projeto para dockerizacao do ambiente tecnico.
 
 O app atual ainda nao e o MVP funcional completo. Ele valida a casca desktop,
 o frontend empacotado, o menu nativo e o CRUD de referencia para pessoas
@@ -56,6 +57,7 @@ Ainda nao existem no app:
 - equipamentos operacionais;
 - auditoria persistida;
 - exportacao/restauracao de seguranca.
+- artefatos Docker executaveis, como `.dockerignore` e `Dockerfile.dev`.
 
 ## Proximo Passo
 

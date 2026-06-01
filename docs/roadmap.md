@@ -128,6 +128,7 @@ Resumo:
 - criar primeiro uma validacao Node basica em container;
 - medir tempo de build, tamanho de imagem e impacto em disco;
 - decidir depois se Playwright, compose ou CI com Docker fazem sentido;
+- tratar eventual validacao Docker em CI como etapa final dependente das bases;
 - preservar `Desktop Release` como caminho de instalador Windows.
 
 ## Proximos Passos Imediatos

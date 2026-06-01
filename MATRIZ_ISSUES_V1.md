@@ -1,10 +1,11 @@
 # Matriz de Issues V1
 
-Este documento planeja issues minimas e modulares para o MVP do Radar Escola.
+Este documento registra issues minimas e modulares para o MVP do Radar Escola.
 
-Nenhuma issue deste documento foi criada no GitHub ainda. Esta matriz e uma
-preparacao para revisao documental. Depois da revisao, as entradas poderao virar
-issues reais, ajustadas, agrupadas ou descartadas.
+As 85 issues principais da V1 ja foram cadastradas no GitHub e estao
+referenciadas na linha de corte ao final deste arquivo. Novas iniciativas
+transversais, como Docker, devem ser adicionadas somente apos decisao explicita,
+sem alterar retroativamente o escopo original da V1.
 
 ## Resumo Quantitativo
 
@@ -13,6 +14,11 @@ Total planejado para o ciclo completo da V1: **85 issues**.
 Esse total cobre concepcao, validacao documental, modelagem de dominio,
 persistencia, infraestrutura executavel, application/controller, interface,
 testes, QA de software, release desktop e documentacao de apoio.
+
+Observacao sobre Docker: a dockerizacao do ambiente tecnico esta documentada em
+`PROJETO_DOCKERIZACAO_AMBIENTE.md` como iniciativa transversal candidata. Ela
+nao altera o total de 85 issues da V1 ate que suas issues sejam explicitamente
+aprovadas, cadastradas e registradas nesta matriz.
 
 | Grupo | Foco | Quantidade |
 | --- | --- | --- |

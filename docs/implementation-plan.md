@@ -238,3 +238,5 @@ Criterios de aceite iniciais:
 - guia operacional documenta comandos reais;
 - fluxo local sem Docker continua funcionando;
 - `Desktop Release` continua sendo o caminho do instalador Windows.
+- validacao Docker em CI, se existir, entra somente apos as issues de base da
+  dockerizacao estarem resolvidas.
