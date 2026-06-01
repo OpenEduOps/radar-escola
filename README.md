@@ -66,6 +66,26 @@ Na pratica, o primeiro bloco tecnico deve consolidar dominio, persistencia
 SQLite, bootstrap local e fluxos de acesso antes de avancar para as telas do
 Radar de Necessidades.
 
+## Como Contribuir
+
+O backlog inicial da V1 esta aberto nas
+[`issues do GitHub`](https://github.com/OpenEduOps/radar-escola/issues).
+
+Para comecar:
+
+- leia [`CONTRIBUTING.md`](CONTRIBUTING.md);
+- escolha uma issue pequena e bem delimitada;
+- para primeiras contribuicoes, procure labels como `good first issue`,
+  `documentation`, `qa`, `domain` ou `tests`;
+- mantenha branch, titulo de PR e commits focados no produto, na issue ou no
+  comportamento alterado;
+- atualize documentacao e testes quando a mudanca alterar comportamento,
+  requisitos ou fluxo de validacao.
+
+As regras de contribuicao permitem contribuicoes humanas ou assistidas por
+automacao, desde que sejam revisaveis e que os metadados publicos continuem
+focados no produto.
+
 ## Como Rodar Localmente
 
 Instale as dependencias:
