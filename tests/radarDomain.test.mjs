@@ -4,6 +4,7 @@ import {
   canExportSecurityData,
   canRegisterPerson,
   canResolveNeed,
+  completeFirstAccess,
   configureSchool,
   registerNeed,
   registerPerson,
@@ -19,9 +20,9 @@ function configuredState() {
     directorName: "Maria Direcao",
     username: "direcao",
     passwordHash: "hash-direcao",
-    recoveryToken: "RE-00001",
-    recoveryPhrase: "Bairro onde cresci",
-    recoveryAnswer: "Centro",
+    recoveryTokenHash: "hash-token-direcao",
+    recoveryQuestion: "Bairro onde cresci",
+    recoveryAnswerHash: "hash-centro",
     now,
   }).state;
 }
@@ -70,6 +71,7 @@ describe("radarDomain", () => {
     state = secondSupport.state;
 
     assert.equal(firstSupport.value.mustChangePassword, true);
+    assert.equal(firstSupport.value.recoveryTokenHash, undefined);
     assert.throws(
       () =>
         registerPerson(state, "P-001", {
@@ -81,6 +83,46 @@ describe("radarDomain", () => {
           now,
         }),
       /limitado a duas pessoas/,
+    );
+  });
+
+  it("conclui primeiro acesso sem expor salvaguarda para a direcao", () => {
+    let state = configuredState();
+    const personResult = registerPerson(state, "P-001", {
+      name: "Ana Coordenacao",
+      username: "ana",
+      roleName: "Coordenacao",
+      profile: "user",
+      temporaryPasswordHash: "hash-123456",
+      now,
+    });
+    state = personResult.state;
+
+    const firstAccessResult = completeFirstAccess(
+      state,
+      personResult.value.id,
+      {
+        newPasswordHash: "hash-nova-senha",
+        recoveryTokenHash: "hash-token-pessoal",
+        recoveryQuestion: "Bairro onde cresceu",
+        recoveryAnswerHash: "hash-resposta-pessoal",
+        now: "2026-06-01T12:10:00.000Z",
+      },
+    );
+
+    assert.equal(firstAccessResult.value.mustChangePassword, false);
+    assert.equal(firstAccessResult.value.passwordHash, "hash-nova-senha");
+    assert.equal(
+      firstAccessResult.value.recoveryTokenHash,
+      "hash-token-pessoal",
+    );
+    assert.equal(
+      firstAccessResult.value.recoveryQuestion,
+      "Bairro onde cresceu",
+    );
+    assert.equal(
+      firstAccessResult.value.recoveryAnswerHash,
+      "hash-resposta-pessoal",
     );
   });
 

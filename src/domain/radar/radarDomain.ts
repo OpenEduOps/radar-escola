@@ -18,9 +18,13 @@ export interface Person {
   roleName: string;
   profile: PersonProfile;
   passwordHash: string;
+  recoveryTokenHash?: string;
+  recoveryQuestion?: string;
+  recoveryAnswerHash?: string;
   mustChangePassword: boolean;
   active: boolean;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface NeedUpdate {
@@ -63,9 +67,9 @@ export interface ConfigureSchoolInput {
   directorName: string;
   username: string;
   passwordHash: string;
-  recoveryToken: string;
-  recoveryPhrase: string;
-  recoveryAnswer: string;
+  recoveryTokenHash: string;
+  recoveryQuestion: string;
+  recoveryAnswerHash: string;
   now: string;
 }
 
@@ -75,6 +79,14 @@ export interface RegisterPersonInput {
   roleName: string;
   profile: Exclude<PersonProfile, "direction">;
   temporaryPasswordHash: string;
+  now: string;
+}
+
+export interface CompleteFirstAccessInput {
+  newPasswordHash: string;
+  recoveryTokenHash: string;
+  recoveryQuestion: string;
+  recoveryAnswerHash: string;
   now: string;
 }
 
@@ -160,9 +172,18 @@ export function configureSchool(
   assertRequired(input.directorName, "Nome da direcao e obrigatorio.");
   assertRequired(input.username, "Usuario da direcao e obrigatorio.");
   assertRequired(input.passwordHash, "Senha da direcao e obrigatoria.");
-  assertRequired(input.recoveryToken, "Token de recuperacao e obrigatorio.");
-  assertRequired(input.recoveryPhrase, "Frase de recuperacao e obrigatoria.");
-  assertRequired(input.recoveryAnswer, "Resposta de recuperacao e obrigatoria.");
+  assertRequired(
+    input.recoveryTokenHash,
+    "Token de recuperacao e obrigatorio.",
+  );
+  assertRequired(
+    input.recoveryQuestion,
+    "Pergunta de recuperacao e obrigatoria.",
+  );
+  assertRequired(
+    input.recoveryAnswerHash,
+    "Resposta de recuperacao e obrigatoria.",
+  );
 
   const director: Person = {
     id: "P-001",
@@ -171,6 +192,9 @@ export function configureSchool(
     roleName: "Direcao",
     profile: "direction",
     passwordHash: input.passwordHash,
+    recoveryTokenHash: input.recoveryTokenHash,
+    recoveryQuestion: normalizeText(input.recoveryQuestion),
+    recoveryAnswerHash: input.recoveryAnswerHash,
     mustChangePassword: false,
     active: true,
     createdAt: input.now,
@@ -194,6 +218,44 @@ export function configureSchool(
       },
     },
     value: school,
+  };
+}
+
+export function completeFirstAccess(
+  state: RadarState,
+  actorPersonId: string,
+  input: CompleteFirstAccessInput,
+): RadarMutation<Person> {
+  const person = requirePerson(state, actorPersonId);
+
+  if (!person.mustChangePassword) {
+    throw new Error("Primeiro acesso ja foi concluido.");
+  }
+
+  assertRequired(input.newPasswordHash, "Nova senha e obrigatoria.");
+  assertRequired(input.recoveryTokenHash, "Token de recuperacao e obrigatorio.");
+  assertRequired(
+    input.recoveryQuestion,
+    "Pergunta de recuperacao e obrigatoria.",
+  );
+  assertRequired(
+    input.recoveryAnswerHash,
+    "Resposta de recuperacao e obrigatoria.",
+  );
+
+  const updatedPerson: Person = {
+    ...person,
+    passwordHash: input.newPasswordHash,
+    recoveryTokenHash: input.recoveryTokenHash,
+    recoveryQuestion: normalizeText(input.recoveryQuestion),
+    recoveryAnswerHash: input.recoveryAnswerHash,
+    mustChangePassword: false,
+    updatedAt: input.now,
+  };
+
+  return {
+    state: replacePerson(state, updatedPerson),
+    value: updatedPerson,
   };
 }
 
@@ -410,6 +472,15 @@ function replaceNeed(state: RadarState, updatedNeed: Need): RadarState {
     ...state,
     needs: state.needs.map((need) =>
       need.id === updatedNeed.id ? updatedNeed : need,
+    ),
+  };
+}
+
+function replacePerson(state: RadarState, updatedPerson: Person): RadarState {
+  return {
+    ...state,
+    people: state.people.map((person) =>
+      person.id === updatedPerson.id ? updatedPerson : person,
     ),
   };
 }
