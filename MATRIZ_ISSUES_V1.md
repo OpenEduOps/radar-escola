@@ -395,6 +395,30 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: DOM-001.
 - Labels: `domain`, `tests`, `good first issue`.
 
+### DOM-012 Modelar plano de acao simples
+
+- Tipo: `dominio`
+- Camada: `model`
+- Fonte: `DETALHAMENTO_REQUISITOS_V1.md`, `REGRAS_DE_DOMINIO_V1.md`
+- Objetivo: representar proximos passos dentro de uma necessidade sem criar
+  gerenciador complexo de tarefas.
+- Escopo:
+  - descricao obrigatoria;
+  - responsavel opcional;
+  - conclusao de item;
+  - bloqueio de novo item em necessidade final.
+- Fora de escopo:
+  - prazos;
+  - checklist avancado;
+  - atribuicao automatica.
+- Criterios de aceite:
+  - item exige descricao;
+  - item concluido preserva autor e data;
+  - necessidade resolvida/cancelada nao recebe novo item.
+- Testes esperados: unitarios.
+- Dependencias: DOM-006.
+- Labels: `domain`, `tests`, `good first issue`.
+
 ## Issues de Persistencia
 
 ### PER-001 Criar migrations iniciais SQLite
@@ -426,7 +450,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - tabelas de metadados de seguranca existem;
   - testes de criacao do schema passam.
 - Testes esperados: persistencia.
-- Dependencias: DOM-002 a DOM-011.
+- Dependencias: DOM-002 a DOM-012.
 - Labels: `persistence`, `tests`.
 
 ### PER-002 Implementar repositorio de escola
@@ -623,6 +647,29 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Testes esperados: persistencia/integracao.
 - Dependencias: PER-001, PER-009, PER-008.
 - Labels: `persistence`, `tests`.
+
+### PER-011 Implementar repositorio de plano de acao
+
+- Tipo: `persistencia`
+- Camada: `persistence`
+- Fonte: D-010
+- Objetivo: persistir proximos passos simples vinculados a necessidades.
+- Escopo:
+  - criar item de plano;
+  - listar itens por necessidade;
+  - listar itens abertos;
+  - concluir item;
+  - preservar autor e data.
+- Fora de escopo:
+  - delete fisico;
+  - prazos e alertas.
+- Criterios de aceite:
+  - item criado aparece no detalhe;
+  - item concluido registra responsavel e data;
+  - necessidade final nao recebe novo item.
+- Testes esperados: persistencia.
+- Dependencias: PER-005.
+- Labels: `persistence`, `good first issue`.
 
 ## Issues de Application/Controller
 
@@ -885,6 +932,30 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: PER-003, PER-004, PER-008, DOM-004.
 - Labels: `application`, `tests`, `security`.
 
+### APP-013 Implementar plano de acao simples
+
+- Tipo: `application`
+- Camada: `controller`
+- Fonte: UC-012
+- Objetivo: criar e concluir proximos passos dentro de uma necessidade ativa.
+- Escopo:
+  - validar necessidade ativa;
+  - criar item de plano;
+  - concluir item;
+  - registrar andamento de sistema quando relevante;
+  - retornar lista atualizada para detalhe.
+- Fora de escopo:
+  - notificacao;
+  - prazos;
+  - calendario.
+- Criterios de aceite:
+  - todos os perfis autenticados podem criar item em necessidade ativa;
+  - item concluido preserva autor/data;
+  - necessidade final bloqueia alteracao.
+- Testes esperados: caso de uso.
+- Dependencias: PER-011, PER-006, DOM-012.
+- Labels: `application`, `tests`.
+
 ## Issues de View
 
 ### VIEW-001 Criar tela de primeiro uso
@@ -999,6 +1070,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Escopo:
   - resumo;
   - envolvidos;
+  - plano de acao simples;
   - historico;
   - registrar andamento;
   - solicitar fechamento tecnico;
@@ -1007,9 +1079,10 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - comentarios ricos.
 - Criterios de aceite:
   - usuario comum nao ve acao de resolver como permitida;
+  - plano de acao aparece no detalhe;
   - historico claro.
 - Testes esperados: interface.
-- Dependencias: APP-008, APP-009, APP-010.
+- Dependencias: APP-008, APP-009, APP-010, APP-013.
 - Labels: `frontend`, `tests`.
 
 ### VIEW-007 Criar fluxo de exportacao/restauracao
@@ -1206,6 +1279,29 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Testes esperados: caso de uso, interface e persistencia focada.
 - Dependencias: APP-012, VIEW-008, PER-004.
 - Labels: `qa`, `tests`, `security`.
+
+### QA-008 Criar testes de plano de acao simples
+
+- Tipo: `qa`
+- Camada: `qa`
+- Fonte: UC-012, APP-013, VIEW-006
+- Objetivo: validar proximos passos dentro do detalhe da necessidade.
+- Escopo:
+  - criar item;
+  - concluir item;
+  - listar itens abertos;
+  - bloquear alteracao em necessidade final;
+  - validar exibicao no detalhe.
+- Fora de escopo:
+  - prazos;
+  - alertas.
+- Criterios de aceite:
+  - item criado aparece no detalhe;
+  - conclusao preserva autor/data;
+  - necessidade resolvida/cancelada bloqueia novo item.
+- Testes esperados: caso de uso, persistencia e interface focada.
+- Dependencias: APP-013, PER-011, VIEW-006.
+- Labels: `qa`, `tests`, `good first issue`.
 
 ## Issues de Documentacao de Apoio
 
