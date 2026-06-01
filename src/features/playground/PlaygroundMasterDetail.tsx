@@ -6,6 +6,13 @@ import {
 } from "./playgroundData";
 
 type PlaygroundDraft = Pick<PlaygroundRecord, "nome" | "descricao" | "status">;
+type PlaygroundInterfaceStatus = "Status A" | "Status B" | "Status C";
+
+const interfaceStatusOptions: PlaygroundInterfaceStatus[] = [
+  "Status A",
+  "Status B",
+  "Status C",
+];
 
 const statusLabels: Record<PlaygroundRecord["status"], string> = {
   rascunho: "Rascunho",
@@ -18,6 +25,8 @@ export function PlaygroundMasterDetail() {
   const [selectedId, setSelectedId] = useState(playgroundRecords[0]?.id ?? "");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState<PlaygroundDraft | null>(null);
+  const [interfaceStatus, setInterfaceStatus] =
+    useState<PlaygroundInterfaceStatus>("Status A");
   const selectedRecord =
     records.find((record) => record.id === selectedId) ?? records[0] ?? null;
 
@@ -79,6 +88,26 @@ export function PlaygroundMasterDetail() {
         </div>
         <span className="table-chip">Tabela: {PLAYGROUND_TABLE_NAME}</span>
       </header>
+
+      <div className="playground-toolbar">
+        <label htmlFor="playground-interface-status">
+          Status da interface
+        </label>
+        <select
+          id="playground-interface-status"
+          onChange={(event) =>
+            setInterfaceStatus(event.target.value as PlaygroundInterfaceStatus)
+          }
+          value={interfaceStatus}
+        >
+          {interfaceStatusOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <span>Selecionado: {interfaceStatus}</span>
+      </div>
 
       <div className="master-detail-grid">
         <aside className="master-list" aria-label="Registros playground">
