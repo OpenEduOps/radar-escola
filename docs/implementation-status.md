@@ -31,6 +31,8 @@ Workflows existentes:
 - `CI`;
 - `Security`;
 - `Desktop Release`;
+- `Review gate`;
+- `Owner auto merge`;
 - `Thank contributor`;
 - `Dependabot Updates`.
 
@@ -137,6 +139,7 @@ npm run build
 
 A CI valida:
 
+- guardrail de metadados publicos;
 - qualidade basica de Markdown;
 - documentos centrais;
 - links internos;
@@ -144,6 +147,14 @@ A CI valida:
 - testes unitarios;
 - teste E2E Playwright do playground;
 - frontend build.
+
+### Especificacao e Issues V1
+
+A especificacao executavel V1 foi consolidada em documentos de requisitos,
+blocos transversais, regras de dominio, visao prototipal e matriz de issues.
+
+A matriz V1 planeja 85 issues minimas e modulares, e essas issues ja foram
+cadastradas no GitHub entre `#4` e `#88`.
 
 ### Release Desktop
 
@@ -184,17 +195,22 @@ Ainda nao foi implementado:
 
 ## Fronteira Atual da Fonte
 
-O projeto comeca em documentacao e scaffold local.
+O projeto ja saiu da fase de apenas documentacao inicial. A fronteira atual e:
 
-O detalhamento de requisitos por issue ainda nao foi feito. A proxima etapa e
-transformar o plano de implementacao em issues pequenas, testaveis e nao
-ambigua.
+- documentacao V0/V1 consolidada;
+- issues V1 cadastradas;
+- scaffold executavel validado;
+- playground CRUD como referencia tecnica;
+- instalador Windows tecnico gerado e validado via CI.
+
+A proxima etapa e transformar o backlog cadastrado em implementacao do MVP,
+mantendo cada entrega pequena, testavel e rastreavel.
 
 ## Proximas Prioridades
 
-1. Detalhar requisitos por fase.
-2. Criar issues de implementacao e testes.
-3. Implementar persistencia SQLite.
+1. Revisar e priorizar as issues abertas da V1.
+2. Implementar regras de dominio criticas.
+3. Implementar persistencia SQLite e bootstrap local.
 4. Implementar primeiro uso e direcao.
 5. Implementar login e pessoas/usuarios.
 6. Implementar fluxo de necessidades.
