@@ -558,7 +558,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 - Tipo: `persistencia`
 - Camada: `persistence`
-- Fonte: D-013, BT-001
+- Fonte: D-014, BT-001
 - Objetivo: gravar e listar eventos sensiveis.
 - Escopo:
   - inserir evento;
