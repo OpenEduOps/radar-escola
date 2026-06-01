@@ -128,6 +128,13 @@ h1 {
   max-width: 920px;
 }
 
+.table-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: end;
+}
+
 .playground-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -450,6 +457,10 @@ h3 {
   .detail-heading {
     align-items: start;
     flex-direction: column;
+  }
+
+  .table-chips {
+    justify-content: start;
   }
 
   .master-detail-grid {

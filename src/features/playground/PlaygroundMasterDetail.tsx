@@ -1,39 +1,38 @@
 import { useState } from "react";
 import {
   PLAYGROUND_TABLE_NAME,
+  STATUS_PLAYGROUND_TABLE_NAME,
   type PlaygroundRecord,
+  type StatusPlaygroundRecord,
   playgroundRecords,
+  statusPlaygroundRecords,
 } from "./playgroundData";
 
-type PlaygroundDraft = Pick<PlaygroundRecord, "nome" | "descricao" | "status">;
-
-const defaultInterfaceStatusOptions = [
-  "Status A",
-  "Status B",
-  "Status C",
-];
-
-const statusLabels: Record<PlaygroundRecord["status"], string> = {
-  rascunho: "Rascunho",
-  em_validacao: "Em validacao",
-  pronto: "Pronto",
-};
+type PlaygroundDraft = Pick<
+  PlaygroundRecord,
+  "nome" | "descricao" | "statusPlaygroundId"
+>;
 
 export function PlaygroundMasterDetail() {
   const [records, setRecords] = useState(playgroundRecords);
+  const [statusRecords, setStatusRecords] = useState(statusPlaygroundRecords);
   const [selectedId, setSelectedId] = useState(playgroundRecords[0]?.id ?? "");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState<PlaygroundDraft | null>(null);
-  const [interfaceStatusOptions, setInterfaceStatusOptions] = useState(
-    defaultInterfaceStatusOptions,
-  );
-  const [interfaceStatus, setInterfaceStatus] = useState(
-    defaultInterfaceStatusOptions[0] ?? "",
+  const [selectedStatusId, setSelectedStatusId] = useState(
+    statusPlaygroundRecords[0]?.id ?? "",
   );
   const [isStatusFormOpen, setIsStatusFormOpen] = useState(false);
   const [newStatusName, setNewStatusName] = useState("");
   const selectedRecord =
     records.find((record) => record.id === selectedId) ?? records[0] ?? null;
+
+  function getStatusName(statusPlaygroundId: string) {
+    return (
+      statusRecords.find((statusRecord) => statusRecord.id === statusPlaygroundId)
+        ?.nome ?? "Status nao encontrado"
+    );
+  }
 
   function startEditing(record: PlaygroundRecord) {
     setSelectedId(record.id);
@@ -41,7 +40,7 @@ export function PlaygroundMasterDetail() {
     setDraft({
       nome: record.nome,
       descricao: record.descricao,
-      status: record.status,
+      statusPlaygroundId: record.statusPlaygroundId,
     });
   }
 
@@ -76,7 +75,7 @@ export function PlaygroundMasterDetail() {
               ...record,
               nome: draft.nome.trim(),
               descricao: draft.descricao.trim(),
-              status: draft.status,
+              statusPlaygroundId: draft.statusPlaygroundId,
             }
           : record,
       ),
@@ -91,20 +90,26 @@ export function PlaygroundMasterDetail() {
       return;
     }
 
-    const existingStatus = interfaceStatusOptions.find(
-      (option) =>
-        option.toLocaleLowerCase() === normalizedStatusName.toLocaleLowerCase(),
+    const existingStatus = statusRecords.find(
+      (statusRecord) =>
+        statusRecord.nome.toLocaleLowerCase() ===
+        normalizedStatusName.toLocaleLowerCase(),
     );
-    const statusToSelect = existingStatus ?? normalizedStatusName;
+    const statusToSelect =
+      existingStatus ??
+      ({
+        id: `SP-${String(statusRecords.length + 1).padStart(3, "0")}`,
+        nome: normalizedStatusName,
+      } satisfies StatusPlaygroundRecord);
 
     if (!existingStatus) {
-      setInterfaceStatusOptions((currentOptions) => [
-        ...currentOptions,
-        normalizedStatusName,
+      setStatusRecords((currentStatusRecords) => [
+        ...currentStatusRecords,
+        statusToSelect,
       ]);
     }
 
-    setInterfaceStatus(statusToSelect);
+    setSelectedStatusId(statusToSelect.id);
     setNewStatusName("");
     setIsStatusFormOpen(false);
   }
@@ -116,25 +121,30 @@ export function PlaygroundMasterDetail() {
           <p className="eyebrow">Playground</p>
           <h2 id="playground-title">Master detalhe</h2>
         </div>
-        <span className="table-chip">Tabela: {PLAYGROUND_TABLE_NAME}</span>
+        <div className="table-chips">
+          <span className="table-chip">Tabela: {PLAYGROUND_TABLE_NAME}</span>
+          <span className="table-chip">
+            Tabela: {STATUS_PLAYGROUND_TABLE_NAME}
+          </span>
+        </div>
       </header>
 
       <div className="playground-toolbar">
         <label htmlFor="playground-interface-status">
-          Status da interface
+          Status playground
         </label>
         <select
           id="playground-interface-status"
-          onChange={(event) => setInterfaceStatus(event.target.value)}
-          value={interfaceStatus}
+          onChange={(event) => setSelectedStatusId(event.target.value)}
+          value={selectedStatusId}
         >
-          {interfaceStatusOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
+          {statusRecords.map((statusRecord) => (
+            <option key={statusRecord.id} value={statusRecord.id}>
+              {statusRecord.nome}
             </option>
           ))}
         </select>
-        <span>Selecionado: {interfaceStatus}</span>
+        <span>Selecionado: {getStatusName(selectedStatusId)}</span>
         <button
           aria-expanded={isStatusFormOpen}
           className="toolbar-action"
@@ -181,7 +191,7 @@ export function PlaygroundMasterDetail() {
               >
                 <span>{record.nome}</span>
                 <small>
-                  {record.id} - {statusLabels[record.status]}
+                  {record.id} - {getStatusName(record.statusPlaygroundId)}
                 </small>
               </button>
               <div className="row-actions" aria-label={`Acoes de ${record.nome}`}>
@@ -213,7 +223,7 @@ export function PlaygroundMasterDetail() {
                   <h3>{selectedRecord.nome}</h3>
                 </div>
                 <span className="status-badge">
-                  {statusLabels[selectedRecord.status]}
+                  {getStatusName(selectedRecord.statusPlaygroundId)}
                 </span>
               </div>
 
@@ -253,15 +263,16 @@ export function PlaygroundMasterDetail() {
                       onChange={(event) =>
                         setDraft({
                           ...draft,
-                          status: event.target
-                            .value as PlaygroundRecord["status"],
+                          statusPlaygroundId: event.target.value,
                         })
                       }
-                      value={draft.status}
+                      value={draft.statusPlaygroundId}
                     >
-                      <option value="rascunho">Rascunho</option>
-                      <option value="em_validacao">Em validacao</option>
-                      <option value="pronto">Pronto</option>
+                      {statusRecords.map((statusRecord) => (
+                        <option key={statusRecord.id} value={statusRecord.id}>
+                          {statusRecord.nome}
+                        </option>
+                      ))}
                     </select>
                   </label>
                   <div className="detail-actions">
@@ -289,7 +300,11 @@ export function PlaygroundMasterDetail() {
                   </div>
                   <div>
                     <dt>Status</dt>
-                    <dd>{statusLabels[selectedRecord.status]}</dd>
+                    <dd>{getStatusName(selectedRecord.statusPlaygroundId)}</dd>
+                  </div>
+                  <div>
+                    <dt>status_playground_id</dt>
+                    <dd>{selectedRecord.statusPlaygroundId}</dd>
                   </div>
                 </dl>
               )}
