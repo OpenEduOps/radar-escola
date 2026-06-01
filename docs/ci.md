@@ -5,7 +5,8 @@ Este documento explica a CI inicial do repositorio `OpenEduOps/radar-escola`.
 ## Escopo atual
 
 Este repositorio e o projeto de produto do Radar Escola. Ele contem a
-documentacao da V0 e o scaffold tecnico minimo Tauri + React + TypeScript.
+documentacao da V0, o scaffold tecnico Tauri + React + TypeScript e a primeira
+fatia funcional demonstravel do Radar.
 
 Por isso, a CI atual valida:
 
@@ -13,7 +14,7 @@ Por isso, a CI atual valida:
 - presenca dos documentos centrais;
 - links internos;
 - higiene do repositorio;
-- typecheck, testes unitarios, E2E Playwright e build do scaffold
+- typecheck, testes unitarios, E2E Playwright e build do app
   React/TypeScript;
 - validacao Docker dev adicional para `Dockerfile.dev`;
 - postura minima de permissoes dos workflows.
@@ -33,7 +34,7 @@ apenas esse nome para nao depender de nomes de matrix ou jobs auxiliares.
 
 - `.github/workflows/ci.yml`: valida documentacao e higiene do repositorio.
   Tambem valida `npm ci`, `npm run typecheck`, `npm test`,
-  `npm run build` e `npm run test:e2e` para o scaffold frontend. Tambem
+  `npm run build` e `npm run test:e2e` para o app frontend. Tambem
   constroi a imagem Docker dev e roda typecheck, testes unitarios e build
   frontend dentro do container.
 - `.github/workflows/security.yml`: valida postura de seguranca dos workflows e
@@ -81,8 +82,9 @@ A CI devera evoluir para validar:
 - regras criticas de seguranca local;
 - smoke test do fluxo minimo.
 
-O scaffold minimo atual valida a casca desktop e o pipeline de release sem
-fingir funcionalidade de MVP.
+O app atual valida a casca desktop, o pipeline de release, o playground de
+referencia e uma primeira fatia de fluxo funcional, sem fingir que a V0 completa
+ja esta entregue.
 
 ## Higiene Do Repositorio
 
@@ -113,7 +115,7 @@ A dockerizacao do ambiente esta documentada como iniciativa de projeto em
 
 Direcao atual:
 
-- manter CI simples enquanto ela validar o scaffold com clareza;
+- manter CI simples enquanto ela validar o app com clareza;
 - usar Docker como apoio local de desenvolvimento e QA tecnico;
 - validar `Dockerfile.dev` sem substituir os checks Node diretos;
 - nao usar Docker como substituto do workflow `Desktop Release`;

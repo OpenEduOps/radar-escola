@@ -8,12 +8,14 @@ que o scaffold cresca de forma acidental e vire um bloco dificil de manter.
 ## Estado Atual
 
 A arquitetura ja possui um scaffold executavel Tauri + React + TypeScript,
-release tecnica `v0.0.1` e playground CRUD de referencia. Esse estado valida
-casca desktop, empacotamento Windows, menu nativo, teste E2E e separacao inicial
-de pastas.
+release tecnica `v0.0.1`, playground CRUD de referencia e uma primeira fatia
+funcional do Radar. Esse estado valida casca desktop, empacotamento Windows,
+menu nativo, teste E2E, separacao inicial de pastas e fluxo principal
+demonstravel.
 
-A arquitetura alvo do MVP ainda precisa implementar dominio real, persistencia
-SQLite, autenticacao local, fluxos de necessidades e guardrails de seguranca.
+A arquitetura alvo do MVP ainda precisa implementar persistencia SQLite,
+repositorios definitivos, recuperacao local, auditoria persistida,
+exportacao/restauracao e guardrails de seguranca finais.
 
 ## Principios
 
@@ -35,11 +37,17 @@ src/app
 src/features
   telas e fluxos de usuario
 
+src/features/radar
+  primeira fatia funcional do Radar de Necessidades
+
 src/application
   casos de uso e orquestracao
 
 src/domain
   entidades, value objects e regras puras
+
+src/domain/radar
+  dominio inicial demonstravel do fluxo principal
 
 src/domain/school
   escola, direcao e responsabilidade principal
@@ -57,7 +65,7 @@ src/domain/audit
   auditoria minima de acoes sensiveis
 
 src/infrastructure
-  SQLite, Tauri, filesystem, hashing e CSV
+  SQLite, Tauri, filesystem, hashing, CSV e pontes locais temporarias
 
 src/shared
   UI e utilitarios reutilizaveis
@@ -107,11 +115,16 @@ Regras:
 
 Subdominios planejados:
 
+- `src/domain/radar`: fatia inicial integrada para validar o fluxo principal;
 - `src/domain/school`: escola, direcao e transferencia de responsabilidade;
 - `src/domain/people`: pessoas, usuarios, cargos e apoio de gestao;
 - `src/domain/needs`: necessidades, envolvidos, andamento e resolucao;
 - `src/domain/equipment`: equipamentos;
 - `src/domain/audit`: auditoria minima.
+
+O modulo `src/domain/radar` e uma etapa de consolidacao do primeiro fluxo. A
+tendencia e extrair ou alinhar seus comportamentos aos subdominios finais quando
+SQLite, repositorios e casos de uso forem implementados.
 
 ## Tauri/Rust
 

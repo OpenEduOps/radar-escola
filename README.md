@@ -7,8 +7,8 @@ da organizacao OpenEduOps.
 
 ## Estado Atual
 
-O projeto esta em fase de scaffold executavel, especificacao V1 e organizacao
-do ciclo de implementacao do MVP.
+O projeto esta em fase de primeiro fluxo funcional demonstravel, especificacao
+V1 e organizacao do ciclo de implementacao do MVP.
 
 Ja existem:
 
@@ -26,13 +26,19 @@ Ja existem:
 - workflow `Desktop Release` para gerar instalador Windows tecnico do
   scaffold;
 - release tecnica `v0.0.1` publicada com instalador Windows e checksum;
+- dominio inicial do Radar com regras puras para escola, pessoas, primeiro
+  acesso, permissoes, necessidades, andamento e resolucao;
+- fluxo inicial utilizavel dentro da aplicacao para configurar escola, entrar,
+  cadastrar pessoa, registrar necessidade, marcar envolvidos, atualizar
+  andamento e marcar como resolvido;
 - documento de projeto para dockerizacao do ambiente tecnico;
 - `.dockerignore` e `Dockerfile.dev`;
 - imagem Docker dev validada para typecheck, testes unitarios e build frontend.
 
-O app atual ainda nao e o MVP funcional completo. Ele valida a casca desktop,
-o frontend empacotado, o menu nativo e o CRUD de referencia para pessoas
-desenvolvedoras.
+O app atual ainda nao e o MVP funcional completo. Ele ja demonstra o fluxo
+principal do Radar, mas ainda usa armazenamento local do WebView como ponte
+tecnica enquanto SQLite, repositorios definitivos e hardening de seguranca nao
+sao implementados.
 
 ## Direcao Do Produto
 
@@ -43,36 +49,36 @@ desenvolvedoras.
 - Linguagem em Portugues Brasileiro.
 - Sem internet obrigatoria na V0.
 
-SQLite faz parte da arquitetura alvo, mas ainda nao foi implementado no
-scaffold atual.
+SQLite faz parte da arquitetura alvo, mas ainda nao foi implementado no fluxo
+principal atual.
 
-Por isso, o playground atual deve ser lido como referencia de interface,
-estado, regras puras e testes. Ele ainda nao persiste dados em SQLite.
+Por isso, o fluxo atual deve ser lido como primeira fatia de produto
+demonstravel, e o playground continua como referencia tecnica de CRUD,
+master-detail, estado, regras puras e testes.
 
 ## Fora Do MVP Implementado Hoje
 
-Ainda nao existem no app:
+Ainda nao existem de forma definitiva no app:
 
 - banco SQLite local;
-- autenticacao;
-- usuarios, cargos e apoio de gestao;
-- cadastro e acompanhamento real de necessidades;
-- envolvidos, andamento, resolucao e historico;
+- repositorios de persistencia definitivos;
+- recuperacao local de acesso;
+- hashing forte no runtime nativo;
 - equipamentos operacionais;
 - auditoria persistida;
 - exportacao/restauracao de seguranca.
 
 ## Proximo Passo
 
-Implementar o MVP a partir das issues cadastradas, seguindo a ordem sugerida:
+Evoluir o fluxo inicial para a arquitetura alvo, seguindo a ordem sugerida:
 
 ```text
 REQ -> DOM -> PER -> ENG -> APP -> VIEW -> QA
 ```
 
-Na pratica, o primeiro bloco tecnico deve consolidar dominio, persistencia
-SQLite, bootstrap local e fluxos de acesso antes de avancar para as telas do
-Radar de Necessidades.
+Na pratica, o proximo bloco tecnico deve substituir a persistencia demonstravel
+por SQLite, separar melhor casos de uso/repositorios e endurecer salvaguardas de
+acesso antes de expandir equipamentos, auditoria e exportacao/restauracao.
 
 A estrategia de o fundador tocar pessoalmente as issues fundacionais do MVP, sem
 fechar a entrada de colaboradores, esta registrada em
@@ -131,8 +137,9 @@ npm run typecheck
 npm run build
 ```
 
-Esses comandos validam regras puras do playground, fluxo E2E do CRUD de
-referencia, TypeScript e build Vite.
+Esses comandos validam regras puras do playground, regras iniciais do Radar,
+fluxo E2E do CRUD de referencia, fluxo E2E inicial do produto, TypeScript e
+build Vite.
 
 ## Docker Para Desenvolvimento
 
@@ -165,9 +172,11 @@ Mapa rapido:
 
 - `src/app`: composicao raiz da aplicacao;
 - `src/features`: telas e fluxos de usuario;
+- `src/features/radar`: primeiro fluxo utilizavel do Radar de Necessidades;
 - `src/features/playground`: CRUD de referencia do scaffold atual;
 - `src/application`: casos de uso e orquestracao futura;
 - `src/domain`: entidades e regras puras por dominio;
+- `src/domain/radar`: dominio inicial demonstravel do fluxo principal;
 - `src/infrastructure`: persistencia SQLite, Tauri, arquivos, hashing e CSV no
   futuro;
 - `src/shared`: UI e utilitarios reutilizaveis;

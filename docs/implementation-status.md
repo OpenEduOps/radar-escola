@@ -1,16 +1,22 @@
 # Status de Implementacao
 
 Este documento registra o estado atual do Radar Escola apos a release tecnica
-`v0.0.1`.
+`v0.0.1` e o inicio da primeira fatia funcional do produto.
 
 ## Estado Atual
 
-O projeto esta em fase de scaffold tecnico executavel, consolidacao documental
-e preparacao da implementacao do MVP funcional.
+O projeto esta em fase de primeiro fluxo funcional demonstravel, consolidacao
+documental e evolucao gradual para o MVP funcional completo.
 
 Existe um app minimo Tauri + React + TypeScript para validar build frontend,
-configuracao desktop, playground de referencia e a esteira de CI/CD. Esse app
-ainda nao representa a V0 funcional.
+configuracao desktop, playground de referencia e a esteira de CI/CD. A partir
+desta etapa, o app tambem demonstra o primeiro caminho de uso do Radar Escola:
+configurar escola, entrar, cadastrar pessoa, registrar necessidade, marcar
+envolvidos, atualizar andamento e marcar como resolvido.
+
+Esse fluxo ainda nao representa a V0 funcional completa, porque a persistencia
+definitiva SQLite, recuperacao local, auditoria persistida e
+exportacao/restauracao ainda nao foram implementadas.
 
 Versao tecnica atual:
 
@@ -55,10 +61,21 @@ Frontend:
 
 - `src/app/App.tsx`;
 - `src/app/app.css`;
+- `src/features/radar/RadarMvpFlow.tsx`;
+- `src/features/playground/PlaygroundMasterDetail.tsx`;
 - `src/main.tsx`;
 - `index.html`;
 - `vite.config.ts`;
 - `tsconfig.json`.
+
+Dominio:
+
+- `src/domain/radar/radarDomain.ts`;
+
+Infraestrutura local demonstravel:
+
+- `src/infrastructure/localHash.ts`;
+- `src/infrastructure/localRadarRepository.ts`.
 
 Desktop/Tauri:
 
@@ -159,6 +176,51 @@ npm run typecheck
 npm run build
 ```
 
+### Fluxo Inicial Do Radar
+
+O app ja contem uma primeira fatia de produto utilizavel. O fluxo atual permite:
+
+- configurar a escola e a direcao;
+- guardar token de recuperacao da direcao;
+- entrar com usuario e senha;
+- cadastrar pessoas com senha temporaria `123456`;
+- obrigar pessoa cadastrada a concluir primeiro acesso em privacidade;
+- registrar necessidade operacional;
+- marcar pessoas envolvidas;
+- registrar andamento conjunto;
+- impedir usuario comum de marcar como resolvido;
+- permitir direcao ou apoio de gestao marcar como resolvido.
+
+As regras puras ficam em:
+
+```text
+src/domain/radar/radarDomain.ts
+```
+
+A tela principal fica em:
+
+```text
+src/features/radar/RadarMvpFlow.tsx
+```
+
+A persistencia atual usa armazenamento local do WebView como ponte demonstravel:
+
+```text
+src/infrastructure/localRadarRepository.ts
+```
+
+Isso nao substitui SQLite. O armazenamento local atual existe para validar UX,
+fluxo, dominio e teste E2E antes da camada definitiva de persistencia.
+
+Validado por:
+
+```text
+npm test
+npm run test:e2e
+npm run typecheck
+npm run build
+```
+
 ### CI Documental e Frontend
 
 A CI valida:
@@ -170,6 +232,7 @@ A CI valida:
 - higiene do repositorio;
 - testes unitarios;
 - teste E2E Playwright do playground;
+- teste E2E Playwright do fluxo inicial do Radar;
 - frontend build;
 - validacao Docker dev adicional.
 
@@ -239,12 +302,9 @@ Validacao local realizada sobre o artefato baixado da release:
 Ainda nao foi implementado:
 
 - SQLite;
-- autenticacao;
-- usuarios;
-- cargos;
-- apoio de gestao;
-- necessidades;
-- envolvidos;
+- repositorios definitivos;
+- recuperacao local de acesso;
+- hashing forte no runtime nativo;
 - equipamentos;
 - historico;
 - auditoria;
@@ -262,21 +322,23 @@ O projeto ja saiu da fase de apenas documentacao inicial. A fronteira atual e:
 - issues V1 cadastradas;
 - scaffold executavel validado;
 - playground CRUD como referencia tecnica;
+- fluxo inicial do Radar como primeira fatia funcional demonstravel;
 - imagem Docker dev validada;
 - release tecnica `v0.0.1` publicada com instalador Windows e checksum;
 - instalador Windows tecnico gerado, instalado e validado via CI/smoke.
 
-A proxima etapa e transformar o backlog cadastrado em implementacao do MVP,
-mantendo cada entrega pequena, testavel e rastreavel.
+A proxima etapa e endurecer essa fatia inicial com SQLite, repositorios,
+recuperacao local, auditoria e exportacao/restauracao, mantendo cada entrega
+pequena, testavel e rastreavel.
 
 ## Proximas Prioridades
 
-1. Revisar e priorizar as issues abertas da V1.
-2. Implementar regras de dominio criticas.
-3. Implementar persistencia SQLite e bootstrap local.
-4. Implementar primeiro uso e direcao.
-5. Implementar login e pessoas/usuarios.
-6. Implementar fluxo de necessidades.
+1. Implementar persistencia SQLite e bootstrap local.
+2. Separar repositorios e casos de uso definitivos.
+3. Endurecer hashing e recuperacao local.
+4. Persistir auditoria minima das acoes sensiveis.
+5. Evoluir equipamentos e vinculos operacionais.
+6. Implementar exportacao/restauracao de seguranca.
 
 ## Comandos de Verificacao
 

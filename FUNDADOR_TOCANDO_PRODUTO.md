@@ -132,8 +132,26 @@ Quando esse fluxo existir, o Radar Escola ganha uma base mais forte para:
 - validar UX com pessoas reais;
 - justificar novas releases.
 
+## Primeira Rodada Executada
+
+A primeira rodada founder-led ja iniciou a transformacao do scaffold em produto.
+
+Entregas atuais:
+
+- dominio inicial do Radar para escola, pessoas, primeiro acesso, permissoes,
+  necessidades, andamento e resolucao;
+- armazenamento local demonstravel para validar o fluxo no WebView;
+- tela principal do Radar abrindo por padrao;
+- playground preservado como referencia tecnica;
+- fluxo E2E automatizado cobrindo direcao, pessoa cadastrada, necessidade,
+  andamento e resolucao.
+
+Essa rodada ainda nao fecha o MVP completo. Ela cria um fluxo utilizavel para
+ganhar confianca de produto e preparar a proxima etapa: persistencia SQLite,
+repositorios definitivos, recuperacao local, auditoria e exportacao/restauracao.
+
 ## Direcao Pratica
 
-A proxima rodada recomendada e escolher uma issue fundacional pequena, como
-`DOM-001` ou `DOM-002`, planejar rapidamente, implementar com testes e commitar
-com lastro de produto.
+A proxima rodada recomendada e endurecer a fatia atual, priorizando SQLite,
+repositorios, recuperacao local e auditoria minima antes de expandir
+equipamentos ou exportacao/restauracao.
