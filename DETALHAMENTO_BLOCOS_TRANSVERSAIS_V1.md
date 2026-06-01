@@ -567,12 +567,12 @@ Evitar que mudanca de gestao da escola quebre continuidade do app.
 - Usuario comum tenta transferir:
   - bloquear.
 - Direcao perdeu acesso:
-  - procedimento tecnico futuro, fora da V1 funcional.
+  - recuperacao tecnica da direcao sem salvaguarda fica fora da V1 funcional.
 
 ### Guardrails
 
 - Nao criar multiplas direcoes na V1.
-- Nao usar cargo/função como permissao automatica de direcao.
+- Nao usar cargo/funcao como permissao automatica de direcao.
 
 ### Criterios de aceite
 

@@ -82,8 +82,8 @@ Nao pode:
 - exportar/restaurar dados de seguranca;
 - consultar auditoria;
 - transferir direcao;
-- redefinir a propria direcao;
-- definir outros apoios de gestao, salvo decisao futura.
+- redefinir senha de qualquer pessoa;
+- definir outros apoios de gestao.
 
 ### Usuario comum
 
@@ -484,7 +484,8 @@ lembra nome/usuario e salvaguarda.
 - Usuario comum sem salvaguarda pode procurar direcao para reset
   administrativo.
 - Direcao sem salvaguarda deve receber mensagem sobre risco de perda de acesso
-  e procedimento tecnico futuro, se houver.
+  administrativo. Recuperacao tecnica da direcao sem salvaguarda fica fora da
+  V1 funcional.
 
 ### Fluxos de excecao
 

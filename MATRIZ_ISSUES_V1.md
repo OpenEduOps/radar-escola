@@ -1060,7 +1060,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Fora de escopo:
   - multiplas direcoes;
   - procedimento tecnico quando direcao perdeu acesso;
-  - permissao automatica por cargo/função.
+  - permissao automatica por cargo/funcao.
 - Criterios de aceite:
   - direcao atual transfere para pessoa ativa;
   - apoio e usuario comum sao bloqueados;

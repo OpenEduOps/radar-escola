@@ -308,7 +308,7 @@ Objetivo: trocar senha temporaria `123456` e configurar salvaguarda privada.
 Permissao:
 
 - [A] e [U] fazem quando cadastrados pela direcao/apoio.
-- [D] tambem usa esse padrao se sua conta for resetada em evolucao futura.
+- [D] configura salvaguarda propria no primeiro uso da escola.
 - [S] bloqueia uso normal ate concluir.
 
 ```text
@@ -365,8 +365,8 @@ Permissao:
 
 - [D], [A] e [U] podem tentar recuperar a propria conta.
 - [U] sem salvaguarda deve procurar a direcao para reset administrativo.
-- [D] sem senha e sem salvaguarda pode perder acesso administrativo ate existir
-  procedimento tecnico futuro.
+- [D] sem senha e sem salvaguarda pode perder acesso administrativo; recuperacao
+  tecnica da direcao sem salvaguarda fica fora da V1 funcional.
 
 ```text
 +------------------------------------------------------------+
@@ -914,7 +914,7 @@ Permissao:
 
 - [D] e [A] cadastram cargo ou funcao.
 - [U] nao cadastra cargo ou funcao.
-- [S] cargo/função nao concede permissao por si so.
+- [S] cargo/funcao nao concede permissao por si so.
 
 ```text
 +------------------------------------------------------------+
