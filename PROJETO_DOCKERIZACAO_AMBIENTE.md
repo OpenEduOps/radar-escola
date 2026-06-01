@@ -31,7 +31,7 @@ Este documento nao deve substituir:
 ## Documentos Relacionados
 
 - [`docs/development-docker.md`](docs/development-docker.md): guia operacional
-  futuro para comandos Docker reais.
+  com comandos Docker reais.
 - [`docs/ci.md`](docs/ci.md): CI atual e decisao de nao depender de Docker por
   padrao.
 - [`docs/oss-guardrails.md`](docs/oss-guardrails.md): limites publicos de
@@ -542,15 +542,15 @@ voltar para estado experimental.
 
 A matriz atual do MVP permanece com 85 issues cadastradas e voltadas ao produto.
 
-As issues Docker descritas neste documento foram cadastradas como trilha
-transversal de engenharia. Elas nao alteram o total da V1 do MVP e nao devem ser
-misturadas com requisitos funcionais do Radar Escola.
+As issues Docker descritas neste documento foram cadastradas e concluidas como
+trilha transversal de engenharia. Elas nao alteram o total da V1 do MVP e nao
+devem ser misturadas com requisitos funcionais do Radar Escola.
 
 A trilha Docker deve permanecer em secao separada, com prefixo `DOCKER`,
-dependencias claras e sem bloquear o fluxo normal do MVP. A validacao em CI deve
-ficar em uma issue final dependente das issues anteriores de dockerizacao.
-Essa issue final e um gate: ela so deve ser iniciada depois que a base Docker
-local estiver implementada, medida, documentada e revisada.
+dependencias claras e sem bloquear o fluxo normal do MVP. A validacao em CI
+ficou concentrada na issue final dependente das issues anteriores de
+dockerizacao. Essa issue final foi usada como gate depois que a base Docker
+local foi implementada, medida, documentada e revisada.
 
 ## Issues Cadastradas
 

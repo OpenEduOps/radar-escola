@@ -173,13 +173,13 @@ sem browser, sem Rust/Tauri e sem artefatos de release Windows.
 
 ## Relacao Com Issues
 
-As tarefas Docker foram cadastradas como trilha transversal `DOCKER-001` a
-`DOCKER-009`.
+As tarefas Docker foram cadastradas e concluidas como trilha transversal
+`DOCKER-001` a `DOCKER-009`.
 
 Elas devem continuar pequenas, executaveis e independentes do uso final da
-escola. A validacao Docker em CI, se aprovada, deve ser uma etapa final
-dependente das issues de base: `.dockerignore`, `Dockerfile.dev`, validacao
-local, medicao de custo e documentacao operacional.
+escola. A validacao Docker em CI foi incluida depois das issues de base:
+`.dockerignore`, `Dockerfile.dev`, validacao local, medicao de custo e
+documentacao operacional.
 
 Como essas bases ja existem, Docker pode ser citado como caminho tecnico
 opcional de validacao. Ele nao substitui o fluxo local sem Docker.
