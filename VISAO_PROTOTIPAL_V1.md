@@ -1156,3 +1156,177 @@ Estados:
 - Equipamento com historico nao deve ser apagado fisicamente.
 - Inativar remove da selecao padrao, mas preserva historico.
 - Historico por equipamento usa necessidades vinculadas.
+
+## Seguranca E Administracao
+
+### Exportacao De Seguranca
+
+Objetivo: permitir que a direcao gere uma copia restauravel dos dados locais e
+guarde fora do computador principal.
+
+Permissao:
+
+- [D] exporta dados de seguranca.
+- [A] e [U] nao exportam.
+- [S] exportacao inclui hashes, nunca senhas, tokens ou respostas em texto claro.
+
+```text
++------------------------------------------------------------+
+| Seguranca > Exportar dados                         [Voltar] |
++------------------------------------------------------------+
+| Esta copia ajuda em caso de perda ou problema no computador.|
+| Salve tambem em pendrive, pasta de rede ou outra maquina.  |
++------------------------------------------------------------+
+| A exportacao inclui:                                      |
+| - escola, pessoas, cargos e apoios                         |
+| - necessidades, envolvidos, planos e historico             |
+| - equipamentos                                             |
+| - auditoria historica                                      |
+| - senhas protegidas por hash                               |
+|                                                            |
+| A exportacao nao inclui senha clara, token claro ou        |
+| resposta clara de recuperacao.                             |
+|                                                            |
+| [ Gerar exportacao de seguranca ]                          |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- [A] ou [U] tenta acessar: bloquear.
+- Falha ao gerar arquivo: explicar e nao registrar sucesso.
+- Exportacao concluida gera auditoria `SECURITY_EXPORTED`.
+- Interface deve recomendar salvar copia fora do computador principal.
+
+### Restauracao De Seguranca
+
+Objetivo: restaurar dados exportados pelo proprio Radar Escola, substituindo os
+dados atuais.
+
+Permissao:
+
+- [D] restaura dados de seguranca.
+- [A] e [U] nao restauram.
+- [S] restauracao sempre substitui; nao existe mescla na V1.
+
+```text
++------------------------------------------------------------+
+| Seguranca > Restaurar dados                        [Voltar] |
++------------------------------------------------------------+
+| Atencao: restaurar substitui todos os dados atuais.         |
+| Nao e importacao parcial, nem mescla de registros.          |
++------------------------------------------------------------+
+| Arquivo de restauracao                                     |
+| [ Selecionar arquivo exportado pelo Radar Escola ]         |
+|                                                            |
+| O que acontecera                                           |
+| - dados atuais serao substituidos                          |
+| - usuarios e hashes de senha virao da exportacao           |
+| - auditoria historica do pacote sera restaurada            |
+| - evento da restauracao atual sera registrado se possivel  |
+|                                                            |
+| Confirmacao forte                                          |
+| Digite RESTAURAR para continuar                            |
+| [ RESTAURAR __________________________________________ ]   |
+|                                                            |
+| [ Restaurar e substituir dados atuais ]                    |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Arquivo invalido: bloquear.
+- Confirmacao diferente de `RESTAURAR`: bloquear.
+- Falha durante restauracao: preservar estado anterior quando tecnicamente
+  possivel.
+- Sucesso leva ao login ou Radar conforme sessao valida depois da restauracao.
+
+### Auditoria
+
+Objetivo: permitir que somente a direcao consulte a memoria de acoes sensiveis.
+
+Permissao:
+
+- [D] consulta auditoria.
+- [A] e [U] nao consultam auditoria.
+- [S] auditoria nao mostra senha, token, resposta nem hash sensivel.
+
+```text
++------------------------------------------------------------+
+| Auditoria                                          [Voltar] |
++------------------------------------------------------------+
+| Acoes sensiveis registradas pelo sistema.                  |
++------------------------------------------------------------+
+| Buscar                                                     |
+| [ pessoa, acao, data... _____________________________ ]    |
+|                                                            |
+| Filtros                                                    |
+| [Todos] [Usuarios] [Necessidades] [Seguranca] [Direcao]    |
+|                                                            |
+| ---------------------------------------------------------- |
+| 12/05/2026 09:12 | USER_CREATED                            |
+| Marta Souza cadastrou Joao Pereira                         |
+|                                                            |
+| 12/05/2026 10:03 | PASSWORD_RESET                          |
+| Direcao redefiniu senha temporaria de Joao Pereira         |
+|                                                            |
+| 13/05/2026 15:40 | NEED_RESOLVED                           |
+| Marta Souza marcou necessidade #12 como resolvida          |
+|                                                            |
+| 14/05/2026 08:20 | SECURITY_EXPORTED                       |
+| Direcao gerou exportacao de seguranca                      |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Sem eventos: mostrar estado vazio.
+- Evento nao pode ser editado pela interface.
+- Evento nao pode ser apagado fisicamente pela interface.
+- [A] bloqueado mesmo sendo apoio de gestao.
+
+### Transferir Direcao
+
+Objetivo: permitir troca controlada da pessoa responsavel principal pela escola.
+
+Permissao:
+
+- [D] atual transfere direcao para uma pessoa ativa.
+- [A] e [U] nao transferem direcao.
+- [S] transferencia move acesso a auditoria, seguranca e responsabilidade
+  principal.
+
+```text
++------------------------------------------------------------+
+| Transferir direcao                                 [Voltar] |
++------------------------------------------------------------+
+| Esta acao transfere a responsabilidade principal da escola. |
+| A nova direcao tera acesso a seguranca e auditoria.         |
++------------------------------------------------------------+
+| Direcao atual                                              |
+| Maria Silva                                                |
+|                                                            |
+| Nova direcao                                               |
+| [ Buscar pessoa ativa ________________________________ ]   |
+|                                                            |
+| Resultado selecionado                                      |
+| Ana Costa - Secretaria                                     |
+|                                                            |
+| Confirmacao                                                |
+| [ ] Entendo que Ana Costa sera a nova direcao do sistema.  |
+| [ ] Entendo que minha permissao de direcao sera retirada.  |
+|                                                            |
+| [ Transferir direcao ]                                     |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Nova direcao vazia: bloquear.
+- Pessoa inativa: bloquear.
+- Direcao tenta transferir para si mesma: informar que ja e responsavel.
+- Transferencia gera auditoria `DIRECTORSHIP_TRANSFERRED`.
+- Depois da transferencia, sistema deve orientar revisar apoios de gestao.
