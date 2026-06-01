@@ -14,9 +14,10 @@ Ja existe:
   prototipal;
 - scaffold minimo Tauri + React + TypeScript;
 - tela inicial tecnica do Radar Escola;
+- playground CRUD de referencia acionado por menu nativo;
 - `package-lock.json`;
 - CI com qualidade documental, higiene, `npm ci`, typecheck e build frontend;
-- workflow futuro de release desktop;
+- workflow de release desktop gerando instalador tecnico do scaffold;
 - documentacao de CI/CD OSS.
 
 Ainda nao existe:
@@ -27,7 +28,7 @@ Ainda nao existe:
 - persistencia;
 - testes automatizados de regra de negocio;
 - build Tauri validado localmente;
-- instalador publicado;
+- release versionada publicada por tag;
 - fluxo funcional de MVP.
 
 ## Principios de Implementacao
@@ -54,6 +55,8 @@ Criterios de aceite:
 - `npm run build` passa;
 - app React renderiza tela inicial honesta;
 - Tauri possui configuracao minima;
+- instalador tecnico do scaffold e gerado pelo workflow `Desktop Release`;
+- app instalado abre sem crash imediato;
 - CI valida o scaffold;
 - docs deixam claro que ainda nao e MVP funcional.
 
@@ -193,7 +196,9 @@ Criterios de aceite:
 - workflow de release gera instalador Windows;
 - checksum SHA-256 e gerado;
 - smoke test valida existencia do artefato;
-- smoke test futuro instala/abre app quando houver maturidade;
+- validacao local instala e abre o artefato gerado pelo workflow;
+- menu nativo inicia o playground no executavel instalado;
+- smoke test futuro automatiza instalacao e abertura no runner Windows;
 - release por tag `v*` publica artefatos reais.
 
 ## Fase 13: Teste End-to-End da V0

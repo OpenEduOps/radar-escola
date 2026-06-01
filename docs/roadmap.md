@@ -22,7 +22,7 @@ Resumo:
 - CI/CD OSS criada;
 - scaffold minimo Tauri + React + TypeScript criado;
 - build frontend validado;
-- release desktop desenhada.
+- release desktop tecnica validada com instalador Windows do scaffold.
 
 ## Fase 1: Planejamento Implementavel
 
@@ -108,13 +108,14 @@ Resumo:
 
 ## Fase 8: Release Windows
 
-Status: planejado.
+Status: parcial/implementado.
 
 Resumo:
 
 - instalador Windows;
 - checksum;
-- smoke test;
+- smoke test de artefato;
+- validacao local de instalacao e abertura;
 - release por tag.
 
 ## Proximos Passos Imediatos

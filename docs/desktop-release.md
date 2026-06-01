@@ -26,14 +26,14 @@ CI, GitHub Actions ou banco de dados.
 ## Estado Atual
 
 O repositorio `OpenEduOps/radar-escola` contem a documentacao de produto e o
-scaffold tecnico minimo.
+scaffold tecnico minimo executavel.
 
-Por isso, a esteira completa de release desktop ainda nao consegue gerar um
-instalador real.
+O workflow `.github/workflows/desktop-release.yml` ja consegue gerar um
+instalador Windows tecnico do scaffold atual por execucao manual.
 
-O workflow `.github/workflows/desktop-release.yml` ja existe como contrato
-tecnico, mas sua etapa de preflight falha intencionalmente enquanto o scaffold
-do app nao existir.
+Esse instalador ainda nao representa a V0 funcional completa. Ele valida a
+casca desktop, o carregamento do frontend empacotado, o menu nativo Playground
+e o CRUD de referencia usado por pessoas desenvolvedoras.
 
 ## Contrato Minimo do App
 
@@ -71,6 +71,10 @@ O scaffold atual contem:
 - Vite para build frontend;
 - Tauri 2 como casca desktop;
 - janela inicial do Radar Escola;
+- menu nativo `Playground > Iniciar playground`;
+- CRUD playground master-detail como referencia tecnica;
+- icone Windows exigido pelo empacotamento Tauri;
+- capability Tauri `core:default` para a janela principal;
 - script de smoke check para localizar artefatos Windows;
 - `package-lock.json` para dependencias npm reproduziveis.
 
@@ -95,12 +99,15 @@ O workflow `Desktop Release` deve cobrir:
 
 ## Smoke Test Windows
 
-O arquivo futuro `scripts/smoke-windows.ps1` deve validar o minimo necessario
+O arquivo `scripts/smoke-windows.ps1` valida o minimo necessario
 para confiar que o instalador nao esta quebrado.
 
-Ele deve testar:
+Ele testa hoje:
 
 - instalador encontrado;
+
+Ele deve evoluir para testar tambem:
+
 - instalacao sem erro;
 - aplicativo abre sem crash imediato;
 - banco local e criado no local esperado;
@@ -134,18 +141,19 @@ Exemplo futuro:
 v0.1.0
 ```
 
-## Comportamento Enquanto o App Nao Existe
+## Comportamento Enquanto o App Ainda E Scaffold
 
 O workflow `Desktop Release` pode ser executado manualmente para conferir o
 estado da esteira.
 
 O scaffold minimo do app ja existe no repositorio para validar a esteira sem
 criar funcionalidade falsa de MVP. Ele contem uma tela tecnica simples do Radar
-Escola, sem fluxo de cadastro, banco local ou regras de negocio.
+Escola, menu nativo Playground e CRUD playground de referencia, sem fluxo de
+cadastro escolar, banco local ou regras de negocio da V0.
 
-Enquanto o app ainda for apenas scaffold, a execucao manual pode gerar um
-instalador tecnico minimo, mas ele deve ser tratado apenas como validacao da
-casca desktop e do pipeline de release.
+Enquanto o app ainda for apenas scaffold, a execucao manual gera um instalador
+tecnico minimo, mas ele deve ser tratado apenas como validacao da casca desktop,
+do carregamento web empacotado e do pipeline de release.
 
 Se alguem tentar publicar uma tag `v*` antes do scaffold existir, o preflight
 deve falhar. Uma release versionada nao pode ser publicada sem artefato real.
@@ -162,8 +170,8 @@ Ainda nao e possivel entregar a experiencia completa de produto porque faltam:
 - registro e acompanhamento de necessidades;
 - exportacao/restauracao de seguranca;
 - `Cargo.lock` gerado por ambiente Rust valido;
-- teste automatizado que instale e abra o app de forma verificavel no Windows;
-- definicao final de formato de instalador;
+- teste automatizado na CI que instale e abra o app de forma verificavel no
+  Windows;
 - decisao futura sobre assinatura de codigo.
 
 Essas pendencias devem ser resolvidas neste repositorio quando o app Radar
@@ -181,10 +189,34 @@ release usa runner Windows do GitHub Actions e instala Rust antes do build.
 Mesmo assim, o contrato de CI/CD ja deixa claro qual sera o caminho de entrega
 do produto para a pessoa usuaria final.
 
-## Tentativa Local De Instalador
+## Instalador Gerado Em CI
 
-Apos a criacao do CRUD de referencia do playground, o comando abaixo foi
-executado localmente:
+Como o ambiente local ainda nao tem toolchain Rust/MSVC, o instalador foi
+gerado pelo workflow `Desktop Release` em runner Windows do GitHub Actions.
+
+Validacao realizada:
+
+- workflow `Desktop Release` concluido com sucesso;
+- artefato `Radar Escola_0.0.0_x64-setup.exe` publicado pelo workflow;
+- arquivo `.sha256` gerado e conferido localmente;
+- instalacao silenciosa local executada com codigo `0`;
+- executavel instalado em
+  `C:\Users\silva-dev\AppData\Local\Radar Escola\radar-escola.exe`;
+- aplicativo abriu sem crash imediato;
+- UI do Radar Escola renderizou no executavel instalado;
+- item nativo `Playground > Iniciar playground` foi acionado por comando Win32;
+- tela `Master detalhe` do playground apareceu no executavel instalado.
+
+Correcoes necessarias para chegar nesse estado:
+
+- adicionar `src-tauri/icons/icon.ico`;
+- configurar `base: "./"` no Vite para assets relativos no app empacotado;
+- adicionar capability Tauri `core:default` para permitir a ponte de eventos da
+  janela principal.
+
+## Tentativa Local De Build Tauri
+
+O comando abaixo foi executado localmente:
 
 ```text
 npm run tauri -- build
@@ -200,7 +232,8 @@ Conclusao:
 
 - o build web do scaffold esta valido;
 - os testes automatizados do CRUD passam;
-- o instalador `radar-escola.exe` ainda nao pode ser gerado nesta maquina;
+- o instalador pode ser gerado no GitHub Actions;
+- o instalador ainda nao pode ser gerado diretamente nesta maquina;
 - a pendencia local imediata e instalar Rust/Cargo;
 - a pendencia nativa seguinte e instalar Visual Studio Build Tools/MSVC com as
   ferramentas C++ exigidas pelo Tauri no Windows.

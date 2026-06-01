@@ -49,6 +49,8 @@ Desktop/Tauri:
 
 - `src-tauri/Cargo.toml`;
 - `src-tauri/build.rs`;
+- `src-tauri/capabilities/default.json`;
+- `src-tauri/icons/icon.ico`;
 - `src-tauri/src/main.rs`;
 - `src-tauri/tauri.conf.json`.
 
@@ -145,8 +147,23 @@ A CI valida:
 
 ### Release Desktop
 
-O workflow `Desktop Release` existe como contrato tecnico para gerar instalador
-Windows e publicar release quando houver tag `v*`.
+O workflow `Desktop Release` gera um instalador Windows tecnico do scaffold
+atual em execucao manual e publica release quando houver tag `v*`.
+
+Validado por:
+
+```text
+GitHub Actions > Desktop Release
+```
+
+Validacao local realizada sobre o artefato baixado do workflow:
+
+- SHA-256 do `.exe` conferido contra o arquivo `.sha256`;
+- instalacao silenciosa concluida com codigo `0`;
+- executavel instalado abriu sem crash imediato;
+- UI do Radar Escola renderizou no app instalado;
+- menu nativo `Playground > Iniciar playground` acionou o playground;
+- tela `Master detalhe` apareceu no executavel instalado.
 
 ## Explicitamente Fora de Escopo Agora
 
@@ -163,8 +180,7 @@ Ainda nao foi implementado:
 - historico;
 - auditoria;
 - exportacao/restauracao;
-- instalador validado em release real;
-- testes de dominio.
+- testes de dominio da V0 funcional.
 
 ## Fronteira Atual da Fonte
 
@@ -219,3 +235,6 @@ failed to run 'cargo metadata' ... program not found
 
 Tambem nao foi localizada instalacao local do Visual Studio Build Tools/MSVC
 com suporte a `Microsoft.VisualStudio.Component.VC.Tools.x86.x64`.
+
+O instalador Windows do scaffold atual foi gerado e validado via GitHub Actions
+porque o runner Windows ja fornece a toolchain necessaria para compilar Tauri.

@@ -193,7 +193,18 @@ Comando futuro de release:
 npm run tauri -- build --ci --no-sign
 ```
 
-O comando Tauri completo depende de Rust, Cargo e toolchain Windows.
+O comando Tauri completo depende de Rust, Cargo e toolchain Windows. No ambiente
+local atual essa toolchain ainda nao existe, mas o workflow `Desktop Release`
+gera o instalador Windows em runner GitHub Actions.
+
+Smoke test ja validado no scaffold atual:
+
+- artefato `.exe` gerado pelo workflow;
+- hash SHA-256 conferido localmente;
+- instalacao silenciosa local com codigo `0`;
+- executavel instalado abriu sem crash imediato;
+- menu nativo iniciou o playground;
+- tela master-detail do playground apareceu no app instalado.
 
 ## Fora de Escopo da Entrega Final
 
