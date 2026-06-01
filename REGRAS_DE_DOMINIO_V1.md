@@ -43,7 +43,7 @@ nome do cargo.
 
 ## Convencoes de tabela
 
-- `id`: identificador textual ou inteiro, decisao tecnica futura.
+- `id`: identificador textual `TEXT` em UUID v4, gerado pela aplicacao.
 - `created_at`: data/hora de criacao.
 - `updated_at`: data/hora da ultima atualizacao.
 - `inactive_at`: quando aplicavel, marca inativacao.
@@ -207,6 +207,8 @@ Constraints:
 - `username` unico;
 - `password_hash` obrigatorio;
 - senha clara nunca deve ser persistida;
+- hash de senha deve ser Argon2id, gerado no lado Tauri/Rust, com salt aleatorio
+  por senha;
 - `must_change_password = 1` impede uso normal.
 
 Operacoes:
@@ -254,6 +256,8 @@ Constraints:
 - recuperacao pode validar token ou resposta da frase;
 - token nao deve ser armazenado em claro;
 - resposta nao deve ser armazenada em claro;
+- `token_hash` e `recovery_answer_hash` devem usar Argon2id no lado Tauri/Rust,
+  com salt aleatorio por segredo;
 - token nao deve ser regenerado.
 
 Operacoes:
@@ -457,7 +461,7 @@ Constraints:
 Operacoes:
 
 - Insert: registrar andamento.
-- Update: proibido na V1, salvo correcao futura explicita.
+- Update: proibido na V1; correcao deve ser registrada como novo andamento.
 - Delete: proibido.
 
 Queries:
@@ -618,10 +622,11 @@ Eventos de auditoria:
 Observacao:
 
 - A auditoria historica faz parte do pacote restauravel. Como restauracao
-  substitui dados, a estrategia tecnica ainda deve decidir onde registrar o
-  evento da restauracao atual: dentro do banco restaurado, em log local separado
-  ou em ambos. Para V1, a regra de produto e registrar quando tecnicamente
-  possivel.
+  substitui dados, o evento da restauracao atual deve ser gravado apos a
+  substituicao, dentro do banco restaurado, usando snapshot em memoria do ator
+  que iniciou a acao. Se os identificadores do ator nao existirem mais no pacote
+  restaurado, eles continuam registrados como texto de auditoria, sem exigir
+  relacao ativa com a pessoa restaurada.
 
 ### D-014 Auditoria
 
@@ -639,8 +644,8 @@ Campos propostos:
 | --- | --- | --- | --- |
 | `id` | TEXT | Sim | UUID |
 | `event_type` | TEXT | Sim | Tipo controlado |
-| `actor_user_id` | TEXT | Sim | Usuario logado |
-| `actor_person_id` | TEXT | Sim | Pessoa vinculada ao usuario |
+| `actor_user_id` | TEXT | Sim | Usuario logado ou snapshot de restauracao |
+| `actor_person_id` | TEXT | Sim | Pessoa vinculada ou snapshot de restauracao |
 | `entity_type` | TEXT | Sim | Dominio afetado |
 | `entity_id` | TEXT | Nao | ID afetado quando existir |
 | `summary` | TEXT | Sim | Texto curto sem segredo |
@@ -649,7 +654,7 @@ Campos propostos:
 
 Constraints:
 
-- evento deve ter ator identificado;
+- evento deve ter ator identificado, ainda que como snapshot em restauracao;
 - `summary` e `metadata_json` nunca devem conter senha, token claro ou resposta
   clara de recuperacao;
 - evento de auditoria nao deve ser alterado pela interface;
@@ -737,8 +742,8 @@ Regras:
 
 Definicao inicial:
 
-- necessidade ativa sem andamento recente por periodo configuravel no codigo;
-- sugestao inicial: 7 dias sem atualizacao.
+- necessidade ativa sem andamento recente por 7 dias corridos;
+- quando ainda nao houver andamento, considerar `created_at` da necessidade.
 
 Query candidata:
 
@@ -959,16 +964,19 @@ Deve conter:
 | Exportacao | Sim | Sim | Arquivo gerado |
 | Restauracao | Sim | Sim | Substituicao |
 
-## Lacunas para revisao
+## Decisoes estabilizadas para V1
 
-Antes de implementar, revisar:
-
-- periodo exato de "necessidade parada";
-- formato exato do pacote CSV;
-- estrategia tecnica para registrar a restauracao atual apos substituicao total;
-- estrategia concreta de hash no ambiente Tauri;
-- se reabertura de necessidade resolvida fica totalmente fora da V1;
-- se edicao de andamento existente deve ser proibida ou permitida com historico.
+- Necessidade parada: 7 dias corridos sem atualizacao, usando o ultimo andamento
+  ou `created_at` quando ainda nao houver andamento.
+- Pacote de seguranca: conjunto restauravel de CSVs gerados pelo Radar Escola,
+  com metadados de versao suficientes para validar compatibilidade.
+- Restauracao atual: gravar `SECURITY_IMPORT_RESTORED` apos a substituicao,
+  preservando snapshot do ator que iniciou a acao.
+- Hash: senhas, tokens e respostas devem ser protegidos por Argon2id no lado
+  Tauri/Rust, com salt aleatorio por segredo.
+- Reabertura de necessidade resolvida fica fora da V1.
+- Edicao de andamento existente fica proibida; correcao deve gerar novo
+  andamento.
 
 ## Criterio de pronto do dominio
 
