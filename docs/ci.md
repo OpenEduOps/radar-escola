@@ -94,6 +94,8 @@ documentacao operacional com comandos reais.
 Essa decisao esta concentrada na issue
 [`DOCKER-009`](https://github.com/OpenEduOps/radar-escola/issues/97), que deve
 ser executada apenas depois das issues `DOCKER-001` a `DOCKER-008`.
+Antes de qualquer mudanca de workflow, a pessoa responsavel deve conferir no
+GitHub que todas essas dependencias estao fechadas.
 
 Se Docker entrar na CI no futuro, ele deve continuar dentro do agregado
 `All CI checks` e preservar permissoes minimas.

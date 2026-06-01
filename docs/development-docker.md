@@ -111,6 +111,19 @@ Quando existirem, os comandos devem deixar claro:
 
 Nao adicionar comandos exemplares que ainda nao foram testados no repositorio.
 
+As convencoes esperadas para a primeira implementacao sao:
+
+- imagem base candidata: `node:24-bookworm-slim`;
+- nome local preferencial: `radar-escola-dev:local`;
+- diretorio de trabalho preferencial: `/workspace`;
+- checks Node em ordem equivalente a CI: `npm run typecheck`, `npm test`,
+  `npm run build`;
+- Playwright/E2E fora da imagem basica ate decisao da issue `DOCKER-007`;
+- nenhuma recomendacao de limpeza global como caminho padrao.
+
+Se a implementacao precisar fugir dessas convencoes, o motivo deve aparecer na
+PR e na documentacao atualizada.
+
 ## Relacao Com Issues
 
 As tarefas Docker foram cadastradas como trilha transversal `DOCKER-001` a

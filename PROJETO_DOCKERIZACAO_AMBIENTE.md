@@ -560,6 +560,24 @@ A `DOCKER-009` nao autoriza CI com Docker antes da hora. Ela existe justamente
 para verificar, depois das demais issues fechadas, se a validacao Docker deve
 entrar em CI, permanecer manual ou seguir como workflow experimental.
 
+## Convencoes Executaveis Da Trilha Docker
+
+Para reduzir ambiguidade de implementacao, as issues Docker devem usar estas
+convencoes iniciais:
+
+- imagem base candidata: `node:24-bookworm-slim`;
+- nome local preferencial da imagem: `radar-escola-dev:local`;
+- `WORKDIR` preferencial: `/workspace`;
+- validacoes Node em ordem equivalente a CI: `npm run typecheck`, `npm test`,
+  `npm run build`;
+- Playwright/E2E fora da imagem basica ate decisao explicita;
+- limpeza documentada apenas para recursos nomeados do projeto;
+- medicao minima: sistema operacional, shell, versao do Docker, tag local,
+  tempo aproximado de build, tamanho da imagem e observacao sobre disco.
+
+Qualquer desvio dessas convencoes deve ser justificado na PR ou na documentacao
+operacional atualizada.
+
 ## Decisoes Abertas
 
 - Usar ou nao `docker-compose.yml` na primeira versao?
@@ -572,7 +590,8 @@ entrar em CI, permanecer manual ou seguir como workflow experimental.
 - O E2E em container deve usar Chrome real, Chromium ou configuracao separada?
 - Qual comando de limpeza sera recomendado sem risco de apagar recursos de
   outros projetos?
-- Qual nome padrao deve ser usado para imagem, containers e volumes?
+- Qual nome padrao deve ser usado para containers e volumes, mantendo
+  `radar-escola-dev:local` como nome preferencial da imagem local?
 - O `Dockerfile.dev` deve rodar como usuario root ou nao-root na primeira fase?
 - Publicacao de imagem deve continuar fora de escopo ate qual marco do projeto?
 
