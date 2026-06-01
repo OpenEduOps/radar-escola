@@ -120,10 +120,8 @@ pub fn playground_create_record(
     draft: PlaygroundDraft,
 ) -> Result<PlaygroundMutation, String> {
     let normalized_name = normalize_required(&draft.nome, "Nome e obrigatorio.")?;
-    let normalized_description =
-        normalize_required(&draft.descricao, "Descricao e obrigatoria.")?;
-    let normalized_status =
-        normalize_required(&draft.codigo_status, "Status e obrigatorio.")?;
+    let normalized_description = normalize_required(&draft.descricao, "Descricao e obrigatoria.")?;
+    let normalized_status = normalize_required(&draft.codigo_status, "Status e obrigatorio.")?;
     let connection = lock_connection(&database)?;
     let record = PlaygroundRecord {
         id: next_playground_id(&connection)?,
@@ -161,10 +159,8 @@ pub fn playground_update_record(
 ) -> Result<PlaygroundMutation, String> {
     let normalized_id = normalize_required(&id, "Registro playground e obrigatorio.")?;
     let normalized_name = normalize_required(&draft.nome, "Nome e obrigatorio.")?;
-    let normalized_description =
-        normalize_required(&draft.descricao, "Descricao e obrigatoria.")?;
-    let normalized_status =
-        normalize_required(&draft.codigo_status, "Status e obrigatorio.")?;
+    let normalized_description = normalize_required(&draft.descricao, "Descricao e obrigatoria.")?;
+    let normalized_status = normalize_required(&draft.codigo_status, "Status e obrigatorio.")?;
     let connection = lock_connection(&database)?;
 
     connection
@@ -204,7 +200,10 @@ pub fn playground_delete_record(
     let connection = lock_connection(&database)?;
 
     connection
-        .execute("DELETE FROM playground WHERE id = ?1", params![normalized_id])
+        .execute(
+            "DELETE FROM playground WHERE id = ?1",
+            params![normalized_id],
+        )
         .map_err(|error| format!("Nao foi possivel excluir playground: {error}"))?;
 
     load_snapshot(&connection)
@@ -411,10 +410,10 @@ fn find_playground_by_id(
 }
 
 fn next_status_code(connection: &Connection) -> Result<String, String> {
-    next_code(load_codes(
-        connection,
-        "SELECT codigo_status FROM status_playground",
-    )?, "SP")
+    next_code(
+        load_codes(connection, "SELECT codigo_status FROM status_playground")?,
+        "SP",
+    )
 }
 
 fn next_playground_id(connection: &Connection) -> Result<String, String> {
@@ -454,9 +453,9 @@ fn normalize_required(value: &str, message: &str) -> Result<String, String> {
     Ok(normalized)
 }
 
-fn lock_connection(
-    database: &State<'_, PlaygroundDatabase>,
-) -> Result<std::sync::MutexGuard<'_, Connection>, String> {
+fn lock_connection<'a>(
+    database: &'a State<'_, PlaygroundDatabase>,
+) -> Result<std::sync::MutexGuard<'a, Connection>, String> {
     database
         .connection
         .lock()
