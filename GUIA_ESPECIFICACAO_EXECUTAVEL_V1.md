@@ -85,7 +85,7 @@ Exemplos:
 
 Fluxo de excecao mostra o comportamento quando alguem encosta na cerca.
 
-## Documentos Gerados ou Planejados
+## Documentos da Especificacao Executavel
 
 ### 1. `DETALHAMENTO_REQUISITOS_V1.md`
 
@@ -109,7 +109,7 @@ Deve conter:
 - testes recomendados;
 - sugestao de issues por caso de uso.
 
-Casos de uso candidatos:
+Casos de uso detalhados:
 
 - UC-001: Configurar escola no primeiro uso.
 - UC-002: Entrar com usuario e senha.
@@ -228,9 +228,9 @@ O cuidado principal e nao jogar regra de negocio diretamente na UI nem espalhar
 SQL por telas. As regras devem ficar em dominio/aplicacao; a infraestrutura deve
 persistir e consultar.
 
-## Dominios Candidatos
+## Dominios da V1
 
-Estes dominios devem ser validados e refinados durante a V1:
+Estes dominios formam a base da especificacao executavel da V1:
 
 - escola;
 - pessoa;
@@ -248,9 +248,9 @@ Estes dominios devem ser validados e refinados durante a V1:
 - exportacao e restauracao;
 - sessao local.
 
-## Tabelas Candidatas
+## Tabelas da V1
 
-Estas tabelas sao candidatas iniciais para o modelo relacional:
+Estas tabelas formam a base inicial do modelo relacional:
 
 - `schools`;
 - `people`;
@@ -267,8 +267,8 @@ Estas tabelas sao candidatas iniciais para o modelo relacional:
 - `security_exports`;
 - `security_imports`.
 
-O documento `REGRAS_DE_DOMINIO_V1.md` devera confirmar, renomear, dividir ou
-remover essas tabelas.
+O documento `REGRAS_DE_DOMINIO_V1.md` detalha essas tabelas e pode evoluir com
+ajustes controlados durante a implementacao.
 
 ## Operacoes de Dominio
 
