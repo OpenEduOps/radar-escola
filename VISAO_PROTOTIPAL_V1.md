@@ -1031,3 +1031,128 @@ Estados:
 - Diretor atual nao deve resetar a propria senha por este fluxo.
 - Usuario redefinido fica obrigado a trocar senha antes de usar o Radar.
 - Reset gera auditoria `PASSWORD_RESET` sem expor conteudo sensivel.
+
+## Equipamentos
+
+### Cadastrar Equipamento
+
+Objetivo: cadastrar um equipamento simples para facilitar vinculo com
+necessidades e consultas futuras.
+
+Permissao:
+
+- [D] e [A] cadastram, editam e inativam equipamentos.
+- [U] cadastra equipamento simples apenas quando precisar vincular a uma
+  necessidade.
+- [S] equipamento nao e controle patrimonial completo na V1.
+
+```text
++------------------------------------------------------------+
+| Cadastrar equipamento                              [Voltar] |
++------------------------------------------------------------+
+| Cadastre apenas informacoes uteis para resolver necessidades.|
+| Isto nao substitui controle patrimonial da escola.          |
++------------------------------------------------------------+
+|                                                            |
+| Nome do equipamento                                        |
+| [ Projetor Epson X100 ________________________________ ]   |
+|                                                            |
+| Local comum                                                |
+| [ Sala 8 ______________________________________________ ]  |
+|                                                            |
+| Identificacao ou patrimonio, se houver                     |
+| [ PATR-000123 ________________________________________ ]   |
+|                                                            |
+| Observacao operacional                                     |
+| [ Controle remoto fica na secretaria. ________________ ]   |
+|                                                            |
+| [ Salvar equipamento ]                                     |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Nome vazio: bloquear.
+- Identificacao/patrimonio e opcional.
+- [U] volta ao registro da necessidade com equipamento selecionado.
+- [U] nao ve opcoes de editar ou inativar depois do cadastro simples.
+
+### Selecionar Ou Vincular Equipamento
+
+Objetivo: relacionar uma necessidade ativa a zero ou um equipamento.
+
+Permissao:
+
+- [D], [A] e [U] vinculam equipamento a necessidade ativa.
+- [D] e [A] podem remover vinculo registrado por engano.
+- [U] pode remover vinculo enquanto necessidade estiver ativa, quando foi ele
+  quem marcou errado.
+
+```text
++------------------------------------------------------------+
+| Vincular equipamento                               [Voltar] |
++------------------------------------------------------------+
+| Necessidade #12 - Projetor da sala 8 nao liga              |
++------------------------------------------------------------+
+| Equipamento atual                                          |
+| Nenhum equipamento vinculado.                              |
+|                                                            |
+| Buscar equipamento                                         |
+| [ projetor, sala, patrimonio... ______________________ ]   |
+|                                                            |
+| Resultados                                                 |
+| ---------------------------------------------------------- |
+| Projetor Epson X100 | Sala 8 | PATR-000123    [ Vincular ]|
+| Projetor BenQ       | Sala 3 | sem patrimonio [ Vincular ]|
+|                                                            |
+| Nao encontrou?                                             |
+| [ Cadastrar equipamento simples ]                          |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Necessidade pode ficar sem equipamento.
+- Necessidade final bloqueia novo vinculo.
+- Uma necessidade tem zero ou um equipamento na V1.
+- Equipamento inativo nao aparece como opcao padrao.
+
+### Equipamentos
+
+Objetivo: consultar equipamentos cadastrados e perceber necessidades
+recorrentes por equipamento.
+
+Permissao:
+
+- [D], [A] e [U] consultam equipamentos.
+- [D] e [A] editam ou inativam.
+- [U] consulta e vincula em necessidades, mas nao edita cadastro.
+
+```text
++------------------------------------------------------------+
+| Equipamentos                                       [Voltar] |
++------------------------------------------------------------+
+| Buscar                                                     |
+| [ nome, local, identificacao... ______________________ ]   |
+|                                                            |
+| [ Cadastrar equipamento ]                                  |
++------------------------------------------------------------+
+| Projetor Epson X100                                        |
+| Sala 8 | PATR-000123 | 3 necessidades registradas          |
+| [ Ver historico ] [ Editar ] [ Inativar ]                  |
+|                                                            |
+| Impressora HP Laser                                        |
+| Secretaria | sem patrimonio | 1 necessidade registrada     |
+| [ Ver historico ] [ Editar ] [ Inativar ]                  |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- [U] nao ve "Editar" nem "Inativar".
+- Equipamento com historico nao deve ser apagado fisicamente.
+- Inativar remove da selecao padrao, mas preserva historico.
+- Historico por equipamento usa necessidades vinculadas.
