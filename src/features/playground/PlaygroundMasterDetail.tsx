@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   PLAYGROUND_TABLE_NAME,
   STATUS_PLAYGROUND_TABLE_NAME,
@@ -7,14 +7,14 @@ import {
   statusPlaygroundRecords,
 } from "./playgroundData";
 import {
-  createPlaygroundRecord,
-  deletePlaygroundRecord,
   getStatusName,
   isPlaygroundDraftComplete,
-  registerStatusPlayground,
   type PlaygroundDraft,
-  updatePlaygroundRecord,
 } from "./playgroundCrud";
+import {
+  createPlaygroundRepository,
+  type PlaygroundSnapshot,
+} from "./playgroundRepository";
 
 const initialStatusCode = statusPlaygroundRecords[0]?.codigoStatus ?? "";
 
@@ -26,7 +26,14 @@ function buildEmptyPlaygroundDraft(codigoStatus: string): PlaygroundDraft {
   };
 }
 
+function getErrorMessage(error: unknown) {
+  return error instanceof Error
+    ? error.message
+    : "Nao foi possivel acessar a persistencia local do playground.";
+}
+
 export function PlaygroundMasterDetail() {
+  const repository = useMemo(() => createPlaygroundRepository(), []);
   const [records, setRecords] = useState(playgroundRecords);
   const [statusRecords, setStatusRecords] = useState(statusPlaygroundRecords);
   const [selectedId, setSelectedId] = useState(playgroundRecords[0]?.id ?? "");
@@ -41,12 +48,74 @@ export function PlaygroundMasterDetail() {
   );
   const [isStatusFormOpen, setIsStatusFormOpen] = useState(false);
   const [newStatusName, setNewStatusName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [repositoryError, setRepositoryError] = useState("");
   const selectedRecord =
     records.find((record) => record.id === selectedId) ?? records[0] ?? null;
   const isNewPlaygroundDraftComplete =
     isPlaygroundDraftComplete(newPlaygroundDraft);
   const isEditDraftComplete = draft ? isPlaygroundDraftComplete(draft) : false;
   const isNewStatusNameComplete = Boolean(newStatusName.trim());
+
+  useEffect(() => {
+    let isCurrent = true;
+
+    repository
+      .load()
+      .then((snapshot) => {
+        if (!isCurrent) {
+          return;
+        }
+
+        applySnapshot(snapshot);
+        setRepositoryError("");
+      })
+      .catch((error: unknown) => {
+        if (!isCurrent) {
+          return;
+        }
+
+        setRepositoryError(getErrorMessage(error));
+      })
+      .finally(() => {
+        if (isCurrent) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [repository]);
+
+  function applySnapshot(
+    snapshot: PlaygroundSnapshot,
+    preferredSelectedId?: string,
+  ) {
+    const nextSelectedId =
+      preferredSelectedId ??
+      (snapshot.playgroundRecords.some((record) => record.id === selectedId)
+        ? selectedId
+        : snapshot.playgroundRecords[0]?.id ?? "");
+    const nextStatusCode = snapshot.statusRecords.some(
+      (statusRecord) => statusRecord.codigoStatus === selectedStatusCode,
+    )
+      ? selectedStatusCode
+      : snapshot.statusRecords[0]?.codigoStatus ?? "";
+
+    setRecords(snapshot.playgroundRecords);
+    setStatusRecords(snapshot.statusRecords);
+    setSelectedId(nextSelectedId);
+    setSelectedStatusCode(nextStatusCode);
+    setNewPlaygroundDraft((currentDraft) => ({
+      ...currentDraft,
+      codigoStatus: snapshot.statusRecords.some(
+        (statusRecord) => statusRecord.codigoStatus === currentDraft.codigoStatus,
+      )
+        ? currentDraft.codigoStatus
+        : nextStatusCode,
+    }));
+  }
 
   function startEditing(record: PlaygroundRecord) {
     setSelectedId(record.id);
@@ -96,34 +165,44 @@ export function PlaygroundMasterDetail() {
     resetNewPlaygroundDraft();
   }
 
-  function saveNewPlaygroundRecord() {
-    const result = createPlaygroundRecord(records, newPlaygroundDraft);
+  async function saveNewPlaygroundRecord() {
+    try {
+      const result = await repository.createRecord(newPlaygroundDraft);
 
-    if (!result) {
-      return;
-    }
+      if (!result) {
+        return;
+      }
 
-    setRecords(result.records);
-    setSelectedId(result.record.id);
-    setIsCreateFormOpen(false);
-    resetNewPlaygroundDraft();
-  }
-
-  function deleteRecord(id: string) {
-    const nextRecords = deletePlaygroundRecord(records, id);
-
-    setRecords(nextRecords);
-
-    if (selectedId === id) {
-      setSelectedId(nextRecords[0]?.id ?? "");
-    }
-
-    if (editingId === id) {
-      cancelEditing();
+      applySnapshot(result.snapshot, result.record.id);
+      setIsCreateFormOpen(false);
+      resetNewPlaygroundDraft();
+      setRepositoryError("");
+    } catch (error) {
+      setRepositoryError(getErrorMessage(error));
     }
   }
 
-  function saveDraft() {
+  async function deleteRecord(id: string) {
+    try {
+      const snapshot = await repository.deleteRecord(id);
+
+      applySnapshot(snapshot);
+
+      if (selectedId === id) {
+        setSelectedId(snapshot.playgroundRecords[0]?.id ?? "");
+      }
+
+      if (editingId === id) {
+        cancelEditing();
+      }
+
+      setRepositoryError("");
+    } catch (error) {
+      setRepositoryError(getErrorMessage(error));
+    }
+  }
+
+  async function saveDraft() {
     if (!draft || !editingId) {
       return;
     }
@@ -132,27 +211,40 @@ export function PlaygroundMasterDetail() {
       return;
     }
 
-    setRecords((currentRecords) =>
-      updatePlaygroundRecord(currentRecords, editingId, draft),
-    );
-    cancelEditing();
+    try {
+      const result = await repository.updateRecord(editingId, draft);
+
+      if (result) {
+        applySnapshot(result.snapshot, result.record.id);
+      }
+
+      cancelEditing();
+      setRepositoryError("");
+    } catch (error) {
+      setRepositoryError(getErrorMessage(error));
+    }
   }
 
-  function registerInterfaceStatus() {
-    const result = registerStatusPlayground(statusRecords, newStatusName);
+  async function registerInterfaceStatus() {
+    try {
+      const result = await repository.registerStatus(newStatusName);
 
-    if (!result) {
-      return;
+      if (!result) {
+        return;
+      }
+
+      applySnapshot(result.snapshot);
+      setSelectedStatusCode(result.statusRecord.codigoStatus);
+      setNewPlaygroundDraft((currentDraft) => ({
+        ...currentDraft,
+        codigoStatus: result.statusRecord.codigoStatus,
+      }));
+      setNewStatusName("");
+      setIsStatusFormOpen(false);
+      setRepositoryError("");
+    } catch (error) {
+      setRepositoryError(getErrorMessage(error));
     }
-
-    setStatusRecords(result.statusRecords);
-    setSelectedStatusCode(result.statusRecord.codigoStatus);
-    setNewPlaygroundDraft((currentDraft) => ({
-      ...currentDraft,
-      codigoStatus: result.statusRecord.codigoStatus,
-    }));
-    setNewStatusName("");
-    setIsStatusFormOpen(false);
   }
 
   function toggleStatusForm() {
@@ -181,6 +273,15 @@ export function PlaygroundMasterDetail() {
           </span>
         </div>
       </header>
+
+      {isLoading ? (
+        <p className="feedback feedback--success">Carregando dados persistidos.</p>
+      ) : null}
+      {repositoryError ? (
+        <p className="feedback feedback--error" role="alert">
+          {repositoryError}
+        </p>
+      ) : null}
 
       <div className="playground-toolbar">
         <label htmlFor="playground-interface-status">
