@@ -120,15 +120,16 @@ Resumo:
 
 ## Iniciativa Transversal: Dockerizacao Do Ambiente Tecnico
 
-Status: planejada com issues cadastradas.
+Status: base Node implementada e validada.
 
 Resumo:
 
 - manter Docker fora da experiencia final da escola;
-- criar primeiro uma validacao Node basica em container;
-- medir tempo de build, tamanho de imagem e impacto em disco;
-- decidir depois se Playwright, compose ou CI com Docker fazem sentido;
-- tratar eventual validacao Docker em CI como etapa final dependente das bases;
+- `.dockerignore` e `Dockerfile.dev` criados;
+- validacao Node basica em container criada;
+- tempo de build e tamanho de imagem medidos;
+- validacao Docker adicionada a CI como etapa pequena;
+- decidir depois se Playwright ou compose fazem sentido;
 - preservar `Desktop Release` como caminho de instalador Windows.
 
 ## Proximos Passos Imediatos

@@ -8,20 +8,23 @@ A decisao de projeto, fases, riscos e criterios de corte estao em
 
 ## Estado Atual
 
-Docker ainda nao esta implementado no repositorio.
+Docker esta implementado como apoio tecnico de desenvolvimento.
 
-Ainda nao existem:
+Ja existem:
 
 - `.dockerignore`;
 - `Dockerfile.dev`;
-- imagem local validada;
-- comando padrao para rodar validacoes em container;
-- estrategia Docker para Playwright;
-- `docker-compose.yml`.
+- imagem local validada com Node.js 24;
+- comandos reais para build, typecheck, testes unitarios e build frontend;
+- decisao inicial de manter Playwright/E2E fora da imagem basica;
+- validacao Docker na CI como etapa final da trilha de base.
 
-Por enquanto, este guia registra a abordagem operacional esperada. Ele deve ser
-atualizado com comandos reais somente quando os artefatos Docker forem criados e
-validados.
+Ainda nao existe:
+
+- `docker-compose.yml`;
+- imagem publicada em registry;
+- build Tauri/Windows em Docker;
+- persistencia SQLite em Docker.
 
 ## Regra Principal
 
@@ -96,33 +99,77 @@ Ficam fora da primeira entrega:
 - banco SQLite real;
 - fluxo funcional de MVP.
 
-## Comandos Futuros
+## Comandos
 
-Esta secao deve receber comandos reais somente apos implementacao e validacao.
+Construa a imagem dev local:
 
-Quando existirem, os comandos devem deixar claro:
+```text
+docker build -f Dockerfile.dev -t radar-escola-dev:local .
+```
 
-- nome da imagem;
-- tag base usada;
-- se dependencias sao instaladas no build da imagem ou na execucao;
-- quais validacoes rodam;
-- quais arquivos podem ser gerados;
-- como limpar imagens, containers e volumes do projeto.
+Execute as validacoes Node basicas no container:
 
-Nao adicionar comandos exemplares que ainda nao foram testados no repositorio.
+```text
+docker run --rm radar-escola-dev:local npm run typecheck
+docker run --rm radar-escola-dev:local npm test
+docker run --rm radar-escola-dev:local npm run build
+```
 
-As convencoes esperadas para a primeira implementacao sao:
+Inspecione a imagem local:
 
-- imagem base candidata: `node:24-bookworm-slim`;
+```text
+docker images radar-escola-dev:local
+docker run --rm radar-escola-dev:local sh -lc "node --version && npm --version && pwd && whoami"
+```
+
+Limpeza segura limitada ao projeto:
+
+```text
+docker rmi radar-escola-dev:local
+```
+
+Nao use limpeza global como caminho padrao. Comandos como `docker system prune`
+podem apagar caches e recursos de outros projetos.
+
+## Convencoes Implementadas
+
+- imagem base: `node:24-bookworm-slim`;
 - nome local preferencial: `radar-escola-dev:local`;
-- diretorio de trabalho preferencial: `/workspace`;
+- diretorio de trabalho: `/workspace`;
+- usuario de execucao: `node`;
+- dependencias instaladas durante o build da imagem com `npm ci`;
 - checks Node em ordem equivalente a CI: `npm run typecheck`, `npm test`,
   `npm run build`;
-- Playwright/E2E fora da imagem basica ate decisao da issue `DOCKER-007`;
-- nenhuma recomendacao de limpeza global como caminho padrao.
+- Playwright/E2E fora da imagem basica;
+- sem `docker-compose.yml` nesta fase;
+- sem publicacao de imagem em registry.
 
-Se a implementacao precisar fugir dessas convencoes, o motivo deve aparecer na
-PR e na documentacao atualizada.
+Se a implementacao precisar fugir dessas convencoes no futuro, o motivo deve
+aparecer na PR e na documentacao atualizada.
+
+## Validacao Realizada
+
+Validacao local realizada em 2026-06-01:
+
+| Item | Resultado |
+| --- | --- |
+| Sistema | Windows + PowerShell + Docker Desktop |
+| Docker Desktop | 4.52.0 |
+| Docker Engine | 29.0.1 |
+| Contexto | `desktop-linux` |
+| Imagem | `radar-escola-dev:local` |
+| Node no container | `v24.16.0` |
+| npm no container | `11.13.0` |
+| Usuario no container | `node` |
+| Diretorio no container | `/workspace` |
+| Build sem cache | 41.36s |
+| Tamanho da imagem | 523MB |
+| `npm run typecheck` | 6.73s |
+| `npm test` | 11.32s |
+| `npm run build` | 7.76s |
+
+Resultado: a imagem e aceitavel para a primeira fase, porque valida o scaffold
+sem browser, sem Rust/Tauri e sem artefatos de release Windows.
 
 ## Relacao Com Issues
 
@@ -134,12 +181,12 @@ escola. A validacao Docker em CI, se aprovada, deve ser uma etapa final
 dependente das issues de base: `.dockerignore`, `Dockerfile.dev`, validacao
 local, medicao de custo e documentacao operacional.
 
-Enquanto essas bases nao existirem, nenhuma documentacao deve sugerir que Docker
-ja e caminho oficial de validacao do projeto.
+Como essas bases ja existem, Docker pode ser citado como caminho tecnico
+opcional de validacao. Ele nao substitui o fluxo local sem Docker.
 
 A `DOCKER-009` funciona como gate final da trilha: primeiro fecham as issues de
-base, depois se decide se Docker entra na CI, fica como validacao local ou segue
-como workflow experimental. Esse passo nao deve antecipar CI parcial.
+base, depois Docker pode entrar na CI. A validacao atual da CI cobre apenas a
+imagem dev Node basica e nao substitui `Desktop Release`.
 
 ## Guardrails Operacionais
 
@@ -157,19 +204,24 @@ como workflow experimental. Esse passo nao deve antecipar CI parcial.
 
 ## Relacao Com CI
 
-A CI atual nao depende de Docker.
-
-Docker so deve entrar na CI se reduzir divergencia real ou simplificar
-manutencao. A decisao precisa ser registrada antes de mudar workflows.
-
-Uma validacao Docker parcial nao deve ser adicionada ao agregado protegido antes
-de existir uma imagem local validada e documentada.
+A CI inclui uma validacao Docker pequena para impedir que `Dockerfile.dev` e
+`.dockerignore` apodrecam.
 
 O check protegido continua sendo:
 
 ```text
 All CI checks
 ```
+
+Essa validacao:
+
+- constroi `radar-escola-dev:ci`;
+- roda `npm run typecheck`;
+- roda `npm test`;
+- roda `npm run build`;
+- nao roda Playwright/E2E;
+- nao gera instalador Windows;
+- nao publica imagem.
 
 ## Relacao Com Release Desktop
 

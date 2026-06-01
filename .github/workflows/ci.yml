@@ -216,6 +216,25 @@ jobs:
       - name: Playground E2E
         run: npm run test:e2e
 
+  docker-dev-validation:
+    name: Docker dev validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build dev image
+        run: docker build -f Dockerfile.dev -t radar-escola-dev:ci .
+
+      - name: Typecheck in container
+        run: docker run --rm radar-escola-dev:ci npm run typecheck
+
+      - name: Unit tests in container
+        run: docker run --rm radar-escola-dev:ci npm test
+
+      - name: Build frontend in container
+        run: docker run --rm radar-escola-dev:ci npm run build
+
   all-checks:
     name: All CI checks
     runs-on: ubuntu-latest
@@ -224,6 +243,7 @@ jobs:
       - documentation-consistency
       - repository-hygiene
       - frontend-build
+      - docker-dev-validation
       - public-metadata-guard
     steps:
       - name: Report success

@@ -116,21 +116,24 @@ O projeto ja possui:
 - teste E2E Playwright do playground;
 - CI com instalacao, typecheck, testes, build frontend e E2E;
 - workflow `Desktop Release` para instalador Windows tecnico;
-- guia operacional futuro em
+- `.dockerignore`;
+- `Dockerfile.dev`;
+- imagem dev Node validada localmente;
+- validacao Docker pequena na CI;
+- guia operacional em
   [`docs/development-docker.md`](docs/development-docker.md).
 
 O projeto ainda nao possui:
 
-- `.dockerignore`;
-- `Dockerfile.dev`;
-- imagem dev validada;
-- comando padrao para validacao via Docker;
-- estrategia Docker validada para Playwright;
-- documentacao operacional final dos comandos Docker;
-- integracao formal da dockerizacao com a matriz de issues.
+- `docker-compose.yml`;
+- Playwright/E2E em Docker;
+- build Tauri/Windows em Docker;
+- persistencia SQLite em Docker;
+- imagem publicada em registry.
 
-Portanto, qualquer documentacao operacional deve evitar comandos Docker
-definitivos ate que eles sejam implementados e testados.
+Portanto, a documentacao operacional ja pode usar comandos reais para a imagem
+dev Node, mas deve continuar evitando comandos para E2E, SQLite, Tauri ou
+publicacao de imagem que ainda nao foram implementados.
 
 ## Publicos Impactados
 
@@ -276,7 +279,7 @@ Docker nao substitui:
 
 ### Fase 0: Documento De Projeto
 
-Status: concluida com este documento.
+Status: concluida.
 
 Objetivo:
 
@@ -313,6 +316,15 @@ Criterios de aceite:
 - tamanho aproximado da imagem e tempo de build sao registrados;
 - nenhum artefato gerado entra no Git;
 - `package-lock.json` nao muda sem mudanca real de dependencia.
+
+Resultado validado:
+
+- imagem local: `radar-escola-dev:local`;
+- imagem base: `node:24-bookworm-slim`;
+- usuario de execucao: `node`;
+- build sem cache observado: 41.36s;
+- tamanho observado: 523MB;
+- `npm run typecheck`, `npm test` e `npm run build` passaram no container.
 
 ### Fase 2: Ergonomia Para Contribuicoes
 
@@ -365,11 +377,15 @@ Objetivo:
 
 - decidir se Docker deve entrar na CI.
 
-Direcao inicial:
+Status: implementada para validacao Node basica.
 
-- CI atual ja funciona sem Docker;
-- Docker em CI so deve entrar se reduzir divergencia ou simplificar manutencao;
-- nao trocar uma CI simples por uma mais pesada sem ganho claro.
+Direcao atual:
+
+- CI continua validando o scaffold sem depender exclusivamente de Docker;
+- Docker entra como job adicional pequeno para validar `Dockerfile.dev`;
+- a validacao Docker nao substitui `Desktop Release`;
+- a validacao Docker nao publica imagem;
+- E2E Playwright continua fora da imagem basica.
 
 ### Fase 6: Preservacao Do Release Desktop
 
@@ -556,9 +572,9 @@ escopo controlado.
 Cada issue deve manter a narrativa de que Docker e ambiente tecnico opcional, nao
 parte da experiencia final da escola.
 
-A `DOCKER-009` nao autoriza CI com Docker antes da hora. Ela existe justamente
-para verificar, depois das demais issues fechadas, se a validacao Docker deve
-entrar em CI, permanecer manual ou seguir como workflow experimental.
+A `DOCKER-009` foi usada como gate para levar Docker a CI somente depois da
+base local validada. A validacao adicionada e limitada a imagem dev Node e nao
+substitui `Desktop Release`.
 
 ## Convencoes Executaveis Da Trilha Docker
 
@@ -581,9 +597,10 @@ operacional atualizada.
 ## Decisoes Abertas
 
 - Usar ou nao `docker-compose.yml` na primeira versao?
-- Playwright em Docker entra na primeira entrega ou fica para fase posterior?
+- Playwright em Docker deve continuar fora ou entrar em fase posterior?
 - O projeto deve adicionar comandos npm como atalho para Docker?
-- A validacao Docker deve ser exigida em algum tipo especifico de PR?
+- A validacao Docker em CI deve continuar protegida em todo PR ou virar
+  validacao opcional no futuro?
 - Qual limite aceitavel de tamanho da imagem para pessoas contribuidoras
   iniciantes?
 - `node_modules` deve ficar em camada da imagem ou em volume nomeado?
@@ -592,17 +609,18 @@ operacional atualizada.
   outros projetos?
 - Qual nome padrao deve ser usado para containers e volumes, mantendo
   `radar-escola-dev:local` como nome preferencial da imagem local?
-- O `Dockerfile.dev` deve rodar como usuario root ou nao-root na primeira fase?
 - Publicacao de imagem deve continuar fora de escopo ate qual marco do projeto?
 
 ## Recomendacao
 
-Comecar pela Fase 1.
+Manter a Fase 1 como base implementada e observar seu custo real nas proximas
+PRs.
 
-Ela entrega valor de projeto sem comprometer a narrativa de produto, reduz risco
-de ambiente local, nao pesa demais e permite medir se Docker realmente ajuda.
+A base atual entrega valor de projeto sem comprometer a narrativa de produto,
+reduz risco de ambiente local e permite validar se Docker realmente ajuda sem
+virar requisito da escola.
 
-Depois da Fase 1, medir:
+Depois das primeiras PRs usando a imagem, revisar:
 
 - tempo de build da imagem;
 - espaco em disco usado;
@@ -610,5 +628,5 @@ Depois da Fase 1, medir:
 - impacto real nos testes;
 - necessidade ou nao de Playwright em Docker.
 
-Somente depois disso decidir se `docker-compose.yml` e E2E em Docker entram na
-fase seguinte.
+Somente depois disso decidir se `docker-compose.yml` e E2E em Docker entram em
+uma fase seguinte.

@@ -18,9 +18,10 @@ Ja existe:
 - `package-lock.json`;
 - CI com qualidade documental, higiene, `npm ci`, typecheck e build frontend;
 - workflow de release desktop gerando instalador tecnico do scaffold;
-- documentacao de CI/CD OSS.
-- documento de projeto para dockerizacao do ambiente tecnico, ainda sem
-  artefatos Docker executaveis.
+- documentacao de CI/CD OSS;
+- documento de projeto para dockerizacao do ambiente tecnico;
+- `.dockerignore` e `Dockerfile.dev`;
+- imagem Docker dev Node validada localmente e na CI.
 
 Ainda nao existe:
 
@@ -227,7 +228,7 @@ Criterios de aceite:
 Objetivo: reduzir divergencia tecnica entre ambientes de desenvolvimento sem
 alterar a experiencia final desktop local Windows.
 
-Estado: planejado.
+Estado: implementado para validacao Node basica.
 
 Criterios de aceite iniciais:
 
@@ -238,5 +239,6 @@ Criterios de aceite iniciais:
 - guia operacional documenta comandos reais;
 - fluxo local sem Docker continua funcionando;
 - `Desktop Release` continua sendo o caminho do instalador Windows.
-- validacao Docker em CI, se existir, entra somente apos as issues de base da
-  dockerizacao estarem resolvidas.
+- validacao Docker em CI existe apenas para a imagem dev Node basica;
+- Playwright/E2E, SQLite e build Tauri/Windows continuam fora do Docker nesta
+  fase.

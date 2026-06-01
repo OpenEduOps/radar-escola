@@ -25,7 +25,9 @@ Ja existem:
   guardrail de metadados publicos;
 - workflow `Desktop Release` para gerar instalador Windows tecnico do
   scaffold;
-- documento de projeto para dockerizacao do ambiente tecnico.
+- documento de projeto para dockerizacao do ambiente tecnico;
+- `.dockerignore` e `Dockerfile.dev`;
+- imagem Docker dev validada para typecheck, testes unitarios e build frontend.
 
 O app atual ainda nao e o MVP funcional completo. Ele valida a casca desktop,
 o frontend empacotado, o menu nativo e o CRUD de referencia para pessoas
@@ -58,7 +60,6 @@ Ainda nao existem no app:
 - equipamentos operacionais;
 - auditoria persistida;
 - exportacao/restauracao de seguranca.
-- artefatos Docker executaveis, como `.dockerignore` e `Dockerfile.dev`.
 
 ## Proximo Passo
 
@@ -127,6 +128,28 @@ npm run build
 
 Esses comandos validam regras puras do playground, fluxo E2E do CRUD de
 referencia, TypeScript e build Vite.
+
+## Docker Para Desenvolvimento
+
+Docker e opcional e existe apenas para desenvolvimento, QA tecnico e
+contribuicao OSS. Ele nao faz parte da experiencia final da escola.
+
+Construa a imagem dev:
+
+```text
+docker build -f Dockerfile.dev -t radar-escola-dev:local .
+```
+
+Execute as validacoes Node basicas:
+
+```text
+docker run --rm radar-escola-dev:local npm run typecheck
+docker run --rm radar-escola-dev:local npm test
+docker run --rm radar-escola-dev:local npm run build
+```
+
+O teste E2E Playwright continua fora da imagem basica nesta fase. O caminho de
+instalador Windows continua sendo o workflow `Desktop Release`.
 
 ## Estrutura Inicial Do Codigo
 
@@ -262,8 +285,8 @@ Para entender engenharia, CI e release:
   camadas e responsabilidades.
 - [`docs/ci.md`](docs/ci.md): funcionamento da CI do produto.
 - [`docs/development-docker.md`](docs/development-docker.md): guia operacional
-  futuro de Docker para desenvolvimento, subordinado ao documento de projeto e
-  aos limites da UX desktop local Windows.
+  de Docker para desenvolvimento, subordinado ao documento de projeto e aos
+  limites da UX desktop local Windows.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): orientacoes para contribuir e politica
   de metadados publicos.
 - [`docs/permissions.md`](docs/permissions.md): politica de permissoes minimas

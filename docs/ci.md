@@ -32,7 +32,9 @@ apenas esse nome para nao depender de nomes de matrix ou jobs auxiliares.
 
 - `.github/workflows/ci.yml`: valida documentacao e higiene do repositorio.
   Tambem valida `npm ci`, `npm run typecheck`, `npm test`,
-  `npm run build` e `npm run test:e2e` para o scaffold frontend.
+  `npm run build` e `npm run test:e2e` para o scaffold frontend. Tambem
+  constroi a imagem Docker dev e roda typecheck, testes unitarios e build
+  frontend dentro do container.
 - `.github/workflows/security.yml`: valida postura de seguranca dos workflows e
   executa auditoria de dependencias de producao com `npm audit`.
 - `.github/workflows/owner-auto-merge.yml`: habilita auto-merge apenas para
@@ -73,32 +75,32 @@ fingir funcionalidade de MVP.
 
 ## Docker E CI
 
-A CI atual nao depende de Docker.
+A CI atual usa Docker apenas como validacao adicional da imagem dev Node.
 
 A dockerizacao do ambiente esta documentada como iniciativa de projeto em
 [`PROJETO_DOCKERIZACAO_AMBIENTE.md`](../PROJETO_DOCKERIZACAO_AMBIENTE.md).
 
 Direcao atual:
 
-- manter CI simples enquanto ela ja validar o scaffold com clareza;
-- usar Docker primeiro como apoio local de desenvolvimento e QA tecnico;
-- nao trocar workflows atuais por Docker sem evidencia de ganho;
+- manter CI simples enquanto ela validar o scaffold com clareza;
+- usar Docker como apoio local de desenvolvimento e QA tecnico;
+- validar `Dockerfile.dev` sem substituir os checks Node diretos;
 - nao usar Docker como substituto do workflow `Desktop Release`;
-- registrar qualquer mudanca de estrategia antes de exigir Docker em CI.
+- registrar qualquer ampliacao de estrategia antes de exigir novos checks Docker.
 
-Qualquer validacao Docker em CI deve ser tratada como etapa final da iniciativa,
-dependente das issues de base de dockerizacao. Nao deve haver job Docker
-protegido antes de existir imagem local validada, medicao de custo e
-documentacao operacional com comandos reais.
+Docker entrou na CI depois da validacao local da imagem dev Node basica.
 
-Essa decisao esta concentrada na issue
-[`DOCKER-009`](https://github.com/OpenEduOps/radar-escola/issues/97), que deve
-ser executada apenas depois das issues `DOCKER-001` a `DOCKER-008`.
-Antes de qualquer mudanca de workflow, a pessoa responsavel deve conferir no
-GitHub que todas essas dependencias estao fechadas.
+O job `Docker dev validation`:
 
-Se Docker entrar na CI no futuro, ele deve continuar dentro do agregado
-`All CI checks` e preservar permissoes minimas.
+- constroi `radar-escola-dev:ci`;
+- roda `npm run typecheck` no container;
+- roda `npm test` no container;
+- roda `npm run build` no container;
+- nao roda Playwright/E2E;
+- nao publica imagem;
+- nao substitui `Desktop Release`.
+
+Esse job faz parte do agregado `All CI checks` e preserva permissoes minimas.
 
 ## Teste E2E Do Playground
 

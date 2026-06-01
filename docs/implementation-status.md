@@ -66,11 +66,12 @@ Automacao:
 Docker:
 
 - `PROJETO_DOCKERIZACAO_AMBIENTE.md` documenta a iniciativa de projeto;
-- `docs/development-docker.md` reserva o guia operacional futuro;
+- `docs/development-docker.md` registra o guia operacional;
 - issues `DOCKER-001` a `DOCKER-009` foram cadastradas como trilha transversal;
-- `.dockerignore` ainda nao existe;
-- `Dockerfile.dev` ainda nao existe;
-- Docker ainda nao faz parte da CI.
+- `.dockerignore` existe;
+- `Dockerfile.dev` existe;
+- imagem `radar-escola-dev:local` foi validada localmente;
+- Docker faz parte da CI como validacao adicional pequena.
 
 Estrutura planejada:
 
@@ -157,6 +158,28 @@ A CI valida:
 - teste E2E Playwright do playground;
 - frontend build.
 
+### Docker Dev
+
+A imagem Docker dev valida o scaffold Node sem instalar browsers Playwright,
+Rust/Tauri ou dependencias de release Windows.
+
+Validado localmente por:
+
+```text
+docker build --no-cache -f Dockerfile.dev -t radar-escola-dev:local .
+docker run --rm radar-escola-dev:local npm run typecheck
+docker run --rm radar-escola-dev:local npm test
+docker run --rm radar-escola-dev:local npm run build
+```
+
+Resultado observado:
+
+- build sem cache: 41.36s;
+- imagem: 523MB;
+- Node no container: `v24.16.0`;
+- npm no container: `11.13.0`;
+- usuario no container: `node`.
+
 ### Especificacao e Issues V1
 
 A especificacao executavel V1 foi consolidada em documentos de requisitos,
@@ -201,7 +224,9 @@ Ainda nao foi implementado:
 - auditoria;
 - exportacao/restauracao;
 - testes de dominio da V0 funcional.
-- artefatos Docker executaveis.
+- Playwright/E2E em Docker;
+- build Tauri/Windows em Docker;
+- imagem Docker publicada em registry.
 
 ## Fronteira Atual da Fonte
 
@@ -211,6 +236,7 @@ O projeto ja saiu da fase de apenas documentacao inicial. A fronteira atual e:
 - issues V1 cadastradas;
 - scaffold executavel validado;
 - playground CRUD como referencia tecnica;
+- imagem Docker dev validada;
 - instalador Windows tecnico gerado e validado via CI.
 
 A proxima etapa e transformar o backlog cadastrado em implementacao do MVP,
@@ -235,6 +261,10 @@ npm test
 npm run test:e2e
 npm run typecheck
 npm run build
+docker build -f Dockerfile.dev -t radar-escola-dev:local .
+docker run --rm radar-escola-dev:local npm run typecheck
+docker run --rm radar-escola-dev:local npm test
+docker run --rm radar-escola-dev:local npm run build
 ```
 
 Limitacao local conhecida:
