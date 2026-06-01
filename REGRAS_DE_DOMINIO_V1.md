@@ -615,9 +615,11 @@ Eventos de auditoria:
 
 Observacao:
 
-- Como restauracao substitui dados, a estrategia final deve decidir se o evento
-  de restauracao fica dentro do banco restaurado, em log local separado ou em
-  ambos. Para V1, a regra de produto e registrar quando tecnicamente possivel.
+- A auditoria historica faz parte do pacote restauravel. Como restauracao
+  substitui dados, a estrategia tecnica ainda deve decidir onde registrar o
+  evento da restauracao atual: dentro do banco restaurado, em log local separado
+  ou em ambos. Para V1, a regra de produto e registrar quando tecnicamente
+  possivel.
 
 ### D-014 Auditoria
 
@@ -883,8 +885,8 @@ Formato final sera detalhado em implementacao, mas o pacote deve conter:
 - andamentos;
 - plano de acao;
 - equipamentos;
-- auditoria, se a estrategia final incluir;
-- metadados de exportacao.
+- auditoria;
+- metadados de exportacao e restauracao.
 
 Regras:
 
@@ -961,7 +963,7 @@ Antes de implementar, revisar:
 
 - periodo exato de "necessidade parada";
 - formato exato do pacote CSV;
-- estrategia de auditoria durante restauracao;
+- estrategia tecnica para registrar a restauracao atual apos substituicao total;
 - estrategia concreta de hash no ambiente Tauri;
 - se reabertura de necessidade resolvida fica totalmente fora da V1;
 - se edicao de andamento existente deve ser proibida ou permitida com historico.

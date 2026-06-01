@@ -492,7 +492,7 @@ no equipamento.
 - andamentos;
 - itens de plano;
 - equipamentos;
-- auditoria, se definido como restauravel;
+- auditoria historica;
 - metadados de versao do export.
 
 ### Fluxos de excecao
@@ -515,6 +515,7 @@ no equipamento.
 - Exportacao gera arquivos esperados.
 - Restauracao valida substitui banco.
 - Restauracao invalida nao altera dados.
+- Auditoria historica entra no pacote restauravel.
 - Confirmacao forte aparece antes de restaurar.
 
 ### Testes minimos

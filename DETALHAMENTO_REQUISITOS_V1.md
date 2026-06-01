@@ -1644,6 +1644,7 @@ Permitir que direcao gere copia de seguranca restauravel e legivel.
 - Apoio de gestao nao exporta.
 - CSV deve permitir restauracao.
 - CSV nao deve incluir senha em texto claro.
+- Auditoria historica deve entrar no pacote restauravel.
 
 ### Mensagens de UX
 
@@ -1656,6 +1657,7 @@ Permitir que direcao gere copia de seguranca restauravel e legivel.
 - Apoio e usuario comum nao exportam.
 - CSVs contem dados essenciais.
 - Senhas em texto claro nao aparecem.
+- Auditoria historica esta presente no pacote restauravel.
 - Auditoria registrada.
 
 ### Testes minimos
@@ -1692,7 +1694,8 @@ dados locais atuais.
 ### Pos-condicoes
 
 - Dados atuais substituidos pelos dados importados.
-- Auditoria ou registro de restauracao preservado quando possivel.
+- Auditoria historica importada preservada.
+- Evento da restauracao atual registrado quando tecnicamente possivel.
 
 ### Fluxo principal
 
@@ -1724,6 +1727,7 @@ dados locais atuais.
 
 - Restauracao sempre substitui.
 - Nao ha mescla na V1.
+- Auditoria historica do pacote tambem e restaurada.
 - Importacao em massa fora do formato do Radar Escola fica fora da V1.
 
 ### Mensagens de UX
@@ -1738,6 +1742,7 @@ dados locais atuais.
 - Arquivo invalido nao altera banco.
 - Usuario sem permissao nao restaura.
 - Restauracao substitui, nao mescla.
+- Auditoria historica do pacote e preservada.
 
 ### Testes minimos
 

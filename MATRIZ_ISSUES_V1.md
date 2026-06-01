@@ -636,12 +636,14 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Escopo:
   - montar snapshot;
   - incluir tabelas essenciais;
+  - incluir auditoria historica;
   - preservar vinculos;
   - excluir segredos claros.
 - Fora de escopo:
   - UI de escolha de destino.
 - Criterios de aceite:
   - snapshot contem dados suficientes;
+  - auditoria historica entra no pacote;
   - senhas/tokens claros ausentes.
 - Testes esperados: persistencia.
 - Dependencias: PER-001 a PER-008.
@@ -658,6 +660,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - validar estrutura do pacote CSV;
   - validar versao do formato;
   - preparar substituicao total dos dados atuais;
+  - restaurar auditoria historica do pacote;
   - executar restauracao em transacao quando possivel;
   - impedir mescla;
   - preservar integridade ou falhar sem alterar dados quando possivel.
@@ -668,6 +671,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - pacote valido restaura dados;
   - pacote invalido nao altera banco;
   - restauracao substitui, nao mescla;
+  - auditoria historica importada fica disponivel;
   - falha parcial nao deixa banco inconsistente quando tecnicamente possivel.
 - Testes esperados: persistencia/integracao.
 - Dependencias: PER-001, PER-009, PER-008.
@@ -1420,12 +1424,14 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Escopo:
   - exportar dados ficticios;
   - validar ausencia de senha clara;
+  - validar presenca de auditoria historica no pacote;
   - restaurar em banco controlado;
   - confirmar substituicao.
 - Fora de escopo:
   - importacao de CSV externo.
 - Criterios de aceite:
   - restauracao preserva vinculos;
+  - restauracao preserva auditoria historica;
   - arquivo invalido falha sem alterar dados.
 - Testes esperados: integracao/manual.
 - Dependencias: APP-011.
