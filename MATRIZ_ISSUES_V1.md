@@ -8,20 +8,21 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 ## Resumo Quantitativo
 
-Total planejado para o ciclo completo da V1: **78 issues**.
+Total planejado para o ciclo completo da V1: **85 issues**.
 
 Esse total cobre concepcao, validacao documental, modelagem de dominio,
-persistencia, application/controller, interface, testes, QA de software e
-documentacao de apoio.
+persistencia, infraestrutura executavel, application/controller, interface,
+testes, QA de software, release desktop e documentacao de apoio.
 
 | Grupo | Foco | Quantidade |
 | --- | --- | --- |
 | `REQ` | Validacao de requisitos e concepcao | 5 |
-| `DOM` | Dominio, regras puras e modelagem | 13 |
+| `DOM` | Dominio, regras puras e modelagem | 14 |
 | `PER` | Persistencia, schema SQLite, repositorios e CSV | 11 |
+| `ENG` | Infraestrutura executavel, hashing, CI e release | 4 |
 | `APP` | Casos de uso e orquestracao | 20 |
 | `VIEW` | Telas, formularios, estados e mensagens | 14 |
-| `QA` | Testes, QA funcional, seguranca, acessibilidade e regressao | 13 |
+| `QA` | Testes, QA funcional, seguranca, acessibilidade e regressao | 15 |
 | `DOC` | Documentacao de apoio para execucao e validacao | 2 |
 
 Observacao: este numero e uma base de planejamento. Antes de criar issues reais
@@ -35,6 +36,7 @@ descartada durante revisao.
 - `requisitos`: validar comportamento esperado.
 - `dominio`: regras puras, entidades e permissoes.
 - `persistencia`: SQLite, migrations, repositorios e queries.
+- `engineering`: infraestrutura executavel, hashing, CI e release.
 - `application`: casos de uso e orquestracao.
 - `view`: telas, formularios, estados e mensagens.
 - `qa`: validacao manual, automatizada ou checklist.
@@ -44,6 +46,7 @@ descartada durante revisao.
 
 - `model`: dominio, entidades, value objects.
 - `persistence`: SQLite, repositorios, CSV, filesystem.
+- `infrastructure`: Tauri/Rust, bootstrap local, hashing, CI e release.
 - `controller`: casos de uso e aplicacao.
 - `view`: React/TypeScript, telas e componentes.
 - `qa`: testes e validacao.
@@ -52,6 +55,7 @@ descartada durante revisao.
 ### Labels candidatas
 
 - `good first issue`;
+- `help`;
 - `help wanted`;
 - `qa`;
 - `documentation`;
@@ -63,16 +67,19 @@ descartada durante revisao.
 - `ux`;
 - `security`;
 - `accessibility`;
+- `ci`;
+- `release`;
 
 ## Ordem Recomendada
 
 1. Validar requisitos e dominio.
 2. Criar entidades e regras puras.
 3. Criar schema SQLite e repositorios.
-4. Implementar casos de uso.
-5. Implementar telas.
-6. Cobrir testes e QA.
-7. Fazer smoke do fluxo minimo.
+4. Preparar infraestrutura local critica: hash e bootstrap SQLite.
+5. Implementar casos de uso.
+6. Implementar telas.
+7. Cobrir testes, regressao e QA.
+8. Fazer smoke do fluxo minimo e validar release desktop.
 
 ## Issues de Validacao Documental
 
@@ -478,6 +485,33 @@ descartada durante revisao.
 - Dependencias: DOM-003.
 - Labels: `domain`, `tests`, `good first issue`.
 
+### DOM-014 Modelar pacote de seguranca exportavel/restauravel
+
+- Tipo: `dominio`
+- Camada: `model`
+- Fonte: D-012, D-013, BT-007
+- Objetivo: definir regras puras do pacote de seguranca usado para exportar e
+  restaurar dados locais sem transformar CSV em importador generico.
+- Escopo:
+  - versao do formato;
+  - manifesto do pacote;
+  - conjunto minimo de entidades exportaveis;
+  - proibicao de senhas, tokens e respostas em texto claro;
+  - regra de restauracao por substituicao total;
+  - bloqueio explicito de mescla.
+- Fora de escopo:
+  - parsing fisico de arquivos CSV;
+  - escolha de diretorio no sistema operacional;
+  - migracao entre versoes futuras do formato.
+- Criterios de aceite:
+  - pacote sem versao valida e rejeitado;
+  - pacote incompleto e rejeitado;
+  - pacote nunca permite segredo claro;
+  - restauracao sempre representa substituicao total, nao mescla.
+- Testes esperados: unitarios.
+- Dependencias: DOM-004, DOM-011.
+- Labels: `domain`, `tests`, `security`, `good first issue`.
+
 ## Issues de Persistencia
 
 ### PER-001 Criar migrations iniciais SQLite
@@ -509,7 +543,7 @@ descartada durante revisao.
   - tabelas de metadados de seguranca existem;
   - testes de criacao do schema passam.
 - Testes esperados: persistencia.
-- Dependencias: DOM-002 a DOM-012, BT-001, BT-007.
+- Dependencias: DOM-002 a DOM-012, DOM-014, BT-001, BT-007.
 - Labels: `persistence`, `tests`.
 
 ### PER-002 Implementar repositorio de escola
@@ -571,7 +605,7 @@ descartada durante revisao.
 - Criterios de aceite:
   - token claro nao e persistido;
   - resposta clara nao e persistida;
-  - token e frase/resposta existem na salvaguarda V1.
+  - token e frase/resposta existem na salvaguarda V1;
   - salvaguarda invalidada nao recupera acesso.
 - Testes esperados: persistencia e seguranca.
 - Dependencias: PER-003.
@@ -684,7 +718,7 @@ descartada durante revisao.
   - auditoria historica entra no pacote;
   - senhas/tokens claros ausentes.
 - Testes esperados: persistencia.
-- Dependencias: PER-001 a PER-008.
+- Dependencias: DOM-014, PER-001 a PER-008.
 - Labels: `persistence`, `tests`.
 
 ### PER-010 Implementar restauracao de seguranca
@@ -714,7 +748,7 @@ descartada durante revisao.
   - evento da restauracao atual fica registrado com snapshot do ator;
   - falha parcial nao deixa banco inconsistente.
 - Testes esperados: persistencia/integracao.
-- Dependencias: PER-001, PER-009, PER-008.
+- Dependencias: DOM-014, PER-001, PER-009, PER-008.
 - Labels: `persistence`, `tests`.
 
 ### PER-011 Implementar repositorio de plano de acao
@@ -740,6 +774,112 @@ descartada durante revisao.
 - Dependencias: PER-005.
 - Labels: `persistence`, `good first issue`.
 
+## Issues de Engenharia e Infraestrutura Executavel
+
+### ENG-001 Implementar servico Tauri/Rust de hash Argon2id
+
+- Tipo: `engineering`
+- Camada: `infrastructure`
+- Fonte: BT-003, `src/infrastructure`
+- Objetivo: fornecer servico local para gerar e verificar hashes de senha,
+  token e resposta de recuperacao sem expor segredos para logs ou UI.
+- Escopo:
+  - comando/servico Tauri/Rust para gerar hash Argon2id;
+  - comando/servico para verificar segredo contra hash;
+  - salt aleatorio por segredo;
+  - contrato TypeScript para a camada de application;
+  - tratamento de erro sem revelar valor informado.
+- Fora de escopo:
+  - regra de negocio de primeiro acesso;
+  - armazenamento dos hashes;
+  - recuperacao por e-mail, WhatsApp ou nuvem.
+- Criterios de aceite:
+  - senha, token e resposta produzem hashes verificaveis;
+  - o mesmo segredo nao depende de hash fixo;
+  - segredo claro nao e retornado nem logado;
+  - testes cobrem sucesso, falha e erro generico.
+- Testes esperados: unitarios Rust quando possivel e teste de contrato.
+- Dependencias: nenhuma.
+- Labels: `security`, `tests`, `engineering`.
+
+### ENG-002 Implementar bootstrap SQLite local
+
+- Tipo: `engineering`
+- Camada: `infrastructure`
+- Fonte: `docs/architecture.md`, `docs/implementation-plan.md`
+- Objetivo: abrir ou criar o banco local no diretorio adequado do app desktop e
+  aplicar migrations de forma idempotente.
+- Escopo:
+  - resolver diretorio local de dados do aplicativo;
+  - criar arquivo SQLite quando nao existir;
+  - aplicar migrations na abertura;
+  - expor contrato de conexao para repositorios;
+  - retornar erro claro quando banco nao puder ser aberto.
+- Fora de escopo:
+  - modelagem de tabelas;
+  - sincronizacao em nuvem;
+  - multiplo computador.
+- Criterios de aceite:
+  - app inicia com banco inexistente e cria estrutura minima;
+  - reabrir app nao duplica migration;
+  - erro de abertura nao mostra stack tecnica para usuario final;
+  - testes usam banco temporario controlado.
+- Testes esperados: integracao de infraestrutura.
+- Dependencias: PER-001.
+- Labels: `persistence`, `engineering`, `tests`.
+
+### ENG-003 Evoluir CI para testes automatizados do app
+
+- Tipo: `engineering`
+- Camada: `infrastructure`
+- Fonte: `docs/ci.md`, BT-010
+- Objetivo: garantir que a CI rode o conjunto minimo de qualidade do MVP alem
+  de typecheck e build frontend.
+- Escopo:
+  - rodar testes unitarios;
+  - rodar testes de persistencia viaveis no runner;
+  - manter `All CI checks` como agregado protegido;
+  - incluir checks Rust/Tauri quando houver codigo Rust relevante;
+  - preservar permissoes minimas do workflow.
+- Fora de escopo:
+  - publicar release;
+  - exigir servicos pagos;
+  - testes manuais.
+- Criterios de aceite:
+  - PR normal executa typecheck, build e testes minimos;
+  - falha de teste quebra `All CI checks`;
+  - workflow nao adiciona permissoes amplas desnecessarias;
+  - docs de CI refletem os checks ativos.
+- Testes esperados: validacao de CI em PR.
+- Dependencias: QA-003, QA-004.
+- Labels: `ci`, `tests`, `engineering`.
+
+### ENG-004 Validar release desktop Windows baixavel
+
+- Tipo: `engineering`
+- Camada: `infrastructure`
+- Fonte: `docs/desktop-release.md`, `docs/final-testable-delivery.md`
+- Objetivo: transformar a esteira de release em entrega baixavel quando o MVP
+  estiver funcional.
+- Escopo:
+  - gerar instalador Windows;
+  - publicar artefato em release versionada;
+  - gerar checksum SHA-256;
+  - executar smoke tecnico do artefato;
+  - documentar limitacoes de assinatura quando aplicavel.
+- Fora de escopo:
+  - loja de aplicativos;
+  - assinatura paga obrigatoria;
+  - atualizador automatico.
+- Criterios de aceite:
+  - tag de release gera artefato baixavel;
+  - checksum acompanha artefato;
+  - smoke tecnico valida que artefato existe e app abre quando viavel;
+  - release nao promete funcionalidade ainda ausente.
+- Testes esperados: workflow manual/tag e smoke Windows.
+- Dependencias: QA-015.
+- Labels: `release`, `ci`, `engineering`.
+
 ## Issues de Application/Controller
 
 ### APP-001 Implementar configuracao inicial da escola
@@ -761,7 +901,7 @@ descartada durante revisao.
   - operacao transacional;
   - falha parcial nao deixa banco inconsistente.
 - Testes esperados: caso de uso.
-- Dependencias: PER-002, PER-003, PER-004, PER-008.
+- Dependencias: PER-002, PER-003, PER-004, PER-008, ENG-001.
 - Labels: `application`.
 
 ### APP-002 Implementar login
@@ -782,7 +922,7 @@ descartada durante revisao.
   - senha invalida falha;
   - primeiro acesso redireciona.
 - Testes esperados: caso de uso.
-- Dependencias: PER-003, DOM-004.
+- Dependencias: PER-003, DOM-004, ENG-001.
 - Labels: `application`, `tests`, `good first issue`.
 
 ### APP-003 Implementar primeiro acesso
@@ -804,7 +944,7 @@ descartada durante revisao.
   - token e frase/resposta ficam configurados;
   - token exibido uma unica vez.
 - Testes esperados: caso de uso.
-- Dependencias: APP-002, PER-004.
+- Dependencias: APP-002, PER-004, ENG-001.
 - Labels: `application`, `tests`.
 
 ### APP-004 Implementar cadastro de pessoa
@@ -973,7 +1113,7 @@ descartada durante revisao.
   - exportacao nao contem senha, token ou resposta em texto claro;
   - auditoria registra exportacao.
 - Testes esperados: integracao.
-- Dependencias: PER-009, PER-008.
+- Dependencias: DOM-014, PER-009, PER-008.
 - Labels: `application`, `persistence`, `tests`.
 
 ### APP-012 Implementar recuperacao local de acesso
@@ -1002,7 +1142,7 @@ descartada durante revisao.
   - nova senha nao pode ser `123456`;
   - senha redefinida fica armazenada apenas como hash.
 - Testes esperados: caso de uso e seguranca.
-- Dependencias: PER-003, PER-004, PER-008, DOM-004.
+- Dependencias: PER-003, PER-004, PER-008, DOM-004, ENG-001.
 - Labels: `application`, `tests`, `security`.
 
 ### APP-013 Implementar plano de acao simples
@@ -1188,7 +1328,7 @@ descartada durante revisao.
   - auditoria registra acao;
   - usuario comum e apoio sao bloqueados.
 - Testes esperados: caso de uso e seguranca.
-- Dependencias: PER-003, PER-008, DOM-004, DOM-001.
+- Dependencias: PER-003, PER-008, DOM-004, DOM-001, ENG-001.
 - Labels: `application`, `tests`, `security`.
 
 ### APP-020 Implementar restauracao de seguranca
@@ -1215,7 +1355,7 @@ descartada durante revisao.
   - pacote invalido nao altera banco;
   - auditoria registra restauracao.
 - Testes esperados: integracao e seguranca.
-- Dependencias: PER-010, PER-008.
+- Dependencias: DOM-014, PER-010, PER-008.
 - Labels: `application`, `persistence`, `tests`, `security`.
 
 ## Issues de View
@@ -1842,6 +1982,65 @@ descartada durante revisao.
 - Dependencias: APP-019, VIEW-013, PER-003, PER-008.
 - Labels: `qa`, `tests`, `security`.
 
+### QA-014 Criar matriz de regressao do MVP
+
+- Tipo: `qa`
+- Camada: `qa`
+- Fonte: UC-026, BT-010
+- Objetivo: consolidar cenarios que devem ser reexecutados quando regras
+  criticas mudarem.
+- Escopo:
+  - acesso e primeiro acesso;
+  - permissoes por perfil;
+  - necessidades, envolvidos e andamento;
+  - resolucao e cancelamento;
+  - auditoria;
+  - exportacao/restauracao;
+  - sessao e bloqueio;
+  - equipamento operacional.
+- Fora de escopo:
+  - porcentagem artificial de cobertura;
+  - testes de carga;
+  - compatibilidade multi-computador.
+- Criterios de aceite:
+  - cada area critica tem pelo menos um cenario de regressao;
+  - cada cenario aponta para requisito ou issue de origem;
+  - matriz indica se a validacao e automatizada, manual ou pendente;
+  - regressao prioriza riscos reais do MVP.
+- Testes esperados: checklist de regressao.
+- Dependencias: QA-001 a QA-013.
+- Labels: `qa`, `tests`, `documentation`.
+
+### QA-015 Criar smoke E2E do fluxo minimo
+
+- Tipo: `qa`
+- Camada: `qa`
+- Fonte: UC-026, `docs/final-testable-delivery.md`
+- Objetivo: validar o caminho principal do MVP em ambiente limpo antes de
+  considerar release testavel.
+- Escopo:
+  - configurar escola;
+  - cadastrar cargo e pessoa;
+  - executar primeiro acesso;
+  - registrar necessidade;
+  - marcar envolvido;
+  - registrar andamento;
+  - marcar como resolvida por gestao;
+  - consultar historico;
+  - exportar e restaurar em ambiente controlado.
+- Fora de escopo:
+  - automacao visual completa se ainda nao houver ferramenta definida;
+  - teste de instalador assinado;
+  - dados reais de escola.
+- Criterios de aceite:
+  - fluxo completo passa com dados ficticios;
+  - falha indica etapa e requisito associado;
+  - smoke pode rodar manualmente no inicio e migrar para automacao depois;
+  - resultado fica documentado para release.
+- Testes esperados: smoke manual ou automatizado conforme maturidade.
+- Dependencias: VIEW-001 a VIEW-014, QA-014, ENG-002.
+- Labels: `qa`, `tests`, `release`.
+
 ## Issues de Documentacao de Apoio
 
 ### DOC-001 Criar guia de execucao local do MVP
@@ -1885,7 +2084,7 @@ descartada durante revisao.
 ## Dependencias Macro
 
 ```text
-REQ -> DOM -> PER -> APP -> VIEW -> QA
+REQ -> DOM -> PER -> ENG(base) -> APP -> VIEW -> QA -> ENG(release)
 ```
 
 Algumas issues podem andar em paralelo:
@@ -1893,7 +2092,9 @@ Algumas issues podem andar em paralelo:
 - validacao documental pode ocorrer antes da implementacao;
 - UI pode prototipar estados vazios enquanto application amadurece;
 - QA pode criar roteiros antes da tela final;
-- dominio pode ser implementado antes de SQLite.
+- dominio pode ser implementado antes de SQLite;
+- infraestrutura de hash e bootstrap precisa existir antes dos fluxos de acesso;
+- release desktop so deve avancar depois do smoke do fluxo minimo.
 
 ## Regra Para Criar Issues Reais
 

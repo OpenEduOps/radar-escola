@@ -385,6 +385,17 @@ Issues de SQLite:
 - implementar soft delete ou cancelamento;
 - criar testes de persistencia.
 
+### Engenharia e Infraestrutura Executavel
+
+Issues de infraestrutura:
+
+- implementar servicos Tauri/Rust estritamente necessarios;
+- implementar hashing local;
+- inicializar banco local no diretorio do app;
+- conectar migrations ao bootstrap do aplicativo;
+- evoluir CI para testes automatizados;
+- validar release desktop e smoke tecnico.
+
 ### Application ou Controller
 
 Issues de aplicacao:
@@ -419,7 +430,8 @@ Issues de qualidade:
 - validar acessibilidade basica;
 - validar linguagem PT-BR;
 - validar persistencia;
-- validar regressao.
+- validar regressao;
+- validar smoke do fluxo minimo.
 
 ## Modelo de Issue
 
@@ -448,9 +460,11 @@ Cada issue deve ter:
 7. Abrir issues de validacao documental.
 8. Abrir issues de dominio/model.
 9. Abrir issues de persistencia.
-10. Abrir issues de aplicacao.
-11. Abrir issues de view.
-12. Abrir issues de QA/testes.
+10. Abrir issues de engenharia/infraestrutura base.
+11. Abrir issues de aplicacao.
+12. Abrir issues de view.
+13. Abrir issues de QA/testes.
+14. Abrir issues de release desktop depois do smoke do MVP.
 
 ## Definicao de Pronto Para Implementar
 
