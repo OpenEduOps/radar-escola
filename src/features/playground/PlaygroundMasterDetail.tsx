@@ -59,6 +59,15 @@ export function PlaygroundMasterDetail() {
     setDraft(null);
   }
 
+  function selectRecord(id: string) {
+    setSelectedId(id);
+    cancelEditing();
+    setIsCreateFormOpen(false);
+    setNewPlaygroundDraft(
+      buildEmptyPlaygroundDraft(selectedStatusCode || initialStatusCode),
+    );
+  }
+
   function openCreateForm() {
     cancelEditing();
     setIsCreateFormOpen(true);
@@ -202,6 +211,7 @@ export function PlaygroundMasterDetail() {
               id="playground-new-status"
               onChange={(event) => setNewStatusName(event.target.value)}
               placeholder="Ex.: Status D"
+              required
               type="text"
               value={newStatusName}
             />
@@ -286,6 +296,11 @@ export function PlaygroundMasterDetail() {
 
       <div className="master-detail-grid">
         <aside className="master-list" aria-label="Registros playground">
+          <div className="master-header" aria-hidden="true">
+            <span>Nome</span>
+            <span>Status</span>
+            <span>Acoes</span>
+          </div>
           {records.map((record) => (
             <div
               className="master-row"
@@ -294,7 +309,7 @@ export function PlaygroundMasterDetail() {
             >
               <button
                 className="master-select"
-                onClick={() => setSelectedId(record.id)}
+                onClick={() => selectRecord(record.id)}
                 type="button"
               >
                 <span>{record.nome}</span>

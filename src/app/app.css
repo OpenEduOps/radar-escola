@@ -304,6 +304,23 @@ h3 {
   overflow: hidden;
 }
 
+.master-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(96px, auto) auto;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #cad2c5;
+  color: #4d5b66;
+  background: #f3f6f1;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.master-header span:last-child {
+  text-align: right;
+}
+
 .master-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -519,6 +536,10 @@ h3 {
 
   .master-row {
     grid-template-columns: 1fr;
+  }
+
+  .master-header {
+    display: none;
   }
 
   .row-actions,
