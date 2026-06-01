@@ -7,6 +7,8 @@ ENV CI=true \
 
 WORKDIR /workspace
 
+RUN chown node:node /workspace
+
 COPY --chown=node:node package.json package-lock.json ./
 
 USER node
