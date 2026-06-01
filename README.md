@@ -73,6 +73,10 @@ Na pratica, o primeiro bloco tecnico deve consolidar dominio, persistencia
 SQLite, bootstrap local e fluxos de acesso antes de avancar para as telas do
 Radar de Necessidades.
 
+A estrategia de o fundador tocar pessoalmente as issues fundacionais do MVP, sem
+fechar a entrada de colaboradores, esta registrada em
+[`FUNDADOR_TOCANDO_PRODUTO.md`](FUNDADOR_TOCANDO_PRODUTO.md).
+
 ## Como Contribuir
 
 O backlog inicial da V1 esta aberto nas
@@ -217,6 +221,7 @@ Para entender o produto antes de implementar:
 
 Para implementar a V1:
 
+- [`FUNDADOR_TOCANDO_PRODUTO.md`](FUNDADOR_TOCANDO_PRODUTO.md);
 - [`GUIA_ESPECIFICACAO_EXECUTAVEL_V1.md`](GUIA_ESPECIFICACAO_EXECUTAVEL_V1.md);
 - [`DETALHAMENTO_REQUISITOS_V1.md`](DETALHAMENTO_REQUISITOS_V1.md);
 - [`DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md`](DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md);
@@ -266,6 +271,9 @@ Para entender engenharia, CI e release:
 - [`MATRIZ_ISSUES_V1.md`](MATRIZ_ISSUES_V1.md): planejamento de 85 issues
   minimas e modulares do MVP, ja cadastradas no GitHub, e linha de corte
   separada para issues Docker transversais.
+- [`FUNDADOR_TOCANDO_PRODUTO.md`](FUNDADOR_TOCANDO_PRODUTO.md): decisao de
+  direcao para o fundador tocar issues fundacionais do MVP enquanto o projeto
+  mantem boas entradas para colaboradores.
 - [`PROJETO_DOCKERIZACAO_AMBIENTE.md`](PROJETO_DOCKERIZACAO_AMBIENTE.md):
   documento de projeto para dockerizar o ambiente tecnico sem alterar a
   experiencia final desktop local Windows.
