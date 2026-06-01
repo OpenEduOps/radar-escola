@@ -46,6 +46,9 @@ testes a partir dos documentos da V0.
 - [`DETALHAMENTO_BLOCOS_TRANSVERSAIS_V0.md`](DETALHAMENTO_BLOCOS_TRANSVERSAIS_V0.md):
   detalhamento de auditoria, sessao, equipamentos, transferencia de direcao,
   testes, acessibilidade e criterios globais de aceite.
+- [`GUIA_ESPECIFICACAO_EXECUTAVEL_V1.md`](GUIA_ESPECIFICACAO_EXECUTAVEL_V1.md):
+  guia inicial para transformar requisitos V0 em especificacao executavel,
+  modelo relacional, regras de dominio e issues por camada.
 - [`CI_CD_OSS.md`](CI_CD_OSS.md): estrategia de CI/CD OSS para o produto.
 - [`docs/project-context.md`](docs/project-context.md): contexto duravel do
   projeto.
