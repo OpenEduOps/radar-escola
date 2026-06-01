@@ -63,6 +63,11 @@ tambem exige `PROJETO_DOCKERIZACAO_AMBIENTE.md` e
 Para reproduzir exatamente esses checks, consulte e rode os blocos do workflow.
 Para uma checagem rapida de escopo alterado, use `git diff --check`.
 
+Os jobs documentais da CI rodam antes da instalacao de dependencias. Em uma
+maquina local que ja tenha `node_modules`, `dist`, `coverage`,
+`playwright-report` ou `test-results`, exclua esses diretorios da checagem
+manual ou rode a validacao em um clone limpo.
+
 `markdownlint` pode ser usado como apoio local, mas nao e o contrato atual da
 CI. Se for usado dentro da imagem Docker, prefira apontar arquivos especificos
 do projeto para nao incluir dependencias instaladas em `node_modules`.

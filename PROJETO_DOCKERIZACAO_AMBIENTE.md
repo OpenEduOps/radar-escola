@@ -578,7 +578,9 @@ parte da experiencia final da escola.
 
 A `DOCKER-009` foi usada como gate para levar Docker a CI somente depois da
 base local validada. A validacao adicionada e limitada a imagem dev Node e nao
-substitui `Desktop Release`.
+substitui `Desktop Release`. Esse gate tambem protege a existencia do
+`.dockerignore` e suas exclusoes minimas, para evitar que contexto local,
+artefatos gerados ou arquivos sensiveis entrem no build Docker por acidente.
 
 ## Convencoes Executaveis Da Trilha Docker
 

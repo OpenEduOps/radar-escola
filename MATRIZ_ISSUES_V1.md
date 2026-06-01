@@ -2233,6 +2233,8 @@ do MVP.
 
 Validacao de fechamento:
 
-- commit final da trilha: `ca3bd406248781271410037d69bd55423e756097`;
-- CI: https://github.com/OpenEduOps/radar-escola/actions/runs/26772250073;
+- commit final da trilha: `64f631b6efae7cbaed429f75f808e951b60409b6`;
+- CI: https://github.com/OpenEduOps/radar-escola/actions/runs/26777533097;
+- `Docker dev validation` confere `.dockerignore`, constroi a imagem dev e roda
+  typecheck, testes unitarios e build frontend no container;
 - `Docker dev validation`, `All CI checks` e `Security` concluiram com sucesso.
