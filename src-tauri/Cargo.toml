@@ -10,6 +10,8 @@ license = "MIT"
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
+rusqlite = { version = "0.32", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
 tauri = { version = "2", features = [] }
 
 [features]

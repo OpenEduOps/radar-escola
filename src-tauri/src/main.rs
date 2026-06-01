@@ -1,5 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod playground;
+
 use tauri::{
     menu::{MenuBuilder, SubmenuBuilder},
     Emitter, Manager,
@@ -7,7 +9,18 @@ use tauri::{
 
 fn main() {
     tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![
+            playground::playground_load,
+            playground::playground_register_status,
+            playground::playground_create_record,
+            playground::playground_update_record,
+            playground::playground_delete_record,
+        ])
         .setup(|app| {
+            let playground_database = playground::open_playground_database(app)
+                .map_err(|error| std::io::Error::new(std::io::ErrorKind::Other, error))?;
+            app.manage(playground_database);
+
             let playground_menu = SubmenuBuilder::new(app, "Playground")
                 .text("playground_start", "Iniciar playground")
                 .build()?;
