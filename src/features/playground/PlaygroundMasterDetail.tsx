@@ -3,15 +3,27 @@ import {
   PLAYGROUND_TABLE_NAME,
   STATUS_PLAYGROUND_TABLE_NAME,
   type PlaygroundRecord,
-  type StatusPlaygroundRecord,
   playgroundRecords,
   statusPlaygroundRecords,
 } from "./playgroundData";
+import {
+  createPlaygroundRecord,
+  deletePlaygroundRecord,
+  getStatusName,
+  registerStatusPlayground,
+  type PlaygroundDraft,
+  updatePlaygroundRecord,
+} from "./playgroundCrud";
 
-type PlaygroundDraft = Pick<
-  PlaygroundRecord,
-  "nome" | "descricao" | "codigoStatus"
->;
+const initialStatusCode = statusPlaygroundRecords[0]?.codigoStatus ?? "";
+
+function buildEmptyPlaygroundDraft(codigoStatus: string): PlaygroundDraft {
+  return {
+    nome: "",
+    descricao: "",
+    codigoStatus,
+  };
+}
 
 export function PlaygroundMasterDetail() {
   const [records, setRecords] = useState(playgroundRecords);
@@ -20,24 +32,20 @@ export function PlaygroundMasterDetail() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState<PlaygroundDraft | null>(null);
   const [selectedStatusCode, setSelectedStatusCode] = useState(
-    statusPlaygroundRecords[0]?.codigoStatus ?? "",
+    initialStatusCode,
+  );
+  const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
+  const [newPlaygroundDraft, setNewPlaygroundDraft] = useState(
+    buildEmptyPlaygroundDraft(initialStatusCode),
   );
   const [isStatusFormOpen, setIsStatusFormOpen] = useState(false);
   const [newStatusName, setNewStatusName] = useState("");
   const selectedRecord =
     records.find((record) => record.id === selectedId) ?? records[0] ?? null;
 
-  function getStatusName(codigoStatus: string) {
-    return (
-      statusRecords.find(
-        (statusRecord) => statusRecord.codigoStatus === codigoStatus,
-      )
-        ?.nome ?? "Status nao encontrado"
-    );
-  }
-
   function startEditing(record: PlaygroundRecord) {
     setSelectedId(record.id);
+    setIsCreateFormOpen(false);
     setEditingId(record.id);
     setDraft({
       nome: record.nome,
@@ -51,8 +59,38 @@ export function PlaygroundMasterDetail() {
     setDraft(null);
   }
 
+  function openCreateForm() {
+    cancelEditing();
+    setIsCreateFormOpen(true);
+    setNewPlaygroundDraft(
+      buildEmptyPlaygroundDraft(selectedStatusCode || initialStatusCode),
+    );
+  }
+
+  function cancelCreateForm() {
+    setIsCreateFormOpen(false);
+    setNewPlaygroundDraft(
+      buildEmptyPlaygroundDraft(selectedStatusCode || initialStatusCode),
+    );
+  }
+
+  function saveNewPlaygroundRecord() {
+    const result = createPlaygroundRecord(records, newPlaygroundDraft);
+
+    if (!result) {
+      return;
+    }
+
+    setRecords(result.records);
+    setSelectedId(result.record.id);
+    setIsCreateFormOpen(false);
+    setNewPlaygroundDraft(
+      buildEmptyPlaygroundDraft(selectedStatusCode || initialStatusCode),
+    );
+  }
+
   function deleteRecord(id: string) {
-    const nextRecords = records.filter((record) => record.id !== id);
+    const nextRecords = deletePlaygroundRecord(records, id);
 
     setRecords(nextRecords);
 
@@ -71,47 +109,24 @@ export function PlaygroundMasterDetail() {
     }
 
     setRecords((currentRecords) =>
-      currentRecords.map((record) =>
-        record.id === editingId
-          ? {
-              ...record,
-              nome: draft.nome.trim(),
-              descricao: draft.descricao.trim(),
-              codigoStatus: draft.codigoStatus,
-            }
-          : record,
-      ),
+      updatePlaygroundRecord(currentRecords, editingId, draft),
     );
     cancelEditing();
   }
 
   function registerInterfaceStatus() {
-    const normalizedStatusName = newStatusName.trim();
+    const result = registerStatusPlayground(statusRecords, newStatusName);
 
-    if (!normalizedStatusName) {
+    if (!result) {
       return;
     }
 
-    const existingStatus = statusRecords.find(
-      (statusRecord) =>
-        statusRecord.nome.toLocaleLowerCase() ===
-        normalizedStatusName.toLocaleLowerCase(),
-    );
-    const statusToSelect =
-      existingStatus ??
-      ({
-        codigoStatus: `SP-${String(statusRecords.length + 1).padStart(3, "0")}`,
-        nome: normalizedStatusName,
-      } satisfies StatusPlaygroundRecord);
-
-    if (!existingStatus) {
-      setStatusRecords((currentStatusRecords) => [
-        ...currentStatusRecords,
-        statusToSelect,
-      ]);
-    }
-
-    setSelectedStatusCode(statusToSelect.codigoStatus);
+    setStatusRecords(result.statusRecords);
+    setSelectedStatusCode(result.statusRecord.codigoStatus);
+    setNewPlaygroundDraft((currentDraft) => ({
+      ...currentDraft,
+      codigoStatus: result.statusRecord.codigoStatus,
+    }));
     setNewStatusName("");
     setIsStatusFormOpen(false);
   }
@@ -137,7 +152,13 @@ export function PlaygroundMasterDetail() {
         </label>
         <select
           id="playground-interface-status"
-          onChange={(event) => setSelectedStatusCode(event.target.value)}
+          onChange={(event) => {
+            setSelectedStatusCode(event.target.value);
+            setNewPlaygroundDraft((currentDraft) => ({
+              ...currentDraft,
+              codigoStatus: event.target.value,
+            }));
+          }}
           value={selectedStatusCode}
         >
           {statusRecords.map((statusRecord) => (
@@ -149,7 +170,17 @@ export function PlaygroundMasterDetail() {
             </option>
           ))}
         </select>
-        <span>Selecionado: {getStatusName(selectedStatusCode)}</span>
+        <span>Selecionado: {getStatusName(statusRecords, selectedStatusCode)}</span>
+        <button
+          aria-expanded={isCreateFormOpen}
+          className="toolbar-action"
+          onClick={() =>
+            isCreateFormOpen ? cancelCreateForm() : openCreateForm()
+          }
+          type="button"
+        >
+          Cadastrar playground
+        </button>
         <button
           aria-expanded={isStatusFormOpen}
           className="toolbar-action"
@@ -181,6 +212,78 @@ export function PlaygroundMasterDetail() {
         ) : null}
       </div>
 
+      {isCreateFormOpen ? (
+        <form
+          className="playground-create-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            saveNewPlaygroundRecord();
+          }}
+        >
+          <label>
+            Nome
+            <input
+              onChange={(event) =>
+                setNewPlaygroundDraft({
+                  ...newPlaygroundDraft,
+                  nome: event.target.value,
+                })
+              }
+              required
+              type="text"
+              value={newPlaygroundDraft.nome}
+            />
+          </label>
+          <label>
+            Descricao
+            <textarea
+              onChange={(event) =>
+                setNewPlaygroundDraft({
+                  ...newPlaygroundDraft,
+                  descricao: event.target.value,
+                })
+              }
+              required
+              rows={3}
+              value={newPlaygroundDraft.descricao}
+            />
+          </label>
+          <label>
+            Status
+            <select
+              onChange={(event) =>
+                setNewPlaygroundDraft({
+                  ...newPlaygroundDraft,
+                  codigoStatus: event.target.value,
+                })
+              }
+              value={newPlaygroundDraft.codigoStatus}
+            >
+              {statusRecords.map((statusRecord) => (
+                <option
+                  key={statusRecord.codigoStatus}
+                  value={statusRecord.codigoStatus}
+                >
+                  {statusRecord.nome}
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className="detail-actions">
+            <button
+              className="secondary-action"
+              onClick={cancelCreateForm}
+              type="button"
+            >
+              Cancelar
+            </button>
+            <button className="primary-action" type="submit">
+              Salvar playground
+            </button>
+          </div>
+        </form>
+      ) : null}
+
       <div className="master-detail-grid">
         <aside className="master-list" aria-label="Registros playground">
           {records.map((record) => (
@@ -195,7 +298,7 @@ export function PlaygroundMasterDetail() {
                 type="button"
               >
                 <span>{record.nome}</span>
-                <small>{getStatusName(record.codigoStatus)}</small>
+                <small>{getStatusName(statusRecords, record.codigoStatus)}</small>
               </button>
               <div className="row-actions" aria-label={`Acoes de ${record.nome}`}>
                 <button
@@ -226,7 +329,7 @@ export function PlaygroundMasterDetail() {
                   <h3>{selectedRecord.nome}</h3>
                 </div>
                 <span className="status-badge">
-                  {getStatusName(selectedRecord.codigoStatus)}
+                  {getStatusName(statusRecords, selectedRecord.codigoStatus)}
                 </span>
               </div>
 
@@ -306,7 +409,9 @@ export function PlaygroundMasterDetail() {
                   </div>
                   <div>
                     <dt>Status</dt>
-                    <dd>{getStatusName(selectedRecord.codigoStatus)}</dd>
+                    <dd>
+                      {getStatusName(statusRecords, selectedRecord.codigoStatus)}
+                    </dd>
                   </div>
                   <div>
                     <dt>codigo_status</dt>
