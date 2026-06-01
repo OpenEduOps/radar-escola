@@ -100,7 +100,7 @@ Pode:
 - marcar envolvidos quando permitido pela tela;
 - atualizar andamento;
 - solicitar fechamento tecnico;
-- cadastrar equipamento quando o fluxo permitir.
+- cadastrar equipamento simples quando precisar vincular a uma necessidade.
 
 Nao pode:
 
@@ -164,7 +164,8 @@ Responsavel por:
 | Marcar como resolvido | Sim | Sim | Nao |
 | Cancelar/corrigir necessidade | Sim | Sim | Solicitar correcao |
 | Consultar historico | Sim | Sim | Sim |
-| Cadastrar equipamento | Sim | Sim | Sim |
+| Cadastrar equipamento simples | Sim | Sim | Sim, quando precisar vincular |
+| Editar/inativar equipamento | Sim | Sim | Nao |
 | Exportar/restaurar seguranca | Sim | Nao | Nao |
 | Consultar auditoria | Sim | Nao | Nao |
 | Transferir direcao | Sim | Nao | Nao |
@@ -1496,6 +1497,10 @@ Cadastrar equipamento basico para vinculo com necessidades.
 - Equipamento nao e patrimonio completo.
 - Vinculo com necessidade e opcional.
 - Equipamento com historico nao deve sumir sem cuidado.
+- Usuario comum pode criar cadastro simples de equipamento quando precisar
+  vincular a uma necessidade.
+- Edicao cadastral e inativacao de equipamento ficam restritas a direcao ou
+  apoio de gestao.
 
 ### Mensagens de UX
 
@@ -1506,6 +1511,7 @@ Cadastrar equipamento basico para vinculo com necessidades.
 - Equipamento cadastrado aparece na lista.
 - Equipamento pode ser vinculado a necessidade.
 - Campos obrigatorios validados.
+- Usuario comum nao consegue editar ou inativar equipamento.
 
 ### Testes minimos
 

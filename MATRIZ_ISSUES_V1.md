@@ -368,7 +368,8 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - patrimonio completo.
 - Criterios de aceite:
   - nome/local obrigatorios;
-  - equipamento com historico nao e apagado fisicamente.
+  - equipamento com historico nao e apagado fisicamente;
+  - edicao/inativacao ficam restritas a gestao.
 - Testes esperados: unitarios.
 - Dependencias: nenhuma.
 - Labels: `domain`, `good first issue`.
@@ -543,13 +544,15 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - criar equipamento;
   - listar ativos;
   - buscar por id;
+  - inativar apenas quando autorizado;
   - vinculo via necessidade;
   - listar necessidades por equipamento.
 - Fora de escopo:
   - patrimonio completo.
 - Criterios de aceite:
   - equipamento pode ser selecionado em necessidade;
-  - historico de vinculo e preservado.
+  - historico de vinculo e preservado;
+  - usuario comum nao inativa equipamento.
 - Testes esperados: persistencia.
 - Dependencias: PER-005.
 - Labels: `persistence`, `good first issue`.

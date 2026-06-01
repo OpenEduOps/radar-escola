@@ -610,6 +610,10 @@ Permitir historico por equipamento sem transformar V1 em controle patrimonial.
 - Uma necessidade pode ter zero ou um equipamento na V1.
 - Um equipamento pode aparecer em varias necessidades.
 - Equipamento vinculado nao deve ser apagado fisicamente.
+- Usuario comum pode criar equipamento simples quando precisar vincular a uma
+  necessidade.
+- Edicao cadastral e inativacao de equipamento ficam restritas a direcao ou
+  apoio de gestao.
 
 ### Guardrails
 
@@ -624,12 +628,14 @@ Permitir historico por equipamento sem transformar V1 em controle patrimonial.
 - Equipamento cadastrado aparece na lista.
 - Necessidade pode vincular equipamento.
 - Historico mostra equipamento associado.
+- Usuario comum nao consegue editar ou inativar equipamento.
 
 ### Testes minimos
 
 - CRUD basico sem delete fisico.
 - Vinculo com necessidade.
 - Bloqueio de exclusao fisica com historico.
+- Bloqueio de edicao/inativacao para usuario comum.
 
 ### Tarefas modulares candidatas
 

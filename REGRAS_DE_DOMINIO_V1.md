@@ -538,11 +538,16 @@ Constraints:
 - local obrigatorio;
 - identificador pode ser unico quando informado, decisao a validar;
 - equipamento vinculado a necessidade nao deve ser apagado fisicamente.
+- usuario comum pode criar equipamento simples quando precisar vincular a uma
+  necessidade;
+- usuario comum pode consultar equipamentos ativos e vincular/desvincular em
+  necessidades abertas;
+- edicao cadastral e inativacao ficam restritas a direcao ou apoio de gestao.
 
 Operacoes:
 
-- Insert: cadastrar equipamento.
-- Update: editar dados simples; inativar.
+- Insert: cadastrar equipamento simples.
+- Update: editar dados simples; inativar, restrito a direcao ou apoio de gestao.
 - Delete: proibido quando houver historico; evitar na V1.
 
 Queries:
@@ -677,7 +682,7 @@ Eventos de auditoria:
 | Envolvidos | C/R/U | C/R/U | C/R/U |
 | Andamentos | C/R | C/R | C/R |
 | Plano de acao | C/R/U | C/R/U | C/R/U |
-| Equipamento | C/R/U | C/R/U | C/R/U |
+| Equipamento | C/R/U/inativar | C/R/U/inativar | C/R criar simples/vincular |
 | Auditoria | R | Nao | Nao |
 | Exportacao | C/R | Nao | Nao |
 | Restauracao | C | Nao | Nao |
@@ -955,7 +960,6 @@ Deve conter:
 Antes de implementar, revisar:
 
 - periodo exato de "necessidade parada";
-- se equipamento pode ser cadastrado por usuario comum ou apenas gestao;
 - formato exato do pacote CSV;
 - estrategia de auditoria durante restauracao;
 - estrategia concreta de hash no ambiente Tauri;
