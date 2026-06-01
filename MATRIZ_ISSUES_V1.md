@@ -244,6 +244,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Criterios de aceite:
   - senha final nao pode ser `123456`;
   - salvaguarda e obrigatoria;
+  - token e frase/resposta sao configurados;
   - token nao e regeneravel.
 - Testes esperados: unitarios.
 - Dependencias: DOM-003.
@@ -535,7 +536,8 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - UI de recuperacao.
 - Criterios de aceite:
   - token claro nao e persistido;
-  - resposta clara nao e persistida.
+  - resposta clara nao e persistida;
+  - token e frase/resposta existem na salvaguarda V1.
 - Testes esperados: persistencia e seguranca.
 - Dependencias: PER-003.
 - Labels: `persistence`, `tests`.
@@ -761,6 +763,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - recuperacao posterior.
 - Criterios de aceite:
   - usuario nao usa sistema antes de concluir;
+  - token e frase/resposta ficam configurados;
   - token exibido uma unica vez.
 - Testes esperados: caso de uso.
 - Dependencias: APP-002, PER-004.

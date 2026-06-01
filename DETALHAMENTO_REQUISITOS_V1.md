@@ -135,7 +135,8 @@ Responsavel por:
   necessidade.
 - **Apoio de gestao**: pessoa delegada pela direcao para acoes operacionais de
   gestao.
-- **Salvaguarda local**: token ou frase de recuperacao usados sem internet.
+- **Salvaguarda local**: token e frase de recuperacao configurados sem
+  internet; a recuperacao pode usar token ou resposta da frase.
 - **Token de recuperacao**: codigo exibido uma unica vez durante configuracao da
   salvaguarda.
 - **Frase de recuperacao**: pergunta simples escolhida para ajudar recuperacao
@@ -395,8 +396,8 @@ salvaguarda privada antes de usar o sistema.
 ### Fluxos alternativos
 
 - Usuario pode cancelar e voltar ao login.
-- Usuario pode escolher apenas token ou frase conforme regra final do dominio,
-  desde que pelo menos uma salvaguarda valida exista.
+- Recuperacao posterior pode ser feita por token ou por resposta da frase, mas
+  a configuracao inicial da salvaguarda deve criar os dois.
 
 ### Fluxos de excecao
 
@@ -408,6 +409,8 @@ salvaguarda privada antes de usar o sistema.
 ### Regras de negocio
 
 - Direcao nao deve ver nova senha, token, frase ou resposta.
+- Na V1, token e frase/resposta devem ser configurados no primeiro acesso.
+- Recuperacao posterior pode usar token ou resposta da frase.
 - Token nao deve ser regenerado depois.
 - Resposta da frase nao deve ser salva em texto claro.
 - Primeiro acesso deve terminar antes de qualquer uso normal.
@@ -423,6 +426,7 @@ salvaguarda privada antes de usar o sistema.
 - Conta com primeiro acesso nao entra no Radar sem trocar senha.
 - Senha temporaria nao pode continuar como senha normal.
 - Salvaguarda e obrigatoria.
+- Token e frase/resposta ficam configurados.
 - Token nao reaparece em consulta normal.
 
 ### Testes minimos

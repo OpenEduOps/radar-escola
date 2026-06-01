@@ -218,6 +218,8 @@ provedor externo.
 
 - Senha sempre como hash adequado para senha.
 - Resposta de frase de recuperacao tambem protegida.
+- Token e frase/resposta devem ser configurados na V1.
+- Recuperacao posterior pode usar token ou resposta da frase.
 - Token exibido apenas no momento da configuracao.
 - Token nao deve ser regenerado.
 - Senha temporaria `123456` so pode existir para primeiro acesso ou reset

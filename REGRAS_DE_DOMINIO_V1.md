@@ -241,16 +241,17 @@ Campos propostos:
 | --- | --- | --- | --- |
 | `id` | TEXT | Sim | Chave primaria |
 | `account_id` | TEXT | Sim | Conta vinculada |
-| `token_hash` | TEXT | Nao | Token protegido |
-| `recovery_question` | TEXT | Nao | Frase/pergunta visivel ao dono |
-| `recovery_answer_hash` | TEXT | Nao | Resposta protegida |
+| `token_hash` | TEXT | Sim | Token protegido |
+| `recovery_question` | TEXT | Sim | Frase/pergunta visivel ao dono |
+| `recovery_answer_hash` | TEXT | Sim | Resposta protegida |
 | `token_was_shown` | INTEGER | Sim | Deve ficar 1 apos exibicao |
 | `created_at` | TEXT | Sim | ISO datetime |
 | `updated_at` | TEXT | Sim | ISO datetime |
 
 Constraints:
 
-- deve haver token ou frase/resposta valida;
+- deve haver token e frase/resposta valida na V1;
+- recuperacao pode validar token ou resposta da frase;
 - token nao deve ser armazenado em claro;
 - resposta nao deve ser armazenada em claro;
 - token nao deve ser regenerado.
