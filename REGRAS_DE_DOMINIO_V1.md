@@ -614,6 +614,55 @@ Observacao:
   de restauracao fica dentro do banco restaurado, em log local separado ou em
   ambos. Para V1, a regra de produto e registrar quando tecnicamente possivel.
 
+### D-014 Auditoria
+
+Tabela: `audit_events`
+
+Responsabilidade:
+
+- registrar eventos sensiveis para consulta exclusiva da direcao;
+- preservar rastreabilidade operacional sem expor senhas, tokens, respostas de
+  recuperacao ou dados pessoais desnecessarios.
+
+Campos propostos:
+
+| Campo | Tipo SQLite | Obrigatorio | Regra |
+| --- | --- | --- | --- |
+| `id` | TEXT | Sim | UUID |
+| `event_type` | TEXT | Sim | Tipo controlado |
+| `actor_user_id` | TEXT | Sim | Usuario logado |
+| `actor_person_id` | TEXT | Sim | Pessoa vinculada ao usuario |
+| `entity_type` | TEXT | Sim | Dominio afetado |
+| `entity_id` | TEXT | Nao | ID afetado quando existir |
+| `summary` | TEXT | Sim | Texto curto sem segredo |
+| `metadata_json` | TEXT | Nao | Dados tecnicos sem segredo |
+| `created_at` | TEXT | Sim | ISO datetime |
+
+Constraints:
+
+- evento deve ter ator identificado;
+- `summary` e `metadata_json` nunca devem conter senha, token claro ou resposta
+  clara de recuperacao;
+- evento de auditoria nao deve ser alterado pela interface;
+- exclusao fisica de evento de auditoria fica proibida na V1.
+
+Operacoes:
+
+- Insert: registrar evento sensivel.
+- Update: proibido para fluxo de produto.
+- Delete: proibido para fluxo de produto.
+
+Queries:
+
+- `listAuditEvents(filters)`;
+- `listAuditEventsByType(eventType)`;
+- `listAuditEventsByEntity(entityType, entityId)`.
+
+Eventos de auditoria:
+
+- Esta tabela registra eventos; ela nao depende de registrar eventos sobre si
+  mesma na V1.
+
 ## Matriz CRUD por perfil
 
 | Dominio | Direcao | Apoio de gestao | Usuario comum |
