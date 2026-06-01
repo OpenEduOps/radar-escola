@@ -243,7 +243,8 @@ Criar a configuracao local inicial para que a escola possa usar o Radar Escola.
 
 - Deve existir apenas uma escola ativa na V1.
 - Primeira pessoa criada deve ser direcao.
-- Senha deve ser armazenada apenas como hash.
+- Senha deve ser armazenada apenas como hash Argon2id gerado no lado
+  Tauri/Rust.
 - Token deve ser exibido no momento de configuracao.
 - Resposta de recuperacao nao deve ser salva em texto claro.
 
@@ -326,7 +327,7 @@ Permitir que pessoa cadastrada acesse o Radar Escola.
 ### Regras de negocio
 
 - Erro de login nao deve revelar se usuario existe.
-- Senha deve ser comparada por hash.
+- Senha deve ser comparada por hash Argon2id no lado Tauri/Rust.
 - Conta com senha temporaria nao entra no Radar antes de trocar senha.
 
 ### Mensagens de UX
@@ -499,7 +500,7 @@ lembra nome/usuario e salvaguarda.
 - Recuperacao nao usa e-mail.
 - Recuperacao nao depende de internet.
 - Token nao deve ser exibido novamente.
-- Resposta deve ser comparada por hash ou mecanismo equivalente.
+- Resposta deve ser comparada por hash Argon2id no lado Tauri/Rust.
 
 ### Mensagens de UX
 
@@ -964,8 +965,7 @@ Indicar pessoas cadastradas que devem acompanhar uma necessidade.
 ### Fluxos de excecao
 
 - Pessoa inativa: nao permitir selecionar.
-- Necessidade resolvida: bloquear alteracao ou exigir reabertura futura fora da
-  V1.
+- Necessidade resolvida: bloquear alteracao; reabertura fica fora da V1.
 - Necessidade cancelada: bloquear.
 
 ### Regras de negocio
@@ -1354,7 +1354,8 @@ engano, preservando memoria operacional.
 
 - Usuario comum tenta cancelar: bloquear.
 - Motivo vazio: bloquear.
-- Necessidade resolvida: bloquear cancelamento ou exigir regra futura.
+- Necessidade resolvida: bloquear cancelamento; reabertura/cancelamento apos
+  resolucao fica fora da V1.
 
 ### Regras de negocio
 
@@ -1705,7 +1706,8 @@ dados locais atuais.
 
 - Dados atuais substituidos pelos dados importados.
 - Auditoria historica importada preservada.
-- Evento da restauracao atual registrado quando tecnicamente possivel.
+- Evento da restauracao atual registrado apos a substituicao, usando snapshot do
+  ator que iniciou a acao.
 
 ### Fluxo principal
 
@@ -1717,7 +1719,8 @@ dados locais atuais.
 6. Sistema mostra confirmacao forte.
 7. Direcao confirma.
 8. Sistema substitui dados locais.
-9. Sistema informa sucesso e pede novo login se necessario.
+9. Sistema registra evento da restauracao atual no banco restaurado.
+10. Sistema informa sucesso e pede novo login se necessario.
 
 ### Fluxos alternativos
 
@@ -1730,8 +1733,8 @@ dados locais atuais.
 - Usuario sem permissao: bloquear.
 - CSV invalido: bloquear.
 - CSV incompleto: bloquear.
-- Erro durante restauracao: informar falha e preservar estado anterior quando
-  tecnicamente possivel.
+- Erro durante restauracao: informar falha; a implementacao deve usar transacao
+  ou copia tecnica para nao deixar banco em estado parcial.
 
 ### Regras de negocio
 

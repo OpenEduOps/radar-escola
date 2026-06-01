@@ -87,8 +87,8 @@ importantes sem depender de memoria, conversa informal ou suporte tecnico.
 
 - Falha ao gravar auditoria em acao sensivel:
   - se a acao ainda nao foi concluida, abortar acao;
-  - se a acao ja foi concluida, mostrar erro operacional e registrar pendencia
-    tecnica futura quando houver mecanismo.
+  - se a acao ja foi concluida, mostrar erro operacional e bloquear novas acoes
+    sensiveis ate reinicio ou correcao tecnica.
 - Usuario sem permissao tenta consultar auditoria:
   - bloquear;
   - mostrar mensagem clara;
@@ -216,9 +216,11 @@ provedor externo.
 
 ### Regras obrigatorias
 
-- Senha sempre como hash adequado para senha.
+- Senha sempre como hash Argon2id gerado no lado Tauri/Rust.
 - Resposta de frase de recuperacao tambem protegida.
 - Token e frase/resposta devem ser configurados na V1.
+- Token e resposta tambem devem ser protegidos por Argon2id, com salt aleatorio
+  por segredo.
 - Recuperacao posterior pode usar token ou resposta da frase.
 - Token exibido apenas no momento da configuracao.
 - Token nao deve ser regenerado.
@@ -264,7 +266,7 @@ provedor externo.
 
 ### Tarefas minimas e modulares candidatas
 
-- Escolher estrategia de hash na arquitetura.
+- Implementar servico de hash Argon2id no lado Tauri/Rust.
 - Modelar salvaguarda.
 - Implementar troca obrigatoria.
 - Implementar reset administrativo.
@@ -502,9 +504,9 @@ no equipamento.
 - Arquivo incompleto:
   - bloquear restauracao.
 - Versao incompatavel:
-  - bloquear ou exigir migracao futura fora da V1.
+  - bloquear; migracao entre formatos fica fora da V1.
 - Erro durante restauracao:
-  - nao deixar banco em estado parcial quando possivel.
+  - usar transacao ou copia tecnica para nao deixar banco em estado parcial.
 
 ### Guardrails
 

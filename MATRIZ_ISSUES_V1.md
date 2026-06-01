@@ -242,12 +242,13 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - token exibido uma vez;
   - frase/resposta protegida.
 - Fora de escopo:
-  - algoritmo final de hash.
+  - escolha de biblioteca concreta de Argon2id.
 - Criterios de aceite:
   - senha final nao pode ser `123456`;
   - salvaguarda e obrigatoria;
   - token e frase/resposta sao configurados;
-  - token nao e regeneravel.
+  - token nao e regeneravel;
+  - senhas, tokens e respostas usam hash Argon2id via servico Tauri/Rust.
 - Testes esperados: unitarios.
 - Dependencias: DOM-003.
 - Labels: `domain`, `tests`, `good first issue`.
@@ -517,7 +518,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - buscar conta por usuario;
   - listar pessoas ativas.
 - Fora de escopo:
-  - hash real, se ficar em servico separado.
+  - executar algoritmo de hash dentro do repositorio.
 - Criterios de aceite:
   - usuario duplicado falha;
   - pessoa ativa aparece em seletores;
@@ -564,7 +565,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Criterios de aceite:
   - criacao persiste campos obrigatorios;
   - status final altera listas;
-  - parada e calculada por data.
+  - parada e calculada como 7 dias corridos sem atualizacao.
 - Testes esperados: persistencia.
 - Dependencias: PER-001.
 - Labels: `persistence`.
@@ -584,7 +585,8 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - UI timeline.
 - Criterios de aceite:
   - envolvido duplicado ativo bloqueado;
-  - andamento preserva autor e data.
+  - andamento preserva autor e data;
+  - andamento existente nao e editado, correcao gera novo registro.
 - Testes esperados: persistencia.
 - Dependencias: PER-003, PER-005.
 - Labels: `persistence`, `good first issue`.
@@ -667,9 +669,10 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - validar versao do formato;
   - preparar substituicao total dos dados atuais;
   - restaurar auditoria historica do pacote;
-  - executar restauracao em transacao quando possivel;
+  - registrar evento da restauracao atual apos substituir os dados;
+  - executar restauracao em transacao ou com copia tecnica;
   - impedir mescla;
-  - preservar integridade ou falhar sem alterar dados quando possivel.
+  - preservar integridade ou falhar sem alterar dados.
 - Fora de escopo:
   - importador generico de planilhas externas;
   - mescla entre banco atual e pacote importado.
@@ -678,7 +681,8 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - pacote invalido nao altera banco;
   - restauracao substitui, nao mescla;
   - auditoria historica importada fica disponivel;
-  - falha parcial nao deixa banco inconsistente quando tecnicamente possivel.
+  - evento da restauracao atual fica registrado com snapshot do ator;
+  - falha parcial nao deixa banco inconsistente.
 - Testes esperados: persistencia/integracao.
 - Dependencias: PER-001, PER-009, PER-008.
 - Labels: `persistence`, `tests`.
@@ -1136,7 +1140,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Escopo:
   - validar direcao;
   - bloquear apoio e usuario comum;
-  - bloquear reset da propria direcao por apoio;
+  - bloquear reset da propria direcao por este fluxo;
   - salvar hash da senha temporaria;
   - marcar conta como primeiro acesso;
   - registrar auditoria `PASSWORD_RESET`.

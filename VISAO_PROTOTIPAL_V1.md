@@ -1280,7 +1280,7 @@ Permissao:
 | - dados atuais serao substituidos                          |
 | - usuarios e hashes de senha virao da exportacao           |
 | - auditoria historica do pacote sera restaurada            |
-| - evento da restauracao atual sera registrado se possivel  |
+| - evento da restauracao atual sera registrado              |
 |                                                            |
 | Confirmacao forte                                          |
 | Digite RESTAURAR para continuar                            |
@@ -1295,10 +1295,10 @@ Estados:
 
 - Arquivo invalido: bloquear.
 - Confirmacao diferente de `RESTAURAR`: bloquear.
-- Falha durante restauracao: preservar estado anterior quando tecnicamente
-  possivel.
-- Restauracao concluida gera auditoria `SECURITY_IMPORT_RESTORED`, quando
-  tecnicamente possivel.
+- Falha durante restauracao: explicar erro e nao deixar o banco em estado
+  parcial.
+- Restauracao concluida gera auditoria `SECURITY_IMPORT_RESTORED` com snapshot
+  do ator que iniciou a acao.
 - Sucesso leva ao login ou Radar conforme sessao valida depois da restauracao.
 
 ### Auditoria
