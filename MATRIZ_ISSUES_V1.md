@@ -1033,6 +1033,33 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: PER-008, DOM-011, DOM-001.
 - Labels: `application`, `tests`, `security`.
 
+### APP-016 Implementar transferencia de direcao
+
+- Tipo: `application`
+- Camada: `controller`
+- Fonte: UC-022, BT-008
+- Objetivo: transferir responsabilidade principal da escola para pessoa ativa.
+- Escopo:
+  - validar direcao atual;
+  - listar pessoas candidatas ativas;
+  - bloquear transferencia para pessoa inativa;
+  - alterar direcao atual;
+  - recalcular permissoes exclusivas;
+  - registrar auditoria.
+- Fora de escopo:
+  - multiplas direcoes;
+  - procedimento tecnico quando direcao perdeu acesso;
+  - permissao automatica por cargo/função.
+- Criterios de aceite:
+  - direcao atual transfere para pessoa ativa;
+  - apoio e usuario comum sao bloqueados;
+  - nova direcao recebe acoes exclusivas;
+  - antiga direcao perde exclusividade, salvo outra delegacao;
+  - auditoria registra transferencia.
+- Testes esperados: caso de uso e permissao.
+- Dependencias: PER-002, PER-003, PER-008, DOM-001.
+- Labels: `application`, `tests`, `security`.
+
 ## Issues de View
 
 ### VIEW-001 Criar tela de primeiro uso
@@ -1254,6 +1281,29 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: APP-015.
 - Labels: `frontend`, `qa`, `security`.
 
+### VIEW-011 Criar fluxo de transferencia de direcao
+
+- Tipo: `view`
+- Camada: `view`
+- Fonte: UC-022, BT-008
+- Objetivo: permitir transferencia segura da responsabilidade principal.
+- Escopo:
+  - lista de pessoas ativas;
+  - explicacao de impacto;
+  - confirmacao forte;
+  - mensagem para revisar apoios de gestao;
+  - bloqueio para perfis sem permissao.
+- Fora de escopo:
+  - criacao de multiplas direcoes;
+  - fluxo tecnico de recuperacao da direcao perdida.
+- Criterios de aceite:
+  - direcao entende que a responsabilidade sera transferida;
+  - apoio/usuario comum nao acessam o fluxo;
+  - confirmacao forte aparece antes de aplicar.
+- Testes esperados: interface/QA.
+- Dependencias: APP-016.
+- Labels: `frontend`, `ux`, `security`.
+
 ## Issues de QA e Testes
 
 ### QA-001 Criar roteiro QA do fluxo minimo
@@ -1474,6 +1524,31 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - nenhum segredo ou hash sensivel aparece em resumo.
 - Testes esperados: caso de uso, interface e checklist de conteudo.
 - Dependencias: APP-015, VIEW-010, PER-008.
+- Labels: `qa`, `tests`, `security`.
+
+### QA-011 Criar testes de transferencia de direcao
+
+- Tipo: `qa`
+- Camada: `qa`
+- Fonte: UC-022, APP-016, VIEW-011
+- Objetivo: validar continuidade administrativa apos troca de direcao.
+- Escopo:
+  - transferencia valida;
+  - bloqueio para apoio;
+  - bloqueio para usuario comum;
+  - candidato inativo;
+  - permissoes da nova direcao;
+  - permissoes da antiga direcao;
+  - auditoria registrada.
+- Fora de escopo:
+  - recuperacao tecnica quando direcao perdeu tudo;
+  - multiplas direcoes.
+- Criterios de aceite:
+  - apenas direcao atual transfere;
+  - permissoes mudam imediatamente;
+  - auditoria mostra antes/depois sem segredo.
+- Testes esperados: caso de uso, persistencia e interface.
+- Dependencias: APP-016, VIEW-011, PER-002.
 - Labels: `qa`, `tests`, `security`.
 
 ## Issues de Documentacao de Apoio
