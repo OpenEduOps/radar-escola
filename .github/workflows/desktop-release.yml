@@ -152,5 +152,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$GITHUB_REF_NAME" dist-artifacts/* \
+            --repo "$GITHUB_REPOSITORY" \
             --title "$GITHUB_REF_NAME" \
             --notes "Release desktop do Radar Escola para Windows. Baixe o instalador e confira o arquivo .sha256 antes de instalar."
