@@ -196,7 +196,7 @@ Para implementar a V1:
 - [`DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md`](DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md);
 - [`REGRAS_DE_DOMINIO_V1.md`](REGRAS_DE_DOMINIO_V1.md);
 - [`MATRIZ_ISSUES_V1.md`](MATRIZ_ISSUES_V1.md);
-- [`PLANO_DOCKERIZACAO_AMBIENTE.md`](PLANO_DOCKERIZACAO_AMBIENTE.md).
+- [`PROJETO_DOCKERIZACAO_AMBIENTE.md`](PROJETO_DOCKERIZACAO_AMBIENTE.md).
 
 Para entender engenharia, CI e release:
 
@@ -240,9 +240,9 @@ Para entender engenharia, CI e release:
 - [`MATRIZ_ISSUES_V1.md`](MATRIZ_ISSUES_V1.md): planejamento de 85 issues
   minimas e modulares, ja cadastradas no GitHub, por requisitos, dominio,
   persistencia, application, view, QA e documentacao.
-- [`PLANO_DOCKERIZACAO_AMBIENTE.md`](PLANO_DOCKERIZACAO_AMBIENTE.md):
-  planejamento de projeto para dockerizar o ambiente sem alterar a experiencia
-  final desktop local Windows.
+- [`PROJETO_DOCKERIZACAO_AMBIENTE.md`](PROJETO_DOCKERIZACAO_AMBIENTE.md):
+  documento de projeto para dockerizar o ambiente tecnico sem alterar a
+  experiencia final desktop local Windows.
 - [`CI_CD_OSS.md`](CI_CD_OSS.md): estrategia de CI/CD OSS para o produto.
 - [`docs/project-context.md`](docs/project-context.md): contexto duravel do
   projeto.
