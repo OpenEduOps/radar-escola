@@ -15,6 +15,7 @@ Por isso, a CI atual valida:
 - higiene do repositorio;
 - typecheck, testes unitarios, E2E Playwright e build do scaffold
   React/TypeScript;
+- validacao Docker dev adicional para `Dockerfile.dev`;
 - postura minima de permissoes dos workflows.
 
 ## Check protegido
