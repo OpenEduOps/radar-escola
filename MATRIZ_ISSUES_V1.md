@@ -6,6 +6,28 @@ Nenhuma issue deste documento foi criada no GitHub ainda. Esta matriz e uma
 preparacao para revisao documental. Depois da revisao, as entradas poderao virar
 issues reais, ajustadas, agrupadas ou descartadas.
 
+## Resumo Quantitativo
+
+Total planejado para o ciclo completo da V1: **77 issues**.
+
+Esse total cobre concepcao, validacao documental, modelagem de dominio,
+persistencia, application/controller, interface, testes, QA de software e
+documentacao de apoio.
+
+| Grupo | Foco | Quantidade |
+| --- | --- | --- |
+| `REQ` | Validacao de requisitos e concepcao | 5 |
+| `DOM` | Dominio, regras puras e modelagem | 13 |
+| `PER` | Persistencia, schema SQLite, repositorios e CSV | 11 |
+| `APP` | Casos de uso e orquestracao | 19 |
+| `VIEW` | Telas, formularios, estados e mensagens | 14 |
+| `QA` | Testes, QA funcional, seguranca, acessibilidade e regressao | 13 |
+| `DOC` | Documentacao de apoio para execucao e validacao | 2 |
+
+Observacao: este numero e uma base de planejamento. Antes de criar issues reais
+no GitHub, cada entrada ainda pode ser mantida, agrupada, dividida, renomeada ou
+descartada durante revisao.
+
 ## Convencoes
 
 ### Tipos
