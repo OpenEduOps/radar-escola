@@ -292,7 +292,7 @@ h3 {
 
 .master-detail-grid {
   display: grid;
-  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(360px, 420px) minmax(0, 1fr);
   gap: 16px;
   align-items: stretch;
 }
@@ -312,8 +312,8 @@ h3 {
 
 .master-header {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(96px, 120px) auto;
-  gap: 10px;
+  grid-template-columns: minmax(140px, 1fr) minmax(76px, 96px) auto;
+  gap: 8px;
   padding: 10px 12px;
   border-bottom: 1px solid #cad2c5;
   color: #4d5b66;
@@ -329,11 +329,11 @@ h3 {
 
 .master-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(96px, 120px) auto;
-  gap: 10px;
+  grid-template-columns: minmax(140px, 1fr) minmax(76px, 96px) auto;
+  gap: 8px;
   align-items: center;
   width: 100%;
-  min-height: 82px;
+  min-height: 76px;
   padding: 12px;
   border-bottom: 1px solid #dde3da;
   color: #17212b;
@@ -382,7 +382,7 @@ h3 {
 
 .row-actions {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   align-items: center;
 }
 
@@ -390,7 +390,7 @@ h3 {
 .primary-action,
 .secondary-action {
   min-height: 34px;
-  padding: 0 10px;
+  padding: 0 8px;
   border: 1px solid #b7c4b5;
   border-radius: 6px;
   color: #244635;
