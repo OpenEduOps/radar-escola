@@ -440,3 +440,422 @@ Estados:
 - Senha incorreta: manter bloqueado.
 - Conta inativada durante sessao: encerrar e voltar ao login.
 - Contexto nao pode ser preservado: desbloquear voltando ao Radar.
+
+## Radar E Necessidades
+
+### Radar De Necessidades
+
+Objetivo: mostrar o que esta acontecendo, o que esta parado e o que foi
+resolvido recentemente.
+
+Permissao:
+
+- [D], [A] e [U] consultam o Radar.
+- [D] ve entrada para seguranca e auditoria.
+- [A] ve gestao operacional delegada, mas nao seguranca/auditoria.
+- [U] ve acoes operacionais comuns.
+
+```text
++------------------------------------------------------------+
+| Radar Escola                              Maria Silva [Sair]|
+| Veja o que sua escola precisa resolver.                    |
++------------------------------------------------------------+
+| [ Tenho algo para resolver ]  [ Ver paradas ] [ Historico ] |
++------------------------------------------------------------+
+|                                                            |
+| Em andamento                                               |
+| ---------------------------------------------------------- |
+| #12 Projetor da sala 8 nao liga        Urgente             |
+| Sala 8 | Em execucao | Envolvidos: Ana, Joao, Coordenacao  |
+| [ Ver necessidade ]                                        |
+|                                                            |
+| #11 Impressora da secretaria falhando  Aguardando material |
+| Secretaria | Marta | 2 atualizacoes                       |
+| [ Ver necessidade ]                                        |
+|                                                            |
+| Paradas                                                    |
+| ---------------------------------------------------------- |
+| #08 Computador 12 sem internet        7 dias sem andamento |
+| Laboratorio | Em analise                                   |
+| [ Ver caso ] [ Registrar atualizacao ]                     |
+|                                                            |
+| Resolvidas recentemente                                    |
+| ---------------------------------------------------------- |
+| #07 Troca de mouse no laboratorio      Resolvida           |
+| [ Ver historico ]                                          |
+|                                                            |
++------------------------------------------------------------+
+| Acoes da direcao: [Pessoas] [Seguranca] [Auditoria]        |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Sem necessidades: mostrar estado vazio com acao "Tenho algo para resolver".
+- Necessidade parada: destacar por texto, nao apenas por cor.
+- [U] nao ve atalhos de auditoria, seguranca ou transferencia de direcao.
+
+### Registrar Necessidade
+
+Objetivo: registrar algo operacional que a escola precisa resolver.
+
+Permissao:
+
+- [D], [A] e [U] registram necessidade.
+- [S] orienta evitar dados de estudantes.
+
+```text
++------------------------------------------------------------+
+| Registrar necessidade                              [Voltar] |
++------------------------------------------------------------+
+| Descreva uma necessidade operacional da escola.             |
+| Evite informar nomes de estudantes.                         |
++------------------------------------------------------------+
+|                                                            |
+| O que precisa ser resolvido?                               |
+| [ Projetor da sala 8 nao liga _________________________ ]  |
+|                                                            |
+| Onde acontece?                                             |
+| [ Sala 8 ______________________________________________ ]  |
+|                                                            |
+| Descreva com suas palavras                                 |
+| [ O projetor nao ligou durante a aula de ontem... ____ ]   |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Prioridade                                                 |
+| ( ) Baixa   ( ) Normal   ( ) Alta   ( ) Urgente            |
+|                                                            |
+| Quem precisa acompanhar?                                   |
+| [ Selecionar pessoas ]                                     |
+|                                                            |
+| Equipamento envolvido                                      |
+| [ Selecionar equipamento ] [ Cadastrar equipamento ]       |
+|                                                            |
+| [ Registrar necessidade ]                                  |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Titulo vazio: bloquear.
+- Descricao vazia: bloquear.
+- Local vazio: bloquear.
+- Equipamento nao e obrigatorio.
+- Envolvidos podem ser adicionados depois.
+
+### Detalhe Da Necessidade
+
+Objetivo: centralizar tudo que mantem a necessidade "quente" ate resolver.
+
+Permissao:
+
+- [D], [A] e [U] consultam.
+- [D] e [A] veem acoes de resolver/cancelar.
+- [U] ve solicitacao de fechamento tecnico.
+
+```text
++------------------------------------------------------------+
+| Necessidade #12                                  [Voltar]   |
+| Projetor da sala 8 nao liga                                |
++------------------------------------------------------------+
+| Status: Em execucao             Prioridade: Urgente        |
+| Local: Sala 8                   Criado por: Ana            |
+| Equipamento: Projetor Epson X100                           |
++------------------------------------------------------------+
+| Envolvidos                                                 |
+| Ana | Joao Tecnico | Coordenacao                           |
+| [ Marcar envolvidos ]                                      |
++------------------------------------------------------------+
+| Plano de acao                                              |
+| [x] Verificar tomada e cabo             Joao Tecnico       |
+| [ ] Testar outro cabo HDMI              Joao Tecnico       |
+| [ ] Avaliar troca da lampada            Coordenacao        |
+| [ Combinar proximos passos ]                               |
++------------------------------------------------------------+
+| Andamentos                                                 |
+| Joao: Verifiquei tomada e cabo. A tomada funciona.         |
+| Ana: A turma ainda precisa usar o projetor amanha.         |
+| Sistema: Coordenacao foi marcada como envolvida.           |
++------------------------------------------------------------+
+| [ Registrar atualizacao ] [ Solicitar fechamento tecnico ] |
+| [ Marcar como resolvido ] [ Cancelar ou corrigir ]         |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- [U] nao ve "Marcar como resolvido" como acao permitida.
+- Necessidade resolvida/cancelada nao recebe novo andamento.
+- Historico fica sempre preservado.
+
+### Marcar Envolvidos
+
+Objetivo: selecionar pessoas cadastradas que devem acompanhar a necessidade.
+
+Permissao:
+
+- [D], [A] e [U] podem marcar envolvidos em necessidade ativa.
+
+```text
++------------------------------------------------------------+
+| Marcar envolvidos na necessidade #12               [Voltar] |
++------------------------------------------------------------+
+| Projetor da sala 8 nao liga                                |
++------------------------------------------------------------+
+|                                                            |
+| Buscar pessoa cadastrada                                   |
+| [ nome, cargo ou funcao _______________________________ ]  |
+|                                                            |
+| Sugestoes                                                  |
+| [ ] Maria Silva - Direcao                                  |
+| [ ] Joao Pereira - Tecnico                                 |
+| [ ] Marta Souza - Secretaria                               |
+| [ ] Coordenacao Pedagogica                                 |
+|                                                            |
+| Envolvidos atuais                                          |
+| ---------------------------------------------------------- |
+| Ana                  Solicitante                           |
+| Joao Pereira         Tecnico                               |
+| Coordenacao          Acompanhamento                        |
+|                                                            |
+| [ Salvar envolvidos ]                                      |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Pessoa inativa nao aparece para selecao.
+- Pessoa ja envolvida nao deve duplicar.
+- Necessidade final bloqueia alteracao.
+
+### Registrar Andamento
+
+Objetivo: registrar uma atualizacao clara sobre o que aconteceu.
+
+Permissao:
+
+- [D], [A] e [U] registram andamento em necessidade ativa.
+
+```text
++------------------------------------------------------------+
+| Registrar atualizacao                              [Voltar] |
++------------------------------------------------------------+
+| Projetor da sala 8 nao liga                                |
++------------------------------------------------------------+
+|                                                            |
+| Status depois desta atualizacao                            |
+| ( ) Nova                                                   |
+| ( ) Em analise                                             |
+| ( ) Em execucao                                            |
+| ( ) Aguardando material                                    |
+| ( ) Aguardando autorizacao                                 |
+| ( ) Pausada                                                |
+|                                                            |
+| O que mudou?                                               |
+| [ Testamos outro cabo HDMI e o problema continua. ____ ]   |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| [ Salvar atualizacao ]                                     |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Texto vazio: bloquear.
+- [U] nao consegue mudar para resolvida ou cancelada por esta tela.
+- Status final nao volta para ativo na V1.
+
+### Plano De Acao Simples
+
+Objetivo: combinar proximos passos sem virar gerenciador complexo de tarefas.
+
+Permissao:
+
+- [D], [A] e [U] criam/concluem itens em necessidade ativa.
+
+```text
++------------------------------------------------------------+
+| Plano de acao                                      [Voltar] |
++------------------------------------------------------------+
+| Projetor da sala 8 nao liga                                |
++------------------------------------------------------------+
+| Proximos passos                                            |
+| ---------------------------------------------------------- |
+| [x] Verificar tomada e cabo                                |
+|     Responsavel: Joao Pereira                              |
+|                                                            |
+| [ ] Testar outro cabo HDMI                                 |
+|     Responsavel: Joao Pereira                              |
+|                                                            |
+| [ ] Avaliar troca da lampada                               |
+|     Responsavel: Coordenacao                               |
+|                                                            |
+| Novo passo                                                 |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Responsavel                                                |
+| [ Selecionar pessoa cadastrada _______________________ ]   |
+|                                                            |
+| [ Adicionar passo ]                         [ Salvar ]     |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Passo vazio: bloquear.
+- Responsavel e opcional.
+- Necessidade resolvida/cancelada bloqueia novo item.
+
+### Solicitar Fechamento Tecnico
+
+Objetivo: permitir que uma pessoa diga que parece resolvido sem encerrar
+oficialmente.
+
+Permissao:
+
+- [D], [A] e [U] podem solicitar fechamento tecnico.
+- [S] nao muda status para resolvida.
+
+```text
++------------------------------------------------------------+
+| Solicitar fechamento tecnico                       [Voltar] |
++------------------------------------------------------------+
+| Projetor da sala 8 nao liga                                |
++------------------------------------------------------------+
+|                                                            |
+| Voce acha que esta necessidade ja foi atendida?             |
+|                                                            |
+| Explique o que foi feito                                   |
+| [ O projetor voltou a ligar apos troca do cabo. ______ ]   |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Esta acao nao marca como resolvido.                        |
+| A direcao ou apoio de gestao ainda precisa confirmar.      |
+|                                                            |
+| [ Enviar para verificacao ]                                |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Texto vazio: bloquear.
+- Necessidade final: bloquear.
+- [D] e [A] podem resolver direto se fizer sentido.
+
+### Marcar Como Resolvido
+
+Objetivo: encerrar necessidade com olhar da gestao.
+
+Permissao:
+
+- [D] e [A] marcam como resolvido.
+- [U] e bloqueado e pode apenas solicitar fechamento tecnico.
+
+```text
++------------------------------------------------------------+
+| Marcar como resolvido                              [Voltar] |
++------------------------------------------------------------+
+| Acao disponivel para direcao ou apoio de gestao.            |
++------------------------------------------------------------+
+| Projetor da sala 8 nao liga                                |
+|                                                            |
+| O que resolveu esta necessidade?                           |
+| [ O cabo HDMI foi substituido e o projetor voltou... __ ]  |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| Confirmacao                                                |
+| [ ] Entendo que esta necessidade saira das ativas.         |
+|                                                            |
+| [ Registrar como resolvido ]                               |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- [U] tenta acessar: mostrar bloqueio e oferecer "Solicitar fechamento tecnico".
+- Resumo vazio: bloquear.
+- Necessidade ja resolvida: informar estado atual.
+
+### Cancelar Ou Corrigir
+
+Objetivo: corrigir erro de cadastro ou cancelar necessidade registrada por
+engano, preservando memoria operacional.
+
+Permissao:
+
+- [D] e [A] cancelam/corrigem diretamente.
+- [U] solicita correcao por andamento.
+
+```text
++------------------------------------------------------------+
+| Cancelar ou corrigir necessidade                   [Voltar] |
++------------------------------------------------------------+
+| Projetor da sala 8 nao liga                                |
++------------------------------------------------------------+
+|                                                            |
+| O que precisa acontecer?                                   |
+| ( ) Corrigir texto, local, prioridade ou equipamento        |
+| ( ) Cancelar porque foi registrado por engano              |
+| ( ) Cancelar porque existe outro registro igual            |
+|                                                            |
+| Explique o motivo                                          |
+| [ Registrei na sala errada. O correto e sala 9. _____ ]   |
+| [ ____________________________________________________ ]   |
+|                                                            |
+| [ Salvar correcao ]       [ Cancelar necessidade ]         |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- [U] ve uma versao como solicitacao, sem botao de cancelar direto.
+- Motivo vazio para cancelamento: bloquear.
+- Necessidade resolvida: cancelamento fica fora da V1.
+
+### Historico
+
+Objetivo: consultar o que aconteceu com necessidades anteriores ou finalizadas.
+
+Permissao:
+
+- [D], [A] e [U] consultam historico de necessidades.
+- Auditoria administrativa nao aparece aqui.
+
+```text
++------------------------------------------------------------+
+| Historico                                          [Voltar] |
++------------------------------------------------------------+
+| Buscar no historico                                        |
+| [ sala, pessoa, equipamento, texto... ________________ ]   |
+|                                                            |
+| Filtros                                                    |
+| [Todas] [Resolvidas] [Canceladas] [Por equipamento]        |
+|                                                            |
+| ---------------------------------------------------------- |
+| #07 Troca de mouse no laboratorio           Resolvida      |
+| Resolvido por Joao Pereira em 12/05/2026                  |
+| [ Ver detalhes ]                                           |
+|                                                            |
+| #04 Cabo de rede rompido na secretaria      Resolvida      |
+| Resolvido por Marta Souza em 08/05/2026                   |
+| [ Ver detalhes ]                                           |
+|                                                            |
+| #02 Projetor sem imagem na sala 3           Cancelada      |
+| Cancelada por Coordenacao em 01/05/2026                   |
+| [ Ver detalhes ]                                           |
+|                                                            |
++------------------------------------------------------------+
+```
+
+Estados:
+
+- Sem resultado: mostrar estado vazio e limpar filtro.
+- Usuario comum consulta historico, mas nao consulta auditoria administrativa.
+- Historico nao mostra senha, token, resposta ou hash.
