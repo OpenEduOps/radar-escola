@@ -1094,6 +1094,34 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: PER-002, PER-003, PER-008, DOM-001.
 - Labels: `application`, `tests`, `security`.
 
+### APP-018 Implementar equipamento e vinculo operacional
+
+- Tipo: `application`
+- Camada: `controller`
+- Fonte: UC-017, UC-018, BT-009
+- Objetivo: cadastrar equipamento simples e vincular a necessidades sem virar
+  controle patrimonial.
+- Escopo:
+  - cadastrar equipamento simples;
+  - listar equipamentos ativos;
+  - vincular equipamento a necessidade;
+  - remover vinculo marcado por engano;
+  - bloquear equipamento inativo;
+  - restringir edicao/inativacao a direcao ou apoio.
+- Fora de escopo:
+  - patrimonio completo;
+  - QR Code;
+  - nota fiscal;
+  - responsavel patrimonial formal.
+- Criterios de aceite:
+  - usuario autenticado cria equipamento simples quando precisar vincular;
+  - usuario comum nao edita nem inativa equipamento;
+  - necessidade ativa pode vincular/remover equipamento;
+  - necessidade final bloqueia alteracao de vinculo.
+- Testes esperados: caso de uso.
+- Dependencias: PER-005, PER-007, DOM-010.
+- Labels: `application`, `tests`, `good first issue`.
+
 ## Issues de View
 
 ### VIEW-001 Criar tela de primeiro uso
@@ -1189,14 +1217,15 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - local;
   - prioridade;
   - envolvidos;
-  - equipamento opcional.
+  - equipamento opcional;
+  - acesso ao cadastro simples de equipamento quando necessario.
 - Fora de escopo:
   - anexos/fotos.
 - Criterios de aceite:
   - campos obrigatorios validados;
   - orientacao para nao identificar estudantes.
 - Testes esperados: interface.
-- Dependencias: APP-006.
+- Dependencias: APP-006, APP-018.
 - Labels: `frontend`, `ux`.
 
 ### VIEW-006 Criar detalhe da necessidade
@@ -1338,6 +1367,31 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: APP-016.
 - Labels: `frontend`, `ux`, `security`.
 
+### VIEW-012 Criar cadastro e seletor de equipamento
+
+- Tipo: `view`
+- Camada: `view`
+- Fonte: UC-017, UC-018
+- Objetivo: permitir cadastro simples e vinculo de equipamento sem linguagem de
+  patrimonio.
+- Escopo:
+  - formulario simples de equipamento;
+  - seletor de equipamento ativo;
+  - acao de criar equipamento durante registro de necessidade;
+  - acao de vincular/remover no detalhe;
+  - bloqueio visual de edicao/inativacao para usuario comum.
+- Fora de escopo:
+  - inventario avancado;
+  - anexos;
+  - QR Code.
+- Criterios de aceite:
+  - equipamento criado aparece para selecao;
+  - usuario comum nao ve acao permitida de inativar;
+  - necessidade resolvida/cancelada nao permite alterar vinculo.
+- Testes esperados: interface.
+- Dependencias: APP-018.
+- Labels: `frontend`, `ux`, `good first issue`.
+
 ## Issues de QA e Testes
 
 ### QA-001 Criar roteiro QA do fluxo minimo
@@ -1442,7 +1496,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - checklist aplicavel por QA junior;
   - termos proibidos rastreados.
 - Testes esperados: manual.
-- Dependencias: VIEW-001 a VIEW-011.
+- Dependencias: VIEW-001 a VIEW-012.
 - Labels: `qa`, `ux`, `accessibility`.
 
 ### QA-006 Criar teste de exportacao/restauracao
@@ -1586,6 +1640,32 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Testes esperados: caso de uso, persistencia e interface.
 - Dependencias: APP-016, VIEW-011, PER-002.
 - Labels: `qa`, `tests`, `security`.
+
+### QA-012 Criar testes de equipamento e vinculo
+
+- Tipo: `qa`
+- Camada: `qa`
+- Fonte: UC-017, UC-018, APP-018, VIEW-012
+- Objetivo: validar equipamento como apoio operacional sem escopo patrimonial.
+- Escopo:
+  - cadastro simples;
+  - campos obrigatorios;
+  - vinculo com necessidade ativa;
+  - remocao de vinculo marcada por engano;
+  - bloqueio de equipamento inativo;
+  - bloqueio de edicao/inativacao para usuario comum.
+- Fora de escopo:
+  - inventario patrimonial;
+  - QR Code;
+  - nota fiscal.
+- Criterios de aceite:
+  - equipamento aparece no seletor;
+  - historico de vinculo e preservado;
+  - usuario comum nao inativa equipamento;
+  - necessidade final nao altera vinculo.
+- Testes esperados: caso de uso, interface e persistencia focada.
+- Dependencias: APP-018, VIEW-012, PER-007.
+- Labels: `qa`, `tests`, `good first issue`.
 
 ## Issues de Documentacao de Apoio
 
