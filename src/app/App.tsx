@@ -25,12 +25,17 @@ export function App() {
 
   return (
     <main className="app-shell">
-      <section className="intro" aria-labelledby="product-title">
+      <section
+        className={`intro ${playgroundStarted ? "intro--active" : ""}`}
+        aria-labelledby="product-title"
+      >
         <p className="eyebrow">OpenEduOps</p>
         <h1 id="product-title">Radar Escola</h1>
-        <p className="summary">
-          Aplicativo desktop local para validar o Radar Escola no Windows.
-        </p>
+        {!playgroundStarted ? (
+          <p className="summary">
+            Aplicativo desktop local para validar o Radar Escola no Windows.
+          </p>
+        ) : null}
         {!playgroundStarted ? (
           <div className="status-panel" aria-label="Estado do produto">
             <strong>Estado atual</strong>
