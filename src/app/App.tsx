@@ -29,14 +29,13 @@ export function App() {
         <p className="eyebrow">OpenEduOps</p>
         <h1 id="product-title">Radar Escola</h1>
         <p className="summary">
-          Scaffold tecnico minimo do futuro aplicativo desktop local para
-          Windows.
+          Aplicativo desktop local para validar o Radar Escola no Windows.
         </p>
         <div className="status-panel" aria-label="Estado do produto">
           <strong>Estado atual</strong>
           <span>
-            Este build valida a casca desktop e a esteira de release. O fluxo
-            funcional do MVP ainda sera implementado.
+            Este build valida a casca desktop, o instalador e o playground de
+            referencia. O MVP funcional ainda sera implementado.
           </span>
         </div>
         <div className="status-panel" aria-label="Playground">
@@ -44,7 +43,7 @@ export function App() {
           <span>
             {playgroundStarted
               ? "Playground iniciado a partir do menu do aplicativo."
-              : "Use o menu Playground > Iniciar playground para validar o primeiro acionamento nativo."}
+              : "Use o menu Playground > Iniciar playground ou o botao abaixo para abrir o CRUD de referencia."}
           </span>
           {!playgroundStarted ? (
             <button

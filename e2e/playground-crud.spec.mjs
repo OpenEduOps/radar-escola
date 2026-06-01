@@ -1,9 +1,13 @@
 import { expect, test } from "@playwright/test";
 
 test("executa o CRUD do playground com status relacionado", async ({ page }) => {
+  await page.setViewportSize({ width: 960, height: 640 });
   await page.goto("/");
 
-  await page.getByRole("button", { name: "Iniciar playground" }).click();
+  const startButton = page.getByRole("button", { name: "Iniciar playground" });
+  await expect(startButton).toBeVisible();
+  await expect(startButton).toBeInViewport();
+  await startButton.click();
 
   await expect(page.getByRole("heading", { name: "Master detalhe" })).toBeVisible();
   await expect(page.getByText("Tabela: playground")).toBeVisible();
