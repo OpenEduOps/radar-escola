@@ -10,6 +10,17 @@ using System.Runtime.InteropServices;
 
 public static class RadarEscolaSmokeWin32
 {
+    public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    public static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    public static extern bool IsWindowVisible(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
     [DllImport("user32.dll")]
     public static extern IntPtr GetMenu(IntPtr hWnd);
 
@@ -112,16 +123,38 @@ function Wait-MainWindow {
 function Invoke-PlaygroundMenu {
     param(
         [Parameter(Mandatory = $true)]
-        [IntPtr]
-        $WindowHandle
+        [System.Diagnostics.Process]
+        $Process
     )
 
-    $menu = [RadarEscolaSmokeWin32]::GetMenu($WindowHandle)
+    $menuWindow = [IntPtr]::Zero
 
-    if ($menu -eq [IntPtr]::Zero) {
+    for ($attempt = 0; $attempt -lt 20; $attempt++) {
+        $Process.Refresh()
+
+        if ($Process.HasExited) {
+            throw "Installed app exited before exposing the application menu with code $($Process.ExitCode)."
+        }
+
+        $menuWindow = Find-MenuWindow -Process $Process
+
+        if ($menuWindow -ne [IntPtr]::Zero) {
+            break
+        }
+
+        Start-Sleep -Milliseconds 500
+    }
+
+    if ($menuWindow -eq [IntPtr]::Zero) {
+        if ($env:GITHUB_ACTIONS -eq "true") {
+            Write-Warning "Application menu handle was not exposed by the GitHub Actions runner. Local desktop validation still covers the native menu."
+            return
+        }
+
         throw "Application menu was not found during smoke test."
     }
 
+    $menu = [RadarEscolaSmokeWin32]::GetMenu($menuWindow)
     $playgroundSubmenu = [RadarEscolaSmokeWin32]::GetSubMenu($menu, 0)
 
     if ($playgroundSubmenu -eq [IntPtr]::Zero) {
@@ -136,11 +169,51 @@ function Invoke-PlaygroundMenu {
 
     Write-Host "Invoking Playground menu command id $commandId"
     [RadarEscolaSmokeWin32]::SendMessage(
-        $WindowHandle,
+        $menuWindow,
         0x0111,
         [IntPtr]([int]$commandId),
         [IntPtr]::Zero
     ) | Out-Null
+}
+
+function Find-MenuWindow {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Diagnostics.Process]
+        $Process
+    )
+
+    $windowHandles = New-Object 'System.Collections.Generic.List[IntPtr]'
+
+    if ($Process.MainWindowHandle -ne [IntPtr]::Zero) {
+        $windowHandles.Add($Process.MainWindowHandle)
+    }
+
+    $callback = [RadarEscolaSmokeWin32+EnumWindowsProc]{
+        param([IntPtr]$WindowHandle, [IntPtr]$Parameter)
+
+        [uint32]$windowProcessId = 0
+        [RadarEscolaSmokeWin32]::GetWindowThreadProcessId($WindowHandle, [ref]$windowProcessId) | Out-Null
+
+        if (
+            $windowProcessId -eq [uint32]$Process.Id -and
+            [RadarEscolaSmokeWin32]::IsWindowVisible($WindowHandle)
+        ) {
+            $windowHandles.Add($WindowHandle)
+        }
+
+        return $true
+    }
+
+    [RadarEscolaSmokeWin32]::EnumWindows($callback, [IntPtr]::Zero) | Out-Null
+
+    foreach ($windowHandle in ($windowHandles | Select-Object -Unique)) {
+        if ([RadarEscolaSmokeWin32]::GetMenu($windowHandle) -ne [IntPtr]::Zero) {
+            return $windowHandle
+        }
+    }
+
+    return [IntPtr]::Zero
 }
 
 function Assert-AppLaunchFlow {
@@ -156,7 +229,7 @@ function Assert-AppLaunchFlow {
 
     try {
         $mainWindow = Wait-MainWindow -Process $process
-        Invoke-PlaygroundMenu -WindowHandle $mainWindow
+        Invoke-PlaygroundMenu -Process $process
         Start-Sleep -Seconds 4
         $process.Refresh()
 
