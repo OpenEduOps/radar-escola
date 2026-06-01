@@ -95,7 +95,8 @@ Padroes de tela:
 - A necessidade e operacional; nao pedir nome, documento, matricula ou e-mail de
   estudante.
 - O produto deve funcionar sem internet obrigatoria.
-- Nao ha e-mail automatico, WhatsApp, notificacao push, nuvem ou PWA na V1.
+- Nao ha e-mail automatico, WhatsApp, notificacao push, nuvem ou dependencia de
+  navegador na V1.
 
 ## Mapa De Navegacao
 
