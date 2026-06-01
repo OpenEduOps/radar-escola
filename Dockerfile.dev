@@ -1,0 +1,18 @@
+FROM node:24-bookworm-slim
+
+ENV CI=true \
+    PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
+    npm_config_audit=false \
+    npm_config_fund=false
+
+WORKDIR /workspace
+
+COPY --chown=node:node package.json package-lock.json ./
+
+USER node
+
+RUN npm ci
+
+COPY --chown=node:node . .
+
+CMD ["npm", "run", "typecheck"]
