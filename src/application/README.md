@@ -2,6 +2,10 @@
 
 Camada de casos de uso.
 
+Estado atual em `v0.0.1`: a camada esta reservada para os casos de uso do MVP.
+O scaffold atual ainda usa apenas regras de referencia do Playground, sem
+orquestracao real de escola, pessoas ou necessidades.
+
 Responsabilidades:
 
 - orquestrar fluxos da V0;
@@ -9,7 +13,7 @@ Responsabilidades:
 - transformar intencoes da interface em operacoes de negocio;
 - devolver resultados claros para a camada de interface.
 
-Exemplos futuros:
+Exemplos planejados para o MVP:
 
 - configurar primeiro uso;
 - cadastrar pessoa;

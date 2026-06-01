@@ -5,6 +5,16 @@ Obrigado por contribuir com o Radar Escola.
 Este projeto aceita contribuicoes humanas, assistidas por automacao ou revisadas
 com apoio de ferramentas, desde que sejam pequenas, compreensiveis e revisaveis.
 
+## Estado Atual Do Projeto
+
+A tag `v0.0.1` publicou uma release tecnica do scaffold. Ela valida instalador
+Windows, checksum, janela maximizada, ausencia de prompt atras da janela, menu
+nativo Playground e CRUD de referencia.
+
+Essa release ainda nao e o MVP funcional para escola. Antes de implementar uma
+issue, leia a matriz e confirme se a mudanca mira o scaffold atual, a V0
+funcional ou apenas documentacao.
+
 ## Metadados Publicos
 
 Branches, titulos de pull request, mensagens de commit e mensagens de merge

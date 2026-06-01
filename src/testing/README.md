@@ -2,7 +2,11 @@
 
 Suporte de testes.
 
-Responsabilidades futuras:
+Estado atual em `v0.0.1`: os testes existentes cobrem o Playground de
+referencia e o E2E do scaffold. Esta pasta deve apoiar os proximos testes de
+dominio, persistencia e interface do MVP.
+
+Responsabilidades planejadas:
 
 - fixtures;
 - builders;

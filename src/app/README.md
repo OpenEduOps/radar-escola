@@ -2,6 +2,10 @@
 
 Camada de inicializacao da interface.
 
+Estado atual em `v0.0.1`: esta camada monta a tela raiz do scaffold, inicia o
+Playground de referencia e reage ao menu nativo `Playground > Iniciar
+playground`. Ela ainda nao possui rotas ou fluxos reais da V0 funcional.
+
 Responsabilidades:
 
 - montar a aplicacao React;

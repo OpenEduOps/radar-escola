@@ -10,9 +10,13 @@ experiencia esperada para uma pessoa nao tecnica usando o produto em uma escola.
 Esta visao deve ser lida junto com `CONTEXTO_INICIAL.md` e `GUARDRAILS_V0.md`.
 Para requisitos objetivos, ver tambem `REQUISITOS_V0.md`.
 
+Nota apos a tag `v0.0.1`: estes rascunhos continuam representando a experiencia
+alvo da V0 funcional. A release tecnica atual valida instalador, casca desktop e
+Playground, mas ainda nao implementa as telas abaixo.
+
 ## Produto
 
-Nome candidato do produto:
+Nome adotado por enquanto:
 
 > Radar Escola
 
