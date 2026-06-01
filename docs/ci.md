@@ -75,6 +75,26 @@ A CI devera evoluir para validar:
 O scaffold minimo atual valida a casca desktop e o pipeline de release sem
 fingir funcionalidade de MVP.
 
+## Higiene Do Repositorio
+
+O job `Repository hygiene` impede que arquivos locais, sensiveis ou gerados
+entrem no historico.
+
+Ele bloqueia:
+
+- arquivos de ambiente e credenciais locais, como `.env`, `.npmrc`, chaves e
+  certificados;
+- logs e arquivos temporarios;
+- artefatos de release desktop, como `.msi`, checksums `.sha256` e instaladores
+  `setup.exe`;
+- diretorios gerados, como `node_modules`, `dist`, `coverage`,
+  `playwright-report`, `test-results`, `dist-artifacts` e
+  `src-tauri/target`.
+
+Essas regras complementam `.gitignore` e `.dockerignore`: Git deve evitar
+versionar esses arquivos, Docker nao deve copia-los para a imagem, e a CI deve
+falhar se algum deles entrar por engano.
+
 ## Docker E CI
 
 A CI atual usa Docker apenas como validacao adicional da imagem dev Node.

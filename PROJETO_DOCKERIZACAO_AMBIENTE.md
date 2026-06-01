@@ -484,6 +484,8 @@ Regras:
 - manter browsers fora da imagem basica.
 - manter artefatos locais de release, instaladores Windows e checksums fora do
   contexto Docker.
+- manter os mesmos artefatos fora do versionamento e bloqueados pela higiene da
+  CI.
 
 ## Matriz De Validacao
 

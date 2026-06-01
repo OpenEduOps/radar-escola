@@ -101,7 +101,8 @@ Continuam fora desta fase:
 
 Artefatos locais de release, como `dist-artifacts`, instaladores Windows,
 arquivos `.msi` e checksums `.sha256`, tambem ficam fora do contexto Docker por
-meio do `.dockerignore`.
+meio do `.dockerignore`, fora do versionamento por `.gitignore` e bloqueados
+pela higiene da CI.
 
 ## Comandos
 
@@ -203,6 +204,8 @@ imagem dev Node basica e nao substitui `Desktop Release`.
 - Nao montar `node_modules` do Windows dentro do container.
 - Nao escrever `node_modules` do container no host por acidente.
 - Nao recomendar limpeza global destrutiva como caminho padrao.
+- Nao versionar instaladores, checksums, `dist-artifacts`, `dist`, `coverage`
+  ou relatorios locais de teste.
 - Nomear recursos com prefixo do projeto quando containers ou volumes forem
   criados.
 

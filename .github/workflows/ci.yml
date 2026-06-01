@@ -175,12 +175,35 @@ jobs:
               -name 'id_ed25519' -o \
               -name '*.log' -o \
               -name '*.tmp' -o \
-              -name '*.bak' \
+              -name '*.temp' -o \
+              -name '*.bak' -o \
+              -name '*.msi' -o \
+              -name '*.sha256' -o \
+              -name '*-setup.exe' -o \
+              -name '*_x64-setup.exe' \
             \) -print)"
 
           if [ -n "$forbidden_files" ]; then
             echo "Forbidden generated, temporary, or sensitive-looking files found:"
             echo "$forbidden_files"
+            exit 1
+          fi
+
+          forbidden_dirs="$(find . \
+            -path ./.git -prune -o \
+            -type d \( \
+              -name 'node_modules' -o \
+              -name 'dist' -o \
+              -name 'coverage' -o \
+              -name 'playwright-report' -o \
+              -name 'test-results' -o \
+              -name 'dist-artifacts' -o \
+              -path './src-tauri/target' \
+            \) -print)"
+
+          if [ -n "$forbidden_dirs" ]; then
+            echo "Forbidden generated directories found:"
+            echo "$forbidden_dirs"
             exit 1
           fi
 
