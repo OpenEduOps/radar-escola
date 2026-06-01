@@ -119,6 +119,8 @@ Docker entrou na CI depois da validacao local da imagem dev Node basica.
 
 O job `Docker dev validation`:
 
+- confere que `.dockerignore` existe e protege exclusoes minimas do contexto
+  Docker;
 - constroi `radar-escola-dev:ci`;
 - roda `npm run typecheck` no container;
 - roda `npm test` no container;

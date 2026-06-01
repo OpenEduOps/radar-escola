@@ -248,6 +248,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Check Docker context guardrails
+        run: |
+          test -f .dockerignore
+
+          missing=0
+          for pattern in \
+            ".git" \
+            ".github" \
+            "node_modules" \
+            "dist" \
+            "coverage" \
+            "src-tauri/target" \
+            "dist-artifacts" \
+            "*.msi" \
+            "*.sha256" \
+            "*-setup.exe" \
+            "*_x64-setup.exe" \
+            ".env" \
+            ".env.*" \
+            ".npmrc" \
+            "*.pem" \
+            "*.key" \
+            "id_rsa" \
+            "id_ed25519"
+          do
+            if grep -Fxq "$pattern" .dockerignore; then
+              :
+            else
+              echo "Missing Docker ignore pattern ${pattern}"
+              missing=1
+            fi
+          done
+
+          exit "$missing"
+
       - name: Build dev image
         run: docker build -f Dockerfile.dev -t radar-escola-dev:ci .
 

@@ -222,6 +222,8 @@ All CI checks
 
 Essa validacao:
 
+- confere que `.dockerignore` existe e preserva exclusoes minimas do contexto
+  Docker;
 - constroi `radar-escola-dev:ci`;
 - roda `npm run typecheck`;
 - roda `npm test`;
