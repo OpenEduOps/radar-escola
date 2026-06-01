@@ -481,7 +481,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - tabelas de metadados de seguranca existem;
   - testes de criacao do schema passam.
 - Testes esperados: persistencia.
-- Dependencias: DOM-002 a DOM-012.
+- Dependencias: DOM-002 a DOM-012, BT-001, BT-007.
 - Labels: `persistence`, `tests`.
 
 ### PER-002 Implementar repositorio de escola

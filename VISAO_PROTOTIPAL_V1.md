@@ -188,6 +188,8 @@ Esta visao prototipal esta pronta para virar issues de interface e QA quando:
 - cada acao sensivel mostrar quem pode executar;
 - cada bloqueio importante estiver visivel;
 - cada fluxo principal da V1 tiver caminho de entrada e saida;
+- cada tela rastreada para `VIEW-*` estiver alinhada com a
+  `MATRIZ_ISSUES_V1.md`;
 - os rascunhos nao criarem funcionalidades fora da V1.
 
 ## Rastreabilidade Para Issues De View
