@@ -56,6 +56,10 @@ Os checks documentais principais da CI sao scripts Python inline no proprio
 workflow `.github/workflows/ci.yml`. Eles verificam documentos obrigatorios,
 links internos, arquivos vazios, tabs e espacos sobrando.
 
+Como Docker agora faz parte do fluxo tecnico de validacao, o contrato documental
+tambem exige `PROJETO_DOCKERIZACAO_AMBIENTE.md` e
+`docs/development-docker.md`, ambos linkados a partir do README.
+
 Para reproduzir exatamente esses checks, consulte e rode os blocos do workflow.
 Para uma checagem rapida de escopo alterado, use `git diff --check`.
 
