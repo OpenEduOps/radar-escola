@@ -4,6 +4,26 @@ $bundlePath = Join-Path $PSScriptRoot "..\src-tauri\target\release\bundle"
 $productName = "Radar Escola"
 $binaryName = "radar-escola.exe"
 
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+
+public static class RadarEscolaSmokeWin32
+{
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetMenu(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetSubMenu(IntPtr hMenu, int nPos);
+
+    [DllImport("user32.dll")]
+    public static extern uint GetMenuItemID(IntPtr hMenu, int nPos);
+
+    [DllImport("user32.dll")]
+    public static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+}
+"@
+
 function Invoke-Installer {
     param(
         [Parameter(Mandatory = $true)]
@@ -65,7 +85,65 @@ function Find-InstalledApp {
     return $null
 }
 
-function Assert-AppStarts {
+function Wait-MainWindow {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Diagnostics.Process]
+        $Process
+    )
+
+    for ($attempt = 0; $attempt -lt 40; $attempt++) {
+        $Process.Refresh()
+
+        if ($Process.HasExited) {
+            throw "Installed app exited before creating a main window with code $($Process.ExitCode)."
+        }
+
+        if ($Process.MainWindowHandle -ne [IntPtr]::Zero) {
+            return $Process.MainWindowHandle
+        }
+
+        Start-Sleep -Milliseconds 500
+    }
+
+    throw "Installed app did not create a main window during smoke test."
+}
+
+function Invoke-PlaygroundMenu {
+    param(
+        [Parameter(Mandatory = $true)]
+        [IntPtr]
+        $WindowHandle
+    )
+
+    $menu = [RadarEscolaSmokeWin32]::GetMenu($WindowHandle)
+
+    if ($menu -eq [IntPtr]::Zero) {
+        throw "Application menu was not found during smoke test."
+    }
+
+    $playgroundSubmenu = [RadarEscolaSmokeWin32]::GetSubMenu($menu, 0)
+
+    if ($playgroundSubmenu -eq [IntPtr]::Zero) {
+        throw "Playground submenu was not found during smoke test."
+    }
+
+    $commandId = [RadarEscolaSmokeWin32]::GetMenuItemID($playgroundSubmenu, 0)
+
+    if ($commandId -eq [uint32]::MaxValue) {
+        throw "Playground menu item command id was not found during smoke test."
+    }
+
+    Write-Host "Invoking Playground menu command id $commandId"
+    [RadarEscolaSmokeWin32]::SendMessage(
+        $WindowHandle,
+        0x0111,
+        [IntPtr]([int]$commandId),
+        [IntPtr]::Zero
+    ) | Out-Null
+}
+
+function Assert-AppLaunchFlow {
     param(
         [Parameter(Mandatory = $true)]
         [System.IO.FileInfo]
@@ -75,13 +153,22 @@ function Assert-AppStarts {
     Write-Host "Starting $($Executable.FullName)"
 
     $process = Start-Process -FilePath $Executable.FullName -PassThru
-    Start-Sleep -Seconds 8
 
-    if ($process.HasExited) {
-        throw "Installed app exited during smoke test with code $($process.ExitCode)."
+    try {
+        $mainWindow = Wait-MainWindow -Process $process
+        Invoke-PlaygroundMenu -WindowHandle $mainWindow
+        Start-Sleep -Seconds 4
+        $process.Refresh()
+
+        if ($process.HasExited) {
+            throw "Installed app exited after Playground menu command with code $($process.ExitCode)."
+        }
     }
-
-    Stop-Process -Id $process.Id -Force
+    finally {
+        if (-not $process.HasExited) {
+            Stop-Process -Id $process.Id -Force
+        }
+    }
 }
 
 function Clear-InstalledApp {
@@ -129,7 +216,7 @@ try {
     }
 
     Write-Host "Installed executable found: $($installedApp.FullName)"
-    Assert-AppStarts -Executable $installedApp
+    Assert-AppLaunchFlow -Executable $installedApp
     Write-Host "Windows installer smoke check passed."
 }
 finally {
