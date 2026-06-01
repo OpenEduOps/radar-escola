@@ -67,6 +67,7 @@ descartada durante revisao.
 - `ux`;
 - `security`;
 - `accessibility`;
+- `engineering`;
 - `ci`;
 - `release`;
 
@@ -101,7 +102,7 @@ descartada durante revisao.
   - lacunas registradas como comentario ou ajuste documental.
 - Testes esperados: revisao documental.
 - Dependencias: nenhuma.
-- Labels: `documentation`, `qa`, `good first issue`.
+- Labels: `documentation`, `qa`, `help`, `good first issue`.
 
 ### REQ-002 Validar fluxo minimo de valor
 
@@ -126,7 +127,7 @@ descartada durante revisao.
   - cada etapa tem pelo menos uma tarefa tecnica planejada.
 - Testes esperados: checklist documental.
 - Dependencias: REQ-001.
-- Labels: `documentation`, `qa`, `good first issue`.
+- Labels: `documentation`, `qa`, `help`, `good first issue`.
 
 ### REQ-003 Validar fluxos de excecao dos casos de uso
 
@@ -149,7 +150,7 @@ descartada durante revisao.
   - guardrails relacionados identificados.
 - Testes esperados: revisao documental.
 - Dependencias: REQ-002.
-- Labels: `documentation`, `qa`, `good first issue`.
+- Labels: `documentation`, `qa`, `help`, `good first issue`.
 
 ### REQ-004 Validar guardrails de escopo
 
@@ -171,7 +172,7 @@ descartada durante revisao.
   - nao ha requisito pedindo funcionalidade proibida.
 - Testes esperados: revisao documental.
 - Dependencias: nenhuma.
-- Labels: `documentation`, `qa`, `good first issue`.
+- Labels: `documentation`, `qa`, `help`, `good first issue`.
 
 ### REQ-005 Validar linguagem PT-BR da experiencia
 
@@ -191,7 +192,7 @@ descartada durante revisao.
   - exemplos de botoes e mensagens claros.
 - Testes esperados: checklist de linguagem.
 - Dependencias: nenhuma.
-- Labels: `documentation`, `ux`, `qa`, `good first issue`.
+- Labels: `documentation`, `ux`, `qa`, `help`, `good first issue`.
 
 ## Issues de Dominio e Model
 
@@ -1728,21 +1729,22 @@ descartada durante revisao.
 
 - Tipo: `qa`
 - Camada: `qa`
-- Fonte: DOM-001 a DOM-013
+- Fonte: DOM-001 a DOM-014
 - Objetivo: proteger regras puras.
 - Escopo:
   - permissao;
   - primeiro acesso;
   - apoio;
   - status de necessidade;
-  - resolucao/cancelamento.
+  - resolucao/cancelamento;
+  - pacote de seguranca exportavel/restauravel.
 - Fora de escopo:
   - UI.
 - Criterios de aceite:
   - testes rodam localmente;
   - cobrem positivos e negativos.
 - Testes esperados: unitarios.
-- Dependencias: DOM-001 a DOM-013.
+- Dependencias: DOM-001 a DOM-014.
 - Labels: `tests`, `domain`.
 
 ### QA-004 Criar testes de persistencia SQLite
@@ -1763,7 +1765,7 @@ descartada durante revisao.
   - testes nao dependem de dados reais;
   - banco temporario limpo.
 - Testes esperados: integracao.
-- Dependencias: PER-001.
+- Dependencias: PER-001 a PER-011, ENG-002.
 - Labels: `tests`, `persistence`.
 
 ### QA-005 Criar checklist de linguagem e acessibilidade
@@ -2059,8 +2061,8 @@ descartada durante revisao.
 - Criterios de aceite:
   - dev junior consegue rodar sem inferir comando.
 - Testes esperados: seguir guia em ambiente limpo.
-- Dependencias: primeira implementacao funcional.
-- Labels: `documentation`, `good first issue`.
+- Dependencias: ENG-002, ENG-003, QA-015.
+- Labels: `documentation`, `help`, `good first issue`.
 
 ### DOC-002 Criar guia de validacao QA do MVP
 
@@ -2078,8 +2080,8 @@ descartada durante revisao.
 - Criterios de aceite:
   - QA junior executa roteiro.
 - Testes esperados: execucao manual.
-- Dependencias: QA-001.
-- Labels: `documentation`, `qa`, `good first issue`.
+- Dependencias: QA-001, QA-014, QA-015.
+- Labels: `documentation`, `qa`, `help`, `good first issue`.
 
 ## Dependencias Macro
 
