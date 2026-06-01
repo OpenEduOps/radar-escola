@@ -2,17 +2,32 @@
 
 Aplicativo desktop local para escolas acompanharem necessidades operacionais.
 
-Este repositorio sera o projeto de produto do Radar Escola dentro da
-organizacao OpenEduOps.
+Este repositorio e o projeto de produto e implementacao do Radar Escola dentro
+da organizacao OpenEduOps.
 
 ## Estado Atual
 
-Repositorio criado para receber o desenvolvimento do app e a documentacao de
-produto do Radar Escola.
+O projeto esta em fase de scaffold executavel, especificacao V1 e organizacao
+do ciclo de implementacao do MVP.
 
-O planejamento inicial, requisitos da V0 e documentos de implementacao foram
-migrados para ca para separar produto de documentacao institucional da
-organizacao OpenEduOps.
+Ja existem:
+
+- documentacao de produto V0 e V1;
+- especificacao executavel V1;
+- matriz de regras de dominio e modelo relacional planejado;
+- matriz de issues V1 com 85 issues cadastradas no GitHub;
+- app minimo Tauri + React + TypeScript;
+- playground CRUD master-detail para referencia tecnica;
+- testes unitarios do playground;
+- teste E2E Playwright do playground;
+- CI em `main` com checks de documentacao, higiene, frontend, testes e
+  guardrail de metadados publicos;
+- workflow `Desktop Release` para gerar instalador Windows tecnico do
+  scaffold.
+
+O app atual ainda nao e o MVP funcional completo. Ele valida a casca desktop,
+o frontend empacotado, o menu nativo e o CRUD de referencia para pessoas
+desenvolvedoras.
 
 ## Direcao Do Produto
 
@@ -23,10 +38,33 @@ organizacao OpenEduOps.
 - Linguagem em Portugues Brasileiro.
 - Sem internet obrigatoria na V0.
 
+SQLite faz parte da arquitetura alvo, mas ainda nao foi implementado no
+scaffold atual.
+
+## Fora Do MVP Implementado Hoje
+
+Ainda nao existem no app:
+
+- banco SQLite local;
+- autenticacao;
+- usuarios, cargos e apoio de gestao;
+- cadastro e acompanhamento real de necessidades;
+- envolvidos, andamento, resolucao e historico;
+- equipamentos operacionais;
+- auditoria persistida;
+- exportacao/restauracao de seguranca.
+
 ## Proximo Passo
 
-Detalhar requisitos, criterios de aceite, issues de implementacao e matriz de
-testes a partir dos documentos da V0.
+Implementar o MVP a partir das issues cadastradas, seguindo a ordem sugerida:
+
+```text
+REQ -> DOM -> PER -> ENG -> APP -> VIEW -> QA
+```
+
+Na pratica, o primeiro bloco tecnico deve consolidar dominio, persistencia
+SQLite, bootstrap local e fluxos de acesso antes de avancar para as telas do
+Radar de Necessidades.
 
 ## Documentacao
 
