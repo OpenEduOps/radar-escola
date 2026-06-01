@@ -125,10 +125,6 @@ npm run build
 Esses comandos validam regras puras do playground, fluxo E2E do CRUD de
 referencia, TypeScript e build Vite.
 
-O teste E2E usa o Chrome instalado no ambiente. Ao rodar localmente, Playwright
-pode criar `playwright-report/` e `test-results/`; esses diretorios sao
-artefatos locais e ja ficam ignorados pelo Git.
-
 ## Estrutura Inicial Do Codigo
 
 O scaffold ja segue a arquitetura planejada para evitar que regras de negocio,
