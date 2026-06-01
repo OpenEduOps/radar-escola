@@ -112,30 +112,30 @@ Deve conter:
 Casos de uso candidatos:
 
 - UC-001: Configurar escola no primeiro uso.
-- UC-002: Criar direcao ou responsavel principal.
-- UC-003: Entrar com usuario e senha.
-- UC-004: Fazer primeiro acesso com senha temporaria.
-- UC-005: Recuperar acesso por salvaguarda local.
-- UC-006: Cadastrar cargo ou funcao.
-- UC-007: Cadastrar pessoa ou usuario.
-- UC-008: Definir apoio de gestao.
-- UC-009: Registrar necessidade.
-- UC-010: Ver Radar de Necessidades.
-- UC-011: Marcar envolvidos.
-- UC-012: Atualizar andamento.
-- UC-013: Registrar plano de acao simples.
-- UC-014: Solicitar fechamento tecnico.
-- UC-015: Marcar necessidade como resolvida.
-- UC-016: Cancelar ou corrigir necessidade.
-- UC-017: Consultar historico.
-- UC-018: Cadastrar equipamento.
-- UC-019: Vincular equipamento a necessidade.
-- UC-020: Exportar dados de seguranca.
-- UC-021: Restaurar dados de seguranca.
-- UC-022: Consultar auditoria.
-- UC-023: Transferir direcao.
-- UC-024: Sair da conta.
-- UC-025: Bloquear e desbloquear sessao por inatividade.
+- UC-002: Entrar com usuario e senha.
+- UC-003: Fazer primeiro acesso com senha temporaria.
+- UC-004: Recuperar acesso por salvaguarda local.
+- UC-005: Cadastrar cargo ou funcao.
+- UC-006: Cadastrar pessoa ou usuario.
+- UC-007: Definir apoio de gestao.
+- UC-008: Registrar necessidade.
+- UC-009: Ver Radar de Necessidades.
+- UC-010: Marcar envolvidos.
+- UC-011: Atualizar andamento.
+- UC-012: Registrar plano de acao simples.
+- UC-013: Solicitar fechamento tecnico.
+- UC-014: Marcar necessidade como resolvida.
+- UC-015: Cancelar ou corrigir necessidade.
+- UC-016: Consultar historico.
+- UC-017: Cadastrar equipamento.
+- UC-018: Vincular equipamento a necessidade.
+- UC-019: Exportar dados de seguranca.
+- UC-020: Restaurar dados de seguranca.
+- UC-021: Consultar auditoria.
+- UC-022: Transferir direcao.
+- UC-023: Sair da conta.
+- UC-024: Bloquear e desbloquear sessao por inatividade.
+- UC-025: Validar MVP completo.
 
 ### 2. `DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md`
 
