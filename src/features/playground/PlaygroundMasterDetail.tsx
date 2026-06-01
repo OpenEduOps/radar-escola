@@ -10,7 +10,7 @@ import {
 
 type PlaygroundDraft = Pick<
   PlaygroundRecord,
-  "nome" | "descricao" | "statusPlaygroundId"
+  "nome" | "descricao" | "codigoStatus"
 >;
 
 export function PlaygroundMasterDetail() {
@@ -19,17 +19,19 @@ export function PlaygroundMasterDetail() {
   const [selectedId, setSelectedId] = useState(playgroundRecords[0]?.id ?? "");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState<PlaygroundDraft | null>(null);
-  const [selectedStatusId, setSelectedStatusId] = useState(
-    statusPlaygroundRecords[0]?.id ?? "",
+  const [selectedStatusCode, setSelectedStatusCode] = useState(
+    statusPlaygroundRecords[0]?.codigoStatus ?? "",
   );
   const [isStatusFormOpen, setIsStatusFormOpen] = useState(false);
   const [newStatusName, setNewStatusName] = useState("");
   const selectedRecord =
     records.find((record) => record.id === selectedId) ?? records[0] ?? null;
 
-  function getStatusName(statusPlaygroundId: string) {
+  function getStatusName(codigoStatus: string) {
     return (
-      statusRecords.find((statusRecord) => statusRecord.id === statusPlaygroundId)
+      statusRecords.find(
+        (statusRecord) => statusRecord.codigoStatus === codigoStatus,
+      )
         ?.nome ?? "Status nao encontrado"
     );
   }
@@ -40,7 +42,7 @@ export function PlaygroundMasterDetail() {
     setDraft({
       nome: record.nome,
       descricao: record.descricao,
-      statusPlaygroundId: record.statusPlaygroundId,
+      codigoStatus: record.codigoStatus,
     });
   }
 
@@ -75,7 +77,7 @@ export function PlaygroundMasterDetail() {
               ...record,
               nome: draft.nome.trim(),
               descricao: draft.descricao.trim(),
-              statusPlaygroundId: draft.statusPlaygroundId,
+              codigoStatus: draft.codigoStatus,
             }
           : record,
       ),
@@ -98,7 +100,7 @@ export function PlaygroundMasterDetail() {
     const statusToSelect =
       existingStatus ??
       ({
-        id: `SP-${String(statusRecords.length + 1).padStart(3, "0")}`,
+        codigoStatus: `SP-${String(statusRecords.length + 1).padStart(3, "0")}`,
         nome: normalizedStatusName,
       } satisfies StatusPlaygroundRecord);
 
@@ -109,7 +111,7 @@ export function PlaygroundMasterDetail() {
       ]);
     }
 
-    setSelectedStatusId(statusToSelect.id);
+    setSelectedStatusCode(statusToSelect.codigoStatus);
     setNewStatusName("");
     setIsStatusFormOpen(false);
   }
@@ -135,16 +137,19 @@ export function PlaygroundMasterDetail() {
         </label>
         <select
           id="playground-interface-status"
-          onChange={(event) => setSelectedStatusId(event.target.value)}
-          value={selectedStatusId}
+          onChange={(event) => setSelectedStatusCode(event.target.value)}
+          value={selectedStatusCode}
         >
           {statusRecords.map((statusRecord) => (
-            <option key={statusRecord.id} value={statusRecord.id}>
+            <option
+              key={statusRecord.codigoStatus}
+              value={statusRecord.codigoStatus}
+            >
               {statusRecord.nome}
             </option>
           ))}
         </select>
-        <span>Selecionado: {getStatusName(selectedStatusId)}</span>
+        <span>Selecionado: {getStatusName(selectedStatusCode)}</span>
         <button
           aria-expanded={isStatusFormOpen}
           className="toolbar-action"
@@ -191,7 +196,7 @@ export function PlaygroundMasterDetail() {
               >
                 <span>{record.nome}</span>
                 <small>
-                  {record.id} - {getStatusName(record.statusPlaygroundId)}
+                  {record.id} - {getStatusName(record.codigoStatus)}
                 </small>
               </button>
               <div className="row-actions" aria-label={`Acoes de ${record.nome}`}>
@@ -223,7 +228,7 @@ export function PlaygroundMasterDetail() {
                   <h3>{selectedRecord.nome}</h3>
                 </div>
                 <span className="status-badge">
-                  {getStatusName(selectedRecord.statusPlaygroundId)}
+                  {getStatusName(selectedRecord.codigoStatus)}
                 </span>
               </div>
 
@@ -263,13 +268,16 @@ export function PlaygroundMasterDetail() {
                       onChange={(event) =>
                         setDraft({
                           ...draft,
-                          statusPlaygroundId: event.target.value,
+                          codigoStatus: event.target.value,
                         })
                       }
-                      value={draft.statusPlaygroundId}
+                      value={draft.codigoStatus}
                     >
                       {statusRecords.map((statusRecord) => (
-                        <option key={statusRecord.id} value={statusRecord.id}>
+                        <option
+                          key={statusRecord.codigoStatus}
+                          value={statusRecord.codigoStatus}
+                        >
                           {statusRecord.nome}
                         </option>
                       ))}
@@ -300,11 +308,11 @@ export function PlaygroundMasterDetail() {
                   </div>
                   <div>
                     <dt>Status</dt>
-                    <dd>{getStatusName(selectedRecord.statusPlaygroundId)}</dd>
+                    <dd>{getStatusName(selectedRecord.codigoStatus)}</dd>
                   </div>
                   <div>
-                    <dt>status_playground_id</dt>
-                    <dd>{selectedRecord.statusPlaygroundId}</dd>
+                    <dt>codigo_status</dt>
+                    <dd>{selectedRecord.codigoStatus}</dd>
                   </div>
                 </dl>
               )}
