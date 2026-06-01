@@ -31,13 +31,15 @@ export function App() {
         <p className="summary">
           Aplicativo desktop local para validar o Radar Escola no Windows.
         </p>
-        <div className="status-panel" aria-label="Estado do produto">
-          <strong>Estado atual</strong>
-          <span>
-            Este build valida a casca desktop, o instalador e o playground de
-            referencia. O MVP funcional ainda sera implementado.
-          </span>
-        </div>
+        {!playgroundStarted ? (
+          <div className="status-panel" aria-label="Estado do produto">
+            <strong>Estado atual</strong>
+            <span>
+              Este build valida a casca desktop, o instalador e o playground de
+              referencia. O MVP funcional ainda sera implementado.
+            </span>
+          </div>
+        ) : null}
         <div className="status-panel" aria-label="Playground">
           <strong>Playground</strong>
           <span>

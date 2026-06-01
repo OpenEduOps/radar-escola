@@ -22,6 +22,7 @@ test("executa o CRUD do playground com status relacionado", async ({ page }) => 
   await expect(page.getByRole("columnheader", { name: "Nome" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "Status" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "Acoes" })).toBeVisible();
+  await expect(page.locator(".master-row").first()).toBeInViewport();
 
   await page.getByRole("button", { name: "Cadastrar status" }).click();
   const statusForm = page.locator("form.status-registration-form");
