@@ -2215,6 +2215,8 @@ As issues abaixo foram cadastradas no GitHub a partir desta matriz.
 
 As issues abaixo foram cadastradas como trilha transversal de dockerizacao do
 ambiente tecnico. Elas nao alteram o total original de 85 issues do MVP.
+`DOCKER-009` deve ser tratada como gate final: ela so avanca depois que
+`DOCKER-001` a `DOCKER-008` estiverem resolvidas.
 
 | ID | Issue GitHub |
 | --- | --- |

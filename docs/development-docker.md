@@ -124,6 +124,10 @@ local, medicao de custo e documentacao operacional.
 Enquanto essas bases nao existirem, nenhuma documentacao deve sugerir que Docker
 ja e caminho oficial de validacao do projeto.
 
+A `DOCKER-009` funciona como gate final da trilha: primeiro fecham as issues de
+base, depois se decide se Docker entra na CI, fica como validacao local ou segue
+como workflow experimental. Esse passo nao deve antecipar CI parcial.
+
 ## Guardrails Operacionais
 
 - Usar imagem base oficial ou confiavel.

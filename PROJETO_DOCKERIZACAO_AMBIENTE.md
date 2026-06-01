@@ -533,6 +533,8 @@ misturadas com requisitos funcionais do Radar Escola.
 A trilha Docker deve permanecer em secao separada, com prefixo `DOCKER`,
 dependencias claras e sem bloquear o fluxo normal do MVP. A validacao em CI deve
 ficar em uma issue final dependente das issues anteriores de dockerizacao.
+Essa issue final e um gate: ela so deve ser iniciada depois que a base Docker
+local estiver implementada, medida, documentada e revisada.
 
 ## Issues Cadastradas
 
@@ -549,10 +551,14 @@ escopo controlado.
 | [DOCKER-006](https://github.com/OpenEduOps/radar-escola/issues/94) | Documentar comandos reais e limpeza segura | DOCKER-005 |
 | [DOCKER-007](https://github.com/OpenEduOps/radar-escola/issues/95) | Decidir estrategia E2E Playwright em Docker | DOCKER-005 |
 | [DOCKER-008](https://github.com/OpenEduOps/radar-escola/issues/96) | Validar guardrails da primeira entrega Docker | DOCKER-001 a DOCKER-007 |
-| [DOCKER-009](https://github.com/OpenEduOps/radar-escola/issues/97) | Avaliar validacao Docker em CI apos bases prontas | DOCKER-001 a DOCKER-008 |
+| [DOCKER-009](https://github.com/OpenEduOps/radar-escola/issues/97) | Validar trilha Docker em CI apos bases prontas | DOCKER-001 a DOCKER-008 |
 
 Cada issue deve manter a narrativa de que Docker e ambiente tecnico opcional, nao
 parte da experiencia final da escola.
+
+A `DOCKER-009` nao autoriza CI com Docker antes da hora. Ela existe justamente
+para verificar, depois das demais issues fechadas, se a validacao Docker deve
+entrar em CI, permanecer manual ou seguir como workflow experimental.
 
 ## Decisoes Abertas
 

@@ -91,6 +91,10 @@ dependente das issues de base de dockerizacao. Nao deve haver job Docker
 protegido antes de existir imagem local validada, medicao de custo e
 documentacao operacional com comandos reais.
 
+Essa decisao esta concentrada na issue
+[`DOCKER-009`](https://github.com/OpenEduOps/radar-escola/issues/97), que deve
+ser executada apenas depois das issues `DOCKER-001` a `DOCKER-008`.
+
 Se Docker entrar na CI no futuro, ele deve continuar dentro do agregado
 `All CI checks` e preservar permissoes minimas.
 
