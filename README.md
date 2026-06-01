@@ -125,6 +125,27 @@ npm run build
 Esses comandos validam regras puras do playground, fluxo E2E do CRUD de
 referencia, TypeScript e build Vite.
 
+## Estrutura Inicial Do Codigo
+
+O scaffold ja segue a arquitetura planejada para evitar que regras de negocio,
+interface e infraestrutura fiquem misturadas.
+
+Mapa rapido:
+
+- `src/app`: composicao raiz da aplicacao;
+- `src/features`: telas e fluxos de usuario;
+- `src/features/playground`: CRUD de referencia do scaffold atual;
+- `src/application`: casos de uso e orquestracao futura;
+- `src/domain`: entidades e regras puras por dominio;
+- `src/infrastructure`: persistencia SQLite, Tauri, arquivos, hashing e CSV no
+  futuro;
+- `src/shared`: UI e utilitarios reutilizaveis;
+- `src/testing`: fixtures e helpers de teste;
+- `src-tauri/src`: runtime nativo minimo do desktop.
+
+Regra pratica: regra de negocio deve nascer testavel fora da interface, e tela
+nao deve acessar banco diretamente.
+
 ## App Desktop Local
 
 O projeto usa Tauri 2 como casca desktop.
