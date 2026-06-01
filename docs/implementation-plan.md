@@ -19,6 +19,8 @@ Ja existe:
 - CI com qualidade documental, higiene, `npm ci`, typecheck, testes, E2E do
   playground, build frontend e validacao Docker dev;
 - workflow de release desktop gerando instalador tecnico do scaffold;
+- release tecnica `v0.0.1` publicada com instalador Windows e checksum;
+- smoke Windows validando subsistema GUI, janela maximizada e menu Playground;
 - documentacao de CI/CD OSS;
 - documento de projeto para dockerizacao do ambiente tecnico;
 - `.dockerignore` e `Dockerfile.dev`;
@@ -32,7 +34,6 @@ Ainda nao existe:
 - persistencia;
 - testes automatizados de regra de negocio;
 - build Tauri validado localmente;
-- release versionada publicada por tag;
 - fluxo funcional de MVP.
 
 ## Principios de Implementacao
@@ -52,7 +53,7 @@ Ainda nao existe:
 
 Objetivo: manter o menor app desktop possivel, sem regra falsa.
 
-Estado: parcial/implementado.
+Estado: implementado para o scaffold tecnico.
 
 Criterios de aceite:
 
@@ -63,6 +64,9 @@ Criterios de aceite:
 - Tauri possui configuracao minima;
 - instalador tecnico do scaffold e gerado pelo workflow `Desktop Release`;
 - app instalado abre sem crash imediato;
+- app instalado nao abre prompt atras da janela principal;
+- janela principal abre maximizada;
+- release tecnica `v0.0.1` publica instalador e checksum;
 - CI valida o scaffold;
 - docs deixam claro que ainda nao e MVP funcional.
 
@@ -203,8 +207,11 @@ Criterios de aceite:
 - checksum SHA-256 e gerado;
 - smoke test valida existencia do artefato;
 - validacao local instala e abre o artefato gerado pelo workflow;
+- executavel instalado usa subsistema GUI, sem prompt atras da janela;
+- janela principal abre maximizada;
 - menu nativo inicia o playground no executavel instalado;
-- smoke test futuro automatiza instalacao e abertura no runner Windows;
+- smoke Windows tecnico automatiza instalacao e abertura no runner Windows;
+- smoke funcional futuro valida SQLite, login e fluxo de necessidade;
 - release por tag `v*` publica artefatos reais.
 
 ## Fase 13: Teste End-to-End da V0

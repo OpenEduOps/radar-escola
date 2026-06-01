@@ -5,6 +5,16 @@ Este documento define a organizacao inicial do codigo do Radar Escola.
 O objetivo nao e criar arquitetura pesada antes da hora. O objetivo e impedir
 que o scaffold cresca de forma acidental e vire um bloco dificil de manter.
 
+## Estado Atual
+
+A arquitetura ja possui um scaffold executavel Tauri + React + TypeScript,
+release tecnica `v0.0.1` e playground CRUD de referencia. Esse estado valida
+casca desktop, empacotamento Windows, menu nativo, teste E2E e separacao inicial
+de pastas.
+
+A arquitetura alvo do MVP ainda precisa implementar dominio real, persistencia
+SQLite, autenticacao local, fluxos de necessidades e guardrails de seguranca.
+
 ## Principios
 
 - UX da escola primeiro.

@@ -22,11 +22,13 @@ Resumo:
 - CI/CD OSS criada;
 - scaffold minimo Tauri + React + TypeScript criado;
 - build frontend validado;
-- release desktop tecnica validada com instalador Windows do scaffold.
+- release tecnica `v0.0.1` publicada com instalador Windows e checksum;
+- smoke Windows validou instalacao, subsistema GUI, janela maximizada e
+  Playground.
 
 ## Fase 1: Planejamento Implementavel
 
-Status: em preparacao.
+Status: implementado.
 
 Resumo:
 
@@ -34,7 +36,8 @@ Resumo:
 - quebrar requisitos em fases;
 - criar issues de implementacao;
 - criar issues de testes;
-- definir criterios de aceite por fase.
+- definir criterios de aceite por fase;
+- cadastrar matriz V1 com 85 issues do MVP e 9 issues Docker transversais.
 
 ## Fase 2: Persistencia e Primeiro Uso
 
@@ -116,7 +119,9 @@ Resumo:
 - checksum;
 - smoke test de artefato;
 - validacao local de instalacao e abertura;
-- release por tag.
+- release por tag `v0.0.1`;
+- executavel sem prompt atras da janela principal;
+- janela principal maximizada por padrao.
 
 ## Iniciativa Transversal: Dockerizacao Do Ambiente Tecnico
 
@@ -134,8 +139,8 @@ Resumo:
 
 ## Proximos Passos Imediatos
 
-- revisar os documentos adotados do template;
-- detalhar requisitos da Fase 2;
-- transformar fases em issues pequenas;
-- definir matriz inicial de testes;
-- iniciar implementacao apenas depois dos criterios de aceite estarem claros.
+- escolher a primeira issue fundacional do MVP;
+- implementar regras de dominio criticas com testes;
+- iniciar persistencia SQLite e bootstrap local;
+- manter a release tecnica honesta ate existir fluxo funcional da escola;
+- atualizar documentacao sempre que comportamento real do app mudar.

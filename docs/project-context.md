@@ -187,7 +187,7 @@ Saidas principais:
 - historico;
 - auditoria para direcao;
 - exportacao CSV restauravel;
-- instalador Windows em release futura.
+- instalador Windows em release tecnica atual e releases futuras.
 
 ## Requisitos de Validacao
 
@@ -199,7 +199,8 @@ Antes de considerar a V0 segura:
 - acoes sensiveis precisam registrar auditoria;
 - dados sensiveis nao podem aparecer em texto claro;
 - build frontend precisa passar;
-- release desktop precisa gerar artefato instalavel quando o app estiver pronto.
+- release desktop tecnica ja precisa continuar gerando artefato instalavel;
+- release funcional da V0 precisa validar SQLite, login e necessidade real.
 
 ## Requisitos de Automacao
 
@@ -211,7 +212,17 @@ Automatizar:
 - typecheck;
 - build frontend;
 - checks de workflow/permissoes;
-- release desktop quando houver tag e scaffold valido.
+- release desktop quando houver tag e scaffold valido;
+- smoke Windows do instalador tecnico.
+
+Estado atual de automacao:
+
+- CI valida documentacao, higiene, frontend, testes, E2E Playwright,
+  Docker dev e metadados publicos;
+- Security workflow valida postura minima de seguranca;
+- `Desktop Release` publicou a release tecnica `v0.0.1`;
+- o instalador tecnico abre sem prompt atras da janela, inicia maximizado e
+  aciona o Playground pelo menu nativo.
 
 Usar como apoio tecnico opcional:
 

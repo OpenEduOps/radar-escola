@@ -116,6 +116,9 @@ O projeto ja possui:
 - teste E2E Playwright do playground;
 - CI com instalacao, typecheck, testes, build frontend e E2E;
 - workflow `Desktop Release` para instalador Windows tecnico;
+- release tecnica `v0.0.1` publicada com instalador Windows e checksum;
+- smoke Windows validando instalacao, subsistema GUI, janela maximizada e
+  Playground;
 - `.dockerignore`;
 - `Dockerfile.dev`;
 - imagem dev Node validada localmente;
@@ -383,6 +386,8 @@ Direcao atual:
 - CI continua validando o scaffold sem depender exclusivamente de Docker;
 - Docker entra como job adicional pequeno para validar `Dockerfile.dev`;
 - a validacao Docker nao substitui `Desktop Release`;
+- a validacao Docker nao substitui a release tecnica `v0.0.1` nem futuras
+  releases desktop;
 - a validacao Docker nao publica imagem;
 - E2E Playwright continua fora da imagem basica.
 
@@ -398,6 +403,12 @@ Criterios de aceite:
 - instalador continua validado com Tauri e toolchain nativa;
 - smoke test do app instalado continua sendo referencia final;
 - documentacao nao sugere container como instalacao para escola.
+
+Estado atual:
+
+- `Desktop Release` publicou `v0.0.1`;
+- o instalador tecnico foi validado no Windows;
+- Docker permanece restrito a desenvolvimento, QA tecnico e CI Node basica.
 
 ## Dependencias Entre Fases
 
