@@ -34,6 +34,10 @@ seguro para contribuidores.
 
 - O usuario final nao deve precisar entender a tecnologia interna.
 - O Radar Escola deve priorizar experiencia Windows desktop local.
+- A narrativa publica deve descrever o Radar Escola como aplicativo desktop
+  local para Windows, nao como app web, PWA, site ou sistema em navegador.
+- Termos como React, Vite, frontend e navegador devem aparecer apenas em
+  contexto tecnico de implementacao, desenvolvimento ou testes automatizados.
 - Funcionalidades novas devem respeitar `REQUISITOS_V0.md` e `GUARDRAILS_V0.md`.
 
 ## Seguranca
