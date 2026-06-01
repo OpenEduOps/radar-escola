@@ -537,6 +537,312 @@ h3 {
   line-height: 1.5;
 }
 
+.radar-shell {
+  width: min(1120px, 100%);
+  max-width: calc(100vw - 48px);
+  display: grid;
+  gap: 16px;
+}
+
+.radar-hero {
+  display: flex;
+  gap: 16px;
+  align-items: end;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.radar-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+}
+
+.radar-card,
+.radar-session,
+.radar-board,
+.need-detail,
+.need-list {
+  border: 1px solid #cad2c5;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.radar-card,
+.radar-session,
+.need-detail {
+  padding: 16px;
+}
+
+.radar-session {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.radar-note,
+.guardrail-note,
+.empty-state {
+  margin: 0;
+  color: #4d5b66;
+  line-height: 1.45;
+}
+
+.guardrail-note {
+  padding: 10px 12px;
+  border: 1px solid #d6c492;
+  border-radius: 6px;
+  color: #5c4a12;
+  background: #fff8df;
+  font-weight: 700;
+}
+
+.radar-form {
+  display: grid;
+  gap: 12px;
+}
+
+.radar-form label,
+.checkbox-group legend {
+  display: grid;
+  gap: 6px;
+  color: #4d5b66;
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.radar-form input,
+.radar-form select,
+.radar-form textarea {
+  width: 100%;
+  border: 1px solid #b7c4b5;
+  border-radius: 6px;
+  color: #1f2933;
+  background: #ffffff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.radar-form input,
+.radar-form select {
+  min-height: 40px;
+  padding: 0 10px;
+}
+
+.radar-form textarea {
+  min-height: 92px;
+  padding: 10px;
+  resize: vertical;
+}
+
+.radar-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.secret-panel {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid #a7bed3;
+  border-radius: 8px;
+  color: #17324d;
+  background: #e9f3fb;
+}
+
+.secret-panel span {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.secret-panel strong {
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 1.4rem;
+  letter-spacing: 0;
+}
+
+.feedback {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-weight: 800;
+}
+
+.feedback--success {
+  border: 1px solid #a7c7ac;
+  color: #244635;
+  background: #edf8ef;
+}
+
+.feedback--error {
+  border: 1px solid #d7b4b4;
+  color: #7a2d2d;
+  background: #fff0f0;
+}
+
+.radar-workspace {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(360px, 1.15fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.checkbox-group {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid #cad2c5;
+  border-radius: 8px;
+}
+
+.check-row {
+  display: flex !important;
+  grid-template-columns: none !important;
+  gap: 10px !important;
+  align-items: center;
+  color: #1f2933 !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+}
+
+.check-row input {
+  width: 18px;
+  min-height: 18px;
+  padding: 0;
+}
+
+.check-row span {
+  display: grid;
+  gap: 2px;
+}
+
+.check-row small {
+  color: #60717f;
+  font-weight: 600;
+}
+
+.radar-board {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+  gap: 0;
+  overflow: hidden;
+}
+
+.need-list {
+  display: grid;
+  align-content: start;
+  border-width: 0 1px 0 0;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.need-list-header {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border-bottom: 1px solid #cad2c5;
+  background: #f3f6f1;
+}
+
+.need-list-header span {
+  color: #60717f;
+  font-weight: 800;
+}
+
+.need-row {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  min-height: 68px;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 1px solid #dde3da;
+  color: #17212b;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.need-row:hover,
+.need-row[data-selected="true"] {
+  background: #eef5f0;
+}
+
+.need-row span {
+  font-weight: 800;
+}
+
+.need-row small {
+  color: #60717f;
+  font-weight: 700;
+}
+
+.need-detail {
+  display: grid;
+  gap: 14px;
+  min-height: 360px;
+  border-width: 0;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.updates-panel {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #cad2c5;
+  border-radius: 8px;
+  background: #fbfcfa;
+}
+
+.updates-panel h4 {
+  margin: 0;
+  color: #17212b;
+  font-size: 1rem;
+}
+
+.updates-panel ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.updates-panel li {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #dde3da;
+}
+
+.updates-panel li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.updates-panel span {
+  color: #334250;
+  line-height: 1.45;
+}
+
+.radar-form input:focus-visible,
+.radar-form select:focus-visible,
+.radar-form textarea:focus-visible,
+.need-row:focus-visible,
+.check-row input:focus-visible {
+  outline: 3px solid rgba(39, 89, 120, 0.42);
+  outline-offset: 2px;
+}
+
 @media (max-width: 760px) {
   .app-shell {
     place-items: start;
@@ -585,6 +891,31 @@ h3 {
   .playground-create-form textarea,
   .toolbar-action,
   .status-registration-form .primary-action {
+    width: 100%;
+  }
+
+  .radar-shell {
+    max-width: calc(100vw - 32px);
+  }
+
+  .radar-hero,
+  .radar-session {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .radar-form-grid,
+  .radar-workspace,
+  .radar-board {
+    grid-template-columns: 1fr;
+  }
+
+  .need-list {
+    border-width: 0 0 1px;
+  }
+
+  .radar-hero .playground-button,
+  .radar-session .secondary-action {
     width: 100%;
   }
 }
