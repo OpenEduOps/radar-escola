@@ -100,7 +100,9 @@ h1 {
 }
 
 .playground-button:focus-visible,
+.playground-toolbar input:focus-visible,
 .playground-toolbar select:focus-visible,
+.toolbar-action:focus-visible,
 .master-select:focus-visible,
 .row-action:focus-visible,
 .detail-form input:focus-visible,
@@ -145,6 +147,7 @@ h1 {
   text-transform: uppercase;
 }
 
+.playground-toolbar input,
 .playground-toolbar select {
   min-height: 40px;
   min-width: 160px;
@@ -159,6 +162,31 @@ h1 {
 .playground-toolbar span {
   color: #334250;
   font-weight: 700;
+}
+
+.toolbar-action {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #457358;
+  border-radius: 6px;
+  color: #244635;
+  background: #edf4ed;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toolbar-action:hover {
+  background: #dfece1;
+}
+
+.status-registration-form {
+  display: flex;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding-top: 2px;
 }
 
 h2,
@@ -435,5 +463,18 @@ h3 {
   .row-actions,
   .detail-actions {
     justify-content: start;
+  }
+
+  .playground-toolbar,
+  .status-registration-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .playground-toolbar input,
+  .playground-toolbar select,
+  .toolbar-action,
+  .status-registration-form .primary-action {
+    width: 100%;
   }
 }

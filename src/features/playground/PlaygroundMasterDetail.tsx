@@ -6,9 +6,8 @@ import {
 } from "./playgroundData";
 
 type PlaygroundDraft = Pick<PlaygroundRecord, "nome" | "descricao" | "status">;
-type PlaygroundInterfaceStatus = "Status A" | "Status B" | "Status C";
 
-const interfaceStatusOptions: PlaygroundInterfaceStatus[] = [
+const defaultInterfaceStatusOptions = [
   "Status A",
   "Status B",
   "Status C",
@@ -25,8 +24,14 @@ export function PlaygroundMasterDetail() {
   const [selectedId, setSelectedId] = useState(playgroundRecords[0]?.id ?? "");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState<PlaygroundDraft | null>(null);
-  const [interfaceStatus, setInterfaceStatus] =
-    useState<PlaygroundInterfaceStatus>("Status A");
+  const [interfaceStatusOptions, setInterfaceStatusOptions] = useState(
+    defaultInterfaceStatusOptions,
+  );
+  const [interfaceStatus, setInterfaceStatus] = useState(
+    defaultInterfaceStatusOptions[0] ?? "",
+  );
+  const [isStatusFormOpen, setIsStatusFormOpen] = useState(false);
+  const [newStatusName, setNewStatusName] = useState("");
   const selectedRecord =
     records.find((record) => record.id === selectedId) ?? records[0] ?? null;
 
@@ -79,6 +84,31 @@ export function PlaygroundMasterDetail() {
     cancelEditing();
   }
 
+  function registerInterfaceStatus() {
+    const normalizedStatusName = newStatusName.trim();
+
+    if (!normalizedStatusName) {
+      return;
+    }
+
+    const existingStatus = interfaceStatusOptions.find(
+      (option) =>
+        option.toLocaleLowerCase() === normalizedStatusName.toLocaleLowerCase(),
+    );
+    const statusToSelect = existingStatus ?? normalizedStatusName;
+
+    if (!existingStatus) {
+      setInterfaceStatusOptions((currentOptions) => [
+        ...currentOptions,
+        normalizedStatusName,
+      ]);
+    }
+
+    setInterfaceStatus(statusToSelect);
+    setNewStatusName("");
+    setIsStatusFormOpen(false);
+  }
+
   return (
     <section className="playground-shell" aria-labelledby="playground-title">
       <header className="playground-header">
@@ -95,9 +125,7 @@ export function PlaygroundMasterDetail() {
         </label>
         <select
           id="playground-interface-status"
-          onChange={(event) =>
-            setInterfaceStatus(event.target.value as PlaygroundInterfaceStatus)
-          }
+          onChange={(event) => setInterfaceStatus(event.target.value)}
           value={interfaceStatus}
         >
           {interfaceStatusOptions.map((option) => (
@@ -107,6 +135,35 @@ export function PlaygroundMasterDetail() {
           ))}
         </select>
         <span>Selecionado: {interfaceStatus}</span>
+        <button
+          aria-expanded={isStatusFormOpen}
+          className="toolbar-action"
+          onClick={() => setIsStatusFormOpen((isOpen) => !isOpen)}
+          type="button"
+        >
+          Cadastrar status
+        </button>
+        {isStatusFormOpen ? (
+          <form
+            className="status-registration-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              registerInterfaceStatus();
+            }}
+          >
+            <label htmlFor="playground-new-status">Nome do status</label>
+            <input
+              id="playground-new-status"
+              onChange={(event) => setNewStatusName(event.target.value)}
+              placeholder="Ex.: Status D"
+              type="text"
+              value={newStatusName}
+            />
+            <button className="primary-action" type="submit">
+              Salvar status
+            </button>
+          </form>
+        ) : null}
       </div>
 
       <div className="master-detail-grid">
