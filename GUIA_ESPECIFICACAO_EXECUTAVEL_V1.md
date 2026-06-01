@@ -209,6 +209,20 @@ Deve conter:
 - testes esperados;
 - labels candidatas.
 
+### 5. `VISAO_PROTOTIPAL_V1.md`
+
+Documento de rascunhos ASCII para validar a experiencia antes das issues de
+interface e QA.
+
+Deve conter:
+
+- telas principais do MVP;
+- estados vazios e bloqueados;
+- permissoes visiveis;
+- guardrails de UX;
+- rastreabilidade para issues de view;
+- linguagem final user first.
+
 ## Modelo Relacional na Arquitetura Atual
 
 Sim, o modelo relacional encaixa na arquitetura atual.
@@ -428,13 +442,14 @@ Cada issue deve ter:
 2. Gerar `DETALHAMENTO_BLOCOS_TRANSVERSAIS_V1.md`.
 3. Gerar `REGRAS_DE_DOMINIO_V1.md`.
 4. Revisar consistencia entre requisitos, dominios e arquitetura.
-5. Criar matriz de issues.
-6. Abrir issues de validacao documental.
-7. Abrir issues de dominio/model.
-8. Abrir issues de persistencia.
-9. Abrir issues de aplicacao.
-10. Abrir issues de view.
-11. Abrir issues de QA/testes.
+5. Criar ou revisar `VISAO_PROTOTIPAL_V1.md` para validar UX e telas.
+6. Criar ou atualizar matriz de issues.
+7. Abrir issues de validacao documental.
+8. Abrir issues de dominio/model.
+9. Abrir issues de persistencia.
+10. Abrir issues de aplicacao.
+11. Abrir issues de view.
+12. Abrir issues de QA/testes.
 
 ## Definicao de Pronto Para Implementar
 
@@ -446,6 +461,7 @@ Uma funcionalidade esta pronta para implementacao quando tiver:
 - fluxo principal definido;
 - fluxos de excecao definidos;
 - campos definidos;
+- rascunho prototipal revisado quando houver tela;
 - regras de dominio definidas;
 - tabelas ou persistencia definidas;
 - criterios de aceite definidos;
@@ -459,6 +475,7 @@ Uma funcionalidade esta pronta para QA quando tiver:
 - dados de exemplo;
 - resultado esperado;
 - mensagens esperadas;
+- tela ou rascunho esperado quando aplicavel;
 - regras de permissao;
 - cenarios positivos;
 - cenarios negativos;

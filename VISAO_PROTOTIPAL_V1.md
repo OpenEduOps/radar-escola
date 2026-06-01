@@ -184,6 +184,29 @@ Esta visao prototipal esta pronta para virar issues de interface e QA quando:
 - cada fluxo principal da V1 tiver caminho de entrada e saida;
 - os rascunhos nao criarem funcionalidades fora da V1.
 
+## Rastreabilidade Para Issues De View
+
+Esta tabela amarra os rascunhos deste documento com a `MATRIZ_ISSUES_V1.md`.
+Ela nao cria issues reais; serve para evitar que uma tela especificada fique
+sem tarefa revisavel.
+
+| Issue candidata | Origem | Telas neste documento |
+| --- | --- | --- |
+| VIEW-001 | UC-001 | Primeira abertura e configuracao da escola |
+| VIEW-002 | UC-002, UC-003 | Login; Primeiro acesso |
+| VIEW-003 | UC-005, UC-006 | Cadastrar cargo ou funcao; Cadastrar pessoa |
+| VIEW-004 | UC-009 | Radar de Necessidades |
+| VIEW-005 | UC-008 | Registrar necessidade |
+| VIEW-006 | UC-010 a UC-016 | Detalhe da necessidade; envolvidos; andamento; plano; fechamento; resolucao; cancelamento; historico |
+| VIEW-007 | UC-019, UC-020 | Exportacao de seguranca; Restauracao de seguranca |
+| VIEW-008 | UC-004 | Recuperacao local de acesso |
+| VIEW-009 | UC-023, UC-024 | Sair da conta; Sessao bloqueada por inatividade |
+| VIEW-010 | UC-021 | Auditoria |
+| VIEW-011 | UC-022 | Transferir direcao |
+| VIEW-012 | UC-017, UC-018 | Cadastrar equipamento; Vincular equipamento; Equipamentos |
+| VIEW-013 | BT-003, APP-019 | Redefinir senha de usuario comum |
+| VIEW-014 | UC-007 | Definir apoio de gestao |
+
 ## Acesso Local
 
 ### Primeira Abertura E Configuracao Da Escola
