@@ -180,3 +180,35 @@ release usa runner Windows do GitHub Actions e instala Rust antes do build.
 
 Mesmo assim, o contrato de CI/CD ja deixa claro qual sera o caminho de entrega
 do produto para a pessoa usuaria final.
+
+## Tentativa Local De Instalador
+
+Apos a criacao do CRUD de referencia do playground, o comando abaixo foi
+executado localmente:
+
+```text
+npm run tauri -- build
+```
+
+Resultado:
+
+```text
+failed to run 'cargo metadata' ... program not found
+```
+
+Conclusao:
+
+- o build web do scaffold esta valido;
+- os testes automatizados do CRUD passam;
+- o instalador `radar-escola.exe` ainda nao pode ser gerado nesta maquina;
+- a pendencia local imediata e instalar Rust/Cargo;
+- a pendencia nativa seguinte e instalar Visual Studio Build Tools/MSVC com as
+  ferramentas C++ exigidas pelo Tauri no Windows.
+
+Quando a toolchain nativa estiver disponivel, o caminho esperado para gerar o
+instalador continua sendo:
+
+```text
+npm run tauri -- build
+scripts/smoke-windows.ps1
+```

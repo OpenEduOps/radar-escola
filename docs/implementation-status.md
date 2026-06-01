@@ -18,6 +18,7 @@ Comandos npm existentes:
 ```text
 npm ci
 npm run dev
+npm test
 npm run typecheck
 npm run build
 npm run tauri -- --version
@@ -87,6 +88,41 @@ Validado por:
 
 ```text
 npm ci
+npm test
+npm run typecheck
+npm run build
+```
+
+### Playground CRUD
+
+O scaffold executavel contem um playground de referencia para desenvolvedores.
+
+O playground implementa, em estado local:
+
+- cadastro de status em `status_playground`;
+- cadastro de registros em `playground`;
+- listagem master-detail;
+- selecao de registro;
+- edicao de `nome`, `descricao` e `codigo_status`;
+- exclusao de registros;
+- relacao logica `playground.codigo_status -> status_playground.codigo_status`.
+
+As regras puras ficam em:
+
+```text
+src/features/playground/playgroundCrud.ts
+```
+
+Os testes ficam em:
+
+```text
+tests/playgroundCrud.test.mjs
+```
+
+Validado por:
+
+```text
+npm test
 npm run typecheck
 npm run build
 ```
@@ -160,3 +196,18 @@ npm run tauri -- info
 Esse comando detecta que Rust, Cargo e Visual Studio Build Tools/MSVC nao estao
 instalados localmente nesta maquina. Por isso, o build Tauri completo deve ser
 validado no GitHub Actions ou em ambiente local com toolchain completo.
+
+Tentativa local adicional:
+
+```text
+npm run tauri -- build
+```
+
+Resultado observado:
+
+```text
+failed to run 'cargo metadata' ... program not found
+```
+
+Tambem nao foi localizada instalacao local do Visual Studio Build Tools/MSVC
+com suporte a `Microsoft.VisualStudio.Component.VC.Tools.x86.x64`.
