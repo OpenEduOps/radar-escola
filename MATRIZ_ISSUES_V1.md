@@ -8,7 +8,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 ## Resumo Quantitativo
 
-Total planejado para o ciclo completo da V1: **77 issues**.
+Total planejado para o ciclo completo da V1: **78 issues**.
 
 Esse total cobre concepcao, validacao documental, modelagem de dominio,
 persistencia, application/controller, interface, testes, QA de software e
@@ -19,7 +19,7 @@ documentacao de apoio.
 | `REQ` | Validacao de requisitos e concepcao | 5 |
 | `DOM` | Dominio, regras puras e modelagem | 13 |
 | `PER` | Persistencia, schema SQLite, repositorios e CSV | 11 |
-| `APP` | Casos de uso e orquestracao | 19 |
+| `APP` | Casos de uso e orquestracao | 20 |
 | `VIEW` | Telas, formularios, estados e mensagens | 14 |
 | `QA` | Testes, QA funcional, seguranca, acessibilidade e regressao | 13 |
 | `DOC` | Documentacao de apoio para execucao e validacao | 2 |
@@ -196,16 +196,22 @@ descartada durante revisao.
 - Objetivo: criar regras puras para direcao, apoio e usuario comum.
 - Escopo:
   - `canRegisterPerson`;
+  - `canRegisterRoleOrFunction`;
+  - `canManageSupport`;
   - `canResolveNeed`;
+  - `canCancelOrCorrectNeed`;
   - `canExportSecurityData`;
+  - `canRestoreSecurityData`;
   - `canViewAudit`;
-  - `canTransferDirectorship`.
+  - `canTransferDirectorship`;
+  - `canResetPassword`.
 - Fora de escopo:
   - UI de permissao.
 - Criterios de aceite:
   - direcao passa em acoes exclusivas;
   - apoio passa apenas nas delegadas;
-  - usuario comum falha em acoes sensiveis.
+  - usuario comum falha em acoes sensiveis;
+  - reset, restauracao, auditoria e transferencia ficam exclusivos da direcao.
 - Testes esperados: unitarios positivos e negativos.
 - Dependencias: REQ-001.
 - Labels: `domain`, `tests`, `good first issue`.
@@ -946,27 +952,28 @@ descartada durante revisao.
 - Dependencias: PER-005, PER-006, PER-008, DOM-009.
 - Labels: `application`, `tests`.
 
-### APP-011 Implementar exportacao/restauracao
+### APP-011 Implementar exportacao de seguranca
 
 - Tipo: `application`
 - Camada: `controller`
-- Fonte: UC-019, UC-020
-- Objetivo: orquestrar backup restauravel local.
+- Fonte: UC-019
+- Objetivo: orquestrar exportacao restauravel local.
 - Escopo:
   - validar direcao;
   - gerar snapshot;
   - exportar CSV;
-  - validar pacote;
-  - restaurar substituindo dados;
-  - auditoria.
+  - orientar destino externo;
+  - registrar auditoria.
 - Fora de escopo:
+  - restauracao de dados;
   - importador generico.
 - Criterios de aceite:
   - apoio/usuario comum bloqueados;
-  - restauracao substitui;
-  - arquivo invalido nao altera banco.
+  - CSV restauravel gerado;
+  - exportacao nao contem senha, token ou resposta em texto claro;
+  - auditoria registra exportacao.
 - Testes esperados: integracao.
-- Dependencias: PER-009, PER-010, PER-008.
+- Dependencias: PER-009, PER-008.
 - Labels: `application`, `persistence`, `tests`.
 
 ### APP-012 Implementar recuperacao local de acesso
@@ -1184,6 +1191,33 @@ descartada durante revisao.
 - Dependencias: PER-003, PER-008, DOM-004, DOM-001.
 - Labels: `application`, `tests`, `security`.
 
+### APP-020 Implementar restauracao de seguranca
+
+- Tipo: `application`
+- Camada: `controller`
+- Fonte: UC-020
+- Objetivo: orquestrar restauracao restauravel local substituindo os dados
+  atuais.
+- Escopo:
+  - validar direcao;
+  - validar pacote exportado pelo Radar Escola;
+  - exigir confirmacao forte;
+  - restaurar substituindo dados;
+  - impedir mescla;
+  - registrar auditoria com snapshot do ator.
+- Fora de escopo:
+  - exportacao de dados;
+  - importador generico;
+  - mescla de registros.
+- Criterios de aceite:
+  - apoio/usuario comum bloqueados;
+  - pacote valido restaura substituindo;
+  - pacote invalido nao altera banco;
+  - auditoria registra restauracao.
+- Testes esperados: integracao e seguranca.
+- Dependencias: PER-010, PER-008.
+- Labels: `application`, `persistence`, `tests`, `security`.
+
 ## Issues de View
 
 ### VIEW-001 Criar tela de primeiro uso
@@ -1244,7 +1278,7 @@ descartada durante revisao.
   - cargo ausente nao bloqueia fluxo;
   - aviso de primeiro acesso aparece.
 - Testes esperados: interface.
-- Dependencias: APP-004.
+- Dependencias: APP-004, APP-017.
 - Labels: `frontend`, `good first issue`.
 
 ### VIEW-004 Criar Radar de Necessidades
@@ -1331,7 +1365,7 @@ descartada durante revisao.
   - apoio/usuario comum nao acessam;
   - restauracao avisa substituicao.
 - Testes esperados: interface/QA.
-- Dependencias: APP-011.
+- Dependencias: APP-011, APP-020.
 - Labels: `frontend`, `qa`.
 
 ### VIEW-008 Criar tela de recuperacao de acesso
@@ -1536,7 +1570,7 @@ descartada durante revisao.
 
 - Tipo: `qa`
 - Camada: `qa`
-- Fonte: matriz de permissoes
+- Fonte: `DETALHAMENTO_REQUISITOS_V1.md`
 - Objetivo: garantir que cada perfil pode ou nao pode executar acoes criticas.
 - Escopo:
   - direcao;
@@ -1632,7 +1666,7 @@ descartada durante revisao.
   - restauracao preserva auditoria historica;
   - arquivo invalido falha sem alterar dados.
 - Testes esperados: integracao/manual.
-- Dependencias: APP-011.
+- Dependencias: APP-011, APP-020.
 - Labels: `qa`, `tests`, `persistence`.
 
 ### QA-007 Criar testes de recuperacao local de acesso
