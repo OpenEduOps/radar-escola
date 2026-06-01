@@ -1,0 +1,36 @@
+# Git and local metadata
+.git
+.github
+.vscode
+.idea
+
+# Node/frontend artifacts
+node_modules
+dist
+coverage
+playwright-report
+test-results
+
+# Tauri/Rust artifacts
+src-tauri/target
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+tmp
+temp
+
+# Local environment and credentials
+.env
+.env.*
+.npmrc
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
