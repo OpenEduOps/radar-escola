@@ -28,7 +28,7 @@ Cada bloco tem:
 - guardrails;
 - criterios de aceite;
 - testes minimos;
-- tarefas modulares candidatas.
+- tarefas minimas e modulares candidatas.
 
 ## BT-001 Auditoria minima
 

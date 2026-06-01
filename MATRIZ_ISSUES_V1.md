@@ -1,6 +1,6 @@
 # Matriz de Issues V1
 
-Este documento planeja issues modulares para o MVP do Radar Escola.
+Este documento planeja issues minimas e modulares para o MVP do Radar Escola.
 
 Nenhuma issue deste documento foi criada no GitHub ainda. Esta matriz e uma
 preparacao para revisao documental. Depois da revisao, as entradas poderao virar
