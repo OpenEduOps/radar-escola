@@ -419,6 +419,31 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: DOM-006.
 - Labels: `domain`, `tests`, `good first issue`.
 
+### DOM-013 Modelar sessao local
+
+- Tipo: `dominio`
+- Camada: `model`
+- Fonte: UC-023, UC-024, BT-002
+- Objetivo: representar sessao local, logout e bloqueio por inatividade.
+- Escopo:
+  - sessao autenticada;
+  - calculo de inatividade;
+  - estado bloqueado;
+  - desbloqueio pelo usuario atual;
+  - troca de usuario somente por logout.
+- Fora de escopo:
+  - sessao multi-computador;
+  - biometria;
+  - PIN do Windows.
+- Criterios de aceite:
+  - 30 minutos sem atividade bloqueiam a sessao;
+  - senha correta do usuario atual desbloqueia;
+  - outro usuario nao assume sessao bloqueada;
+  - logout encerra contexto sensivel.
+- Testes esperados: unitarios.
+- Dependencias: DOM-003.
+- Labels: `domain`, `tests`, `good first issue`.
+
 ## Issues de Persistencia
 
 ### PER-001 Criar migrations iniciais SQLite
@@ -956,6 +981,32 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: PER-011, PER-006, DOM-012.
 - Labels: `application`, `tests`.
 
+### APP-014 Implementar sessao, logout e bloqueio
+
+- Tipo: `application`
+- Camada: `controller`
+- Fonte: UC-023, UC-024, BT-002
+- Objetivo: controlar sessao local em computador compartilhado.
+- Escopo:
+  - criar sessao apos login;
+  - encerrar sessao por logout;
+  - calcular inatividade;
+  - bloquear apos 30 minutos;
+  - desbloquear com senha do usuario atual;
+  - limpar estado sensivel ao sair.
+- Fora de escopo:
+  - persistencia de sessao entre computadores;
+  - bloqueio por tentativas erradas;
+  - login externo.
+- Criterios de aceite:
+  - logout retorna ao login;
+  - tela bloqueada nao expõe dados da tela anterior;
+  - senha incorreta mantem bloqueado;
+  - usuario pode sair a partir da tela bloqueada.
+- Testes esperados: caso de uso e interface focada.
+- Dependencias: APP-002, DOM-013, PER-003.
+- Labels: `application`, `tests`, `ux`.
+
 ## Issues de View
 
 ### VIEW-001 Criar tela de primeiro uso
@@ -1129,6 +1180,30 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Dependencias: APP-012.
 - Labels: `frontend`, `ux`, `tests`.
 
+### VIEW-009 Criar logout e tela bloqueada
+
+- Tipo: `view`
+- Camada: `view`
+- Fonte: UC-023, UC-024
+- Objetivo: permitir sair da conta e desbloquear sessao sem expor dados.
+- Escopo:
+  - botao visivel de sair;
+  - tela de sessao bloqueada;
+  - campo de senha do usuario atual;
+  - acao para sair e trocar usuario;
+  - mensagens simples de senha incorreta.
+- Fora de escopo:
+  - personalizacao visual avancada;
+  - PIN, biometria ou login externo.
+- Criterios de aceite:
+  - todos os perfis conseguem sair;
+  - bloqueio nao mostra conteudo sensivel anterior;
+  - senha correta desbloqueia;
+  - sair na tela bloqueada volta ao login.
+- Testes esperados: interface.
+- Dependencias: APP-014.
+- Labels: `frontend`, `ux`, `tests`.
+
 ## Issues de QA e Testes
 
 ### QA-001 Criar roteiro QA do fluxo minimo
@@ -1177,7 +1252,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
 
 - Tipo: `qa`
 - Camada: `qa`
-- Fonte: DOM-001 a DOM-011
+- Fonte: DOM-001 a DOM-013
 - Objetivo: proteger regras puras.
 - Escopo:
   - permissao;
@@ -1191,7 +1266,7 @@ issues reais, ajustadas, agrupadas ou descartadas.
   - testes rodam localmente;
   - cobrem positivos e negativos.
 - Testes esperados: unitarios.
-- Dependencias: DOM-001 a DOM-011.
+- Dependencias: DOM-001 a DOM-013.
 - Labels: `tests`, `domain`.
 
 ### QA-004 Criar testes de persistencia SQLite
@@ -1302,6 +1377,30 @@ issues reais, ajustadas, agrupadas ou descartadas.
 - Testes esperados: caso de uso, persistencia e interface focada.
 - Dependencias: APP-013, PER-011, VIEW-006.
 - Labels: `qa`, `tests`, `good first issue`.
+
+### QA-009 Criar testes de sessao e bloqueio
+
+- Tipo: `qa`
+- Camada: `qa`
+- Fonte: UC-023, UC-024, BT-002
+- Objetivo: validar seguranca basica em computador compartilhado.
+- Escopo:
+  - logout por perfil;
+  - bloqueio por inatividade;
+  - desbloqueio com senha correta;
+  - bloqueio mantido com senha incorreta;
+  - sair a partir da tela bloqueada;
+  - ausencia de dados sensiveis visiveis.
+- Fora de escopo:
+  - teste de sessao multi-computador;
+  - bloqueio por tentativas.
+- Criterios de aceite:
+  - timer pode ser testado de forma controlada;
+  - dados anteriores nao ficam visiveis sem login;
+  - outro usuario precisa fazer logout/login proprio.
+- Testes esperados: unitario, interface e QA manual.
+- Dependencias: APP-014, VIEW-009, DOM-013.
+- Labels: `qa`, `tests`, `security`.
 
 ## Issues de Documentacao de Apoio
 
