@@ -25,6 +25,7 @@ Ja existem:
   validacao Docker dev e guardrail de metadados publicos;
 - workflow `Desktop Release` para gerar instalador Windows tecnico do
   scaffold;
+- release tecnica `v0.0.1` publicada com instalador Windows e checksum;
 - documento de projeto para dockerizacao do ambiente tecnico;
 - `.dockerignore` e `Dockerfile.dev`;
 - imagem Docker dev validada para typecheck, testes unitarios e build frontend.
@@ -192,7 +193,14 @@ pelo workflow `Desktop Release` no GitHub Actions.
 
 ## Executavel Windows Validado
 
-O workflow `Desktop Release` ja gerou um instalador tecnico do scaffold atual.
+O workflow `Desktop Release` ja gerou e publicou a release tecnica
+[`v0.0.1`](https://github.com/OpenEduOps/radar-escola/releases/tag/v0.0.1) do
+scaffold atual.
+
+Artefatos publicados:
+
+- `Radar.Escola_0.0.1_x64-setup.exe`;
+- `Radar.Escola_0.0.1_x64-setup.exe.sha256`.
 
 Validacoes realizadas sobre o artefato:
 
@@ -201,6 +209,8 @@ Validacoes realizadas sobre o artefato:
 - SHA-256 conferido localmente;
 - instalacao silenciosa concluida com codigo `0`;
 - executavel instalado abriu sem crash imediato;
+- executavel nao abre prompt atras da janela principal;
+- janela principal abre maximizada;
 - tela inicial renderizou no app instalado;
 - menu nativo `Playground > Iniciar playground` foi acionado;
 - tela `Master detalhe` do playground apareceu no executavel instalado;

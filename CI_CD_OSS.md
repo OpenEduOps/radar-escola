@@ -12,8 +12,8 @@ Criar uma base de CI/CD que:
 
 - proteja `main` sem tornar a contribuicao pesada;
 - seja compreensivel para contribuidores iniciantes;
-- valide documentacao e requisitos enquanto ainda nao existe codigo do app;
-- prepare caminho para o futuro app Tauri + React + TypeScript + SQLite;
+- valide documentacao, requisitos, scaffold tecnico e evolucao do app;
+- preserve o caminho do app Tauri + React + TypeScript + SQLite;
 - use permissoes minimas por padrao;
 - separe CI, seguranca, automacoes de comunidade e release;
 - aponte para uma esteira final capaz de gerar instalador Windows baixavel;
@@ -33,8 +33,24 @@ Criar uma base de CI/CD que:
   houver risco de ruido alto.
 - Forks nunca devem executar codigo de contributor em workflow
   `pull_request_target`.
-- Release com artefatos, checksums, SBOMs e attestations deve entrar apenas
-  quando existir produto empacotavel.
+- Release com artefatos e checksums deve existir quando houver scaffold
+  empacotavel. SBOMs e attestations ficam para endurecimento posterior.
+
+## Estado Atual no Radar Escola
+
+O repositorio `OpenEduOps/radar-escola` ja possui:
+
+- scaffold Tauri + React + TypeScript;
+- CI com documentacao, higiene, frontend, testes, E2E Playwright, Docker dev e
+  guarda de metadados publicos;
+- Security workflow;
+- workflow `Desktop Release`;
+- release tecnica `v0.0.1` publicada com instalador Windows e checksum;
+- smoke Windows validando instalacao, subsistema GUI, janela maximizada, menu
+  nativo Playground e tela master-detail do playground.
+
+Essa release e tecnica. Ela valida o pipeline e a casca desktop, mas ainda nao
+representa a V0 funcional para escola.
 
 ## Fase 0: Repositorio de organizacao
 
@@ -67,10 +83,10 @@ SECURITY.md
 MAINTAINERS.md
 ```
 
-`desktop-release.yml` pode existir como contrato tecnico futuro. Em execucao
-manual, ele deve informar que o app ainda nao esta pronto sem publicar artefatos.
-Em tag `v*`, ele deve falhar se o scaffold do app nao existir. O projeto nao
-deve publicar artefatos falsos.
+`desktop-release.yml` deixou de ser apenas contrato futuro no repositorio do
+Radar Escola. O scaffold existe e a tag `v0.0.1` ja publicou artefatos reais.
+O workflow ainda deve falhar se o scaffold minimo deixar de existir ou se o
+smoke Windows nao passar. O projeto nao deve publicar artefatos falsos.
 
 ## CI inicial para documentacao
 
@@ -117,7 +133,7 @@ All CI checks
 
 Isso evita trocar regras de protecao sempre que novos jobs forem adicionados.
 
-## CI futura para o Radar Escola
+## CI atual e futura para o Radar Escola
 
 Quando o repositorio do app existir, a CI deve ser adaptada para:
 
@@ -137,22 +153,18 @@ Jobs esperados:
 - `Smoke test`: iniciar o app ou validar fluxo minimo em ambiente de teste.
 - `All CI checks`: agregador estavel.
 
-Comandos concretos so devem ser definidos depois que o scaffold do app existir.
-Exemplos provaveis:
+Comandos concretos ja existem para a camada Node do scaffold:
 
 ```text
 npm ci
-npm run lint
 npm run typecheck
 npm test
 npm run build
-cargo fmt --check
-cargo clippy -- -D warnings
-cargo test
+npm run test:e2e
 ```
 
-Esses comandos sao indicativos. O projeto real deve definir scripts locais
-claros antes de codificar o workflow definitivo.
+Checks Rust/Tauri, persistencia SQLite e regras de seguranca local devem entrar
+conforme o MVP funcional evoluir.
 
 ## Security workflow
 
@@ -211,10 +223,10 @@ desktop.
 
 Enquanto o repositorio nao tiver `package.json`, `src-tauri/Cargo.toml` e
 `scripts/smoke-windows.ps1`, o workflow deve parar no preflight com mensagem
-clara. Execucoes manuais podem passar sem artefato; tags de release devem falhar
-ate existir instalador real.
+clara. No Radar Escola esses arquivos ja existem, entao execucoes validas
+geram instalador tecnico e tags `v*` publicam release com artefatos reais.
 
-Para o Radar Escola, release futura deve considerar:
+Para o Radar Escola, a release desktop deve considerar:
 
 - instalador Windows como prioridade;
 - smoke test de instalacao e abertura em runner Windows;
@@ -229,7 +241,7 @@ O objetivo final e permitir que uma pessoa baixe o instalador, instale e execute
 o Radar Escola em uma maquina desktop Windows para validar a experiencia real do
 produto.
 
-Antes do primeiro release publico, criar:
+Antes de tratar uma release como produto funcional para escola, manter:
 
 ```text
 docs/release.md
@@ -309,23 +321,22 @@ Permissoes especiais:
 
 - [x] Scaffold minimo Tauri + React + TypeScript existe sem funcionalidade falsa.
 - [x] CI roda typecheck e build do frontend.
+- [x] CI roda testes unitarios e E2E Playwright do playground.
+- [x] Release workflow gera instalador Windows tecnico do scaffold.
+- [x] Release gera checksum SHA-256.
+- [x] Smoke test instala e abre o app em ambiente Windows.
 - [ ] CI roda checks Rust/Tauri quando houver codigo Rust.
 - [ ] CI roda testes de persistencia SQLite.
 - [ ] CI cobre regras criticas de seguranca local.
-- [ ] Build do app roda sem servicos privados.
-- [ ] Smoke test valida o fluxo minimo.
-- [ ] Release workflow gera instalador Windows quando o produto estiver pronto.
-- [ ] Release gera checksums e documenta verificacao.
-- [ ] Smoke test instala e abre o app em ambiente Windows automatizado.
+- [x] Build do scaffold roda sem servicos privados.
+- [ ] Smoke test valida o fluxo minimo do MVP funcional.
+- [ ] Release funcional do produto valida SQLite, login e necessidade real.
 
 ## Proxima decisao
 
-Antes de implementar workflows reais, decidir se a primeira PR de CI/CD deve
-entregar apenas a Fase 0 ou se tambem deve criar arquivos preparatorios para o
-futuro app.
+A proxima decisao nao e mais criar a CI inicial. Ela ja existe e gerou a release
+tecnica `v0.0.1`.
 
-Recomendacao inicial:
-
-> Implementar primeiro a Fase 0, porque este repositorio ainda e de organizacao
-> e documentacao. Deixar a CI do app para o repositorio do Radar Escola quando
-> o scaffold existir.
+Agora a decisao e evoluir a esteira junto com o MVP funcional, adicionando
+checks de dominio, persistencia SQLite, seguranca local e smoke de fluxo real
+sem perder a simplicidade conquistada no scaffold.

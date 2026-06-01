@@ -45,10 +45,9 @@ apenas esse nome para nao depender de nomes de matrix ou jobs auxiliares.
   de outros usuarios e libera automaticamente PRs do usuario `Will-thom`.
 - `.github/workflows/thank-contributor.yml`: envia mensagem de boas-vindas para
   novas issues e pull requests.
-- `.github/workflows/desktop-release.yml`: contrato futuro da esteira de
-  instalador Windows. Hoje ele depende do scaffold do app Radar Escola para
-  conseguir gerar artefatos reais. Em execucao manual, informa pendencias sem
-  publicar artefatos; em tag `v*`, falha se o app ainda nao existir.
+- `.github/workflows/desktop-release.yml`: esteira de instalador Windows. Hoje
+  gera um instalador tecnico do scaffold, executa smoke Windows e publica
+  release quando houver tag `v*`. A tag tecnica atual e `v0.0.1`.
 
 ## Validacao Local Equivalente
 
@@ -237,10 +236,14 @@ Essa camada remota seria complementar a CI. Se a criacao da ruleset falhar por
 autenticacao, permissao ou limite de plano, a guarda de CI continua sendo a
 camada principal.
 
-## Esteira Desktop Futura
+## Esteira Desktop
 
 A esteira alvo de download, instalacao e execucao do app esta documentada em
 [`docs/desktop-release.md`](desktop-release.md).
 
-Ela devera gerar artefato baixavel, checksum SHA-256 e release versionada quando
-o app desktop existir.
+Ela ja gera artefato baixavel, checksum SHA-256 e release versionada para o
+scaffold tecnico atual. A release publicada e `v0.0.1`.
+
+Esse marco valida a casca desktop, o empacotamento Windows, o smoke do
+instalador e o playground de referencia. Ele ainda nao representa a V0
+funcional completa.

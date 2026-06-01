@@ -1,15 +1,28 @@
 # Status de Implementacao
 
-Este documento registra o estado atual do Radar Escola apos a adocao do
-`template-pre-projeto`.
+Este documento registra o estado atual do Radar Escola apos a release tecnica
+`v0.0.1`.
 
 ## Estado Atual
 
-O projeto esta em fase de scaffold tecnico e consolidacao documental.
+O projeto esta em fase de scaffold tecnico executavel, consolidacao documental
+e preparacao da implementacao do MVP funcional.
 
 Existe um app minimo Tauri + React + TypeScript para validar build frontend,
-configuracao desktop e a esteira de CI/CD. Esse app ainda nao representa a V0
-funcional.
+configuracao desktop, playground de referencia e a esteira de CI/CD. Esse app
+ainda nao representa a V0 funcional.
+
+Versao tecnica atual:
+
+```text
+v0.0.1
+```
+
+Release publicada:
+
+```text
+https://github.com/OpenEduOps/radar-escola/releases/tag/v0.0.1
+```
 
 ## Comandos / Interfaces Implementadas
 
@@ -195,17 +208,28 @@ cadastradas no GitHub entre `#4` e `#88`.
 O workflow `Desktop Release` gera um instalador Windows tecnico do scaffold
 atual em execucao manual e publica release quando houver tag `v*`.
 
+A tag atual publicada e `v0.0.1`.
+
 Validado por:
 
 ```text
 GitHub Actions > Desktop Release
 ```
 
-Validacao local realizada sobre o artefato baixado do workflow:
+Artefatos publicados em `v0.0.1`:
+
+```text
+Radar.Escola_0.0.1_x64-setup.exe
+Radar.Escola_0.0.1_x64-setup.exe.sha256
+```
+
+Validacao local realizada sobre o artefato baixado da release:
 
 - SHA-256 do `.exe` conferido contra o arquivo `.sha256`;
 - instalacao silenciosa concluida com codigo `0`;
 - executavel instalado abriu sem crash imediato;
+- executavel instalado nao abriu prompt atras da janela principal;
+- janela principal abriu maximizada;
 - UI do Radar Escola renderizou no app instalado;
 - menu nativo `Playground > Iniciar playground` acionou o playground;
 - tela `Master detalhe` apareceu no executavel instalado.
@@ -225,7 +249,7 @@ Ainda nao foi implementado:
 - historico;
 - auditoria;
 - exportacao/restauracao;
-- testes de dominio da V0 funcional.
+- testes de dominio da V0 funcional;
 - Playwright/E2E em Docker;
 - build Tauri/Windows em Docker;
 - imagem Docker publicada em registry.
@@ -239,7 +263,8 @@ O projeto ja saiu da fase de apenas documentacao inicial. A fronteira atual e:
 - scaffold executavel validado;
 - playground CRUD como referencia tecnica;
 - imagem Docker dev validada;
-- instalador Windows tecnico gerado e validado via CI.
+- release tecnica `v0.0.1` publicada com instalador Windows e checksum;
+- instalador Windows tecnico gerado, instalado e validado via CI/smoke.
 
 A proxima etapa e transformar o backlog cadastrado em implementacao do MVP,
 mantendo cada entrega pequena, testavel e rastreavel.
@@ -294,5 +319,6 @@ failed to run 'cargo metadata' ... program not found
 Tambem nao foi localizada instalacao local do Visual Studio Build Tools/MSVC
 com suporte a `Microsoft.VisualStudio.Component.VC.Tools.x86.x64`.
 
-O instalador Windows do scaffold atual foi gerado e validado via GitHub Actions
-porque o runner Windows ja fornece a toolchain necessaria para compilar Tauri.
+O instalador Windows do scaffold atual foi gerado, publicado na release
+`v0.0.1` e validado via GitHub Actions porque o runner Windows ja fornece a
+toolchain necessaria para compilar Tauri.

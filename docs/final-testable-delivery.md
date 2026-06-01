@@ -199,12 +199,19 @@ gera o instalador Windows em runner GitHub Actions.
 
 Smoke test ja validado no scaffold atual:
 
-- artefato `.exe` gerado pelo workflow;
+- release tecnica `v0.0.1` publicada;
+- artefato `Radar.Escola_0.0.1_x64-setup.exe` gerado pelo workflow;
+- artefato `Radar.Escola_0.0.1_x64-setup.exe.sha256` publicado;
 - hash SHA-256 conferido localmente;
 - instalacao silenciosa local com codigo `0`;
 - executavel instalado abriu sem crash imediato;
+- executavel instalado nao abriu prompt atras da janela principal;
+- janela principal abriu maximizada;
 - menu nativo iniciou o playground;
 - tela master-detail do playground apareceu no app instalado.
+
+Esse marco valida a casca desktop e a esteira de release. Ele ainda nao
+substitui os criterios de aceite da V0 funcional descritos neste documento.
 
 ## Fora de Escopo da Entrega Final
 

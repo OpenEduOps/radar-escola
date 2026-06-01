@@ -25,11 +25,24 @@ CI, GitHub Actions ou banco de dados.
 
 ## Estado Atual
 
-O repositorio `OpenEduOps/radar-escola` contem a documentacao de produto e o
-scaffold tecnico minimo executavel.
+O repositorio `OpenEduOps/radar-escola` contem a documentacao de produto, o
+scaffold tecnico minimo executavel e uma primeira release tecnica publicada.
 
 O workflow `.github/workflows/desktop-release.yml` ja consegue gerar um
-instalador Windows tecnico do scaffold atual por execucao manual.
+instalador Windows tecnico do scaffold atual por execucao manual e por tag
+`v*`.
+
+A release tecnica atual e:
+
+```text
+v0.0.1
+```
+
+Pagina da release:
+
+```text
+https://github.com/OpenEduOps/radar-escola/releases/tag/v0.0.1
+```
 
 Esse instalador ainda nao representa a V0 funcional completa. Ele valida a
 casca desktop, o carregamento do frontend empacotado, o menu nativo Playground
@@ -71,6 +84,7 @@ O scaffold atual contem:
 - Vite para build frontend;
 - Tauri 2 como casca desktop;
 - janela inicial do Radar Escola;
+- janela principal configurada para abrir maximizada;
 - menu nativo `Playground > Iniciar playground`;
 - CRUD playground master-detail como referencia tecnica;
 - icone Windows exigido pelo empacotamento Tauri;
@@ -130,8 +144,8 @@ instalador que sequer abre.
 Cada build de release deve produzir:
 
 ```text
-Radar-Escola-<versao>-windows-x64.exe
-Radar-Escola-<versao>-windows-x64.exe.sha256
+Radar.Escola_<versao>_x64-setup.exe
+Radar.Escola_<versao>_x64-setup.exe.sha256
 ```
 
 Enquanto nao houver assinatura de codigo, a documentacao da release deve avisar
@@ -143,28 +157,29 @@ Pull requests e pushes comuns devem validar qualidade e build.
 
 Tags `v*` devem publicar release com artefatos baixaveis.
 
-Exemplo futuro:
+Release tecnica atual:
 
 ```text
-v0.1.0
+v0.0.1
 ```
 
 ## Comportamento Enquanto o App Ainda E Scaffold
 
 O workflow `Desktop Release` pode ser executado manualmente para conferir o
-estado da esteira.
+estado da esteira. Tags `v*` tambem publicam release quando os checks e o smoke
+Windows passam.
 
 O scaffold minimo do app ja existe no repositorio para validar a esteira sem
 criar funcionalidade falsa de MVP. Ele contem uma tela tecnica simples do Radar
 Escola, menu nativo Playground e CRUD playground de referencia, sem fluxo de
 cadastro escolar, banco local ou regras de negocio da V0.
 
-Enquanto o app ainda for apenas scaffold, a execucao manual gera um instalador
-tecnico minimo, mas ele deve ser tratado apenas como validacao da casca desktop,
-do frontend empacotado e do pipeline de release.
+Enquanto o app ainda for apenas scaffold, a esteira gera um instalador tecnico
+minimo, mas ele deve ser tratado apenas como validacao da casca desktop, do
+frontend empacotado e do pipeline de release.
 
-Se alguem tentar publicar uma tag `v*` antes do scaffold existir, o preflight
-deve falhar. Uma release versionada nao pode ser publicada sem artefato real.
+Se alguem tentar publicar uma tag `v*` sem scaffold valido, o preflight deve
+falhar. Uma release versionada nao pode ser publicada sem artefato real.
 
 ## Pendencias Que Dependem do App
 
@@ -200,15 +215,22 @@ do produto para a pessoa usuaria final.
 Como o ambiente local ainda nao tem toolchain Rust/MSVC, o instalador foi
 gerado pelo workflow `Desktop Release` em runner Windows do GitHub Actions.
 
-Validacao realizada:
+Validacao realizada para `v0.0.1`:
 
 - workflow `Desktop Release` concluido com sucesso;
-- artefato `Radar Escola_0.0.0_x64-setup.exe` publicado pelo workflow;
+- release publicada em
+  `https://github.com/OpenEduOps/radar-escola/releases/tag/v0.0.1`;
+- artefato `Radar.Escola_0.0.1_x64-setup.exe` publicado;
+- artefato `Radar.Escola_0.0.1_x64-setup.exe.sha256` publicado;
 - arquivo `.sha256` gerado e conferido localmente;
+- SHA-256 do instalador:
+  `4ff7f74dcfdce5a4dfb1728c16a10fe488210e9ef2f35bb2d57bd369f08b5c24`;
 - instalacao silenciosa local executada com codigo `0`;
 - executavel instalado em
   `C:\Users\silva-dev\AppData\Local\Radar Escola\radar-escola.exe`;
 - aplicativo abriu sem crash imediato;
+- executavel usa subsistema Windows GUI e nao abre prompt atras da janela;
+- janela principal abriu maximizada;
 - UI do Radar Escola renderizou no executavel instalado;
 - item nativo `Playground > Iniciar playground` foi acionado por comando Win32;
 - tela `Master detalhe` do playground apareceu no executavel instalado.
