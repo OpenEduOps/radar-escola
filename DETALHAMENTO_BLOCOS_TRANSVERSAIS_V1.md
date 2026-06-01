@@ -116,7 +116,7 @@ importantes sem depender de memoria, conversa informal ou suporte tecnico.
 - Permissao: direcao acessa; apoio/usuario comum nao acessam.
 - Conteudo: evento nao contem senha, token ou resposta.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Especificar eventos de auditoria.
 - Criar tabela `audit_events`.
@@ -192,7 +192,7 @@ simples.
 - Interface: senha incorreta.
 - Interface: sair a partir da tela bloqueada.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Definir modelo de sessao local.
 - Implementar timer de inatividade.
@@ -260,7 +260,7 @@ provedor externo.
 - Reset administrativo.
 - Token exibido uma unica vez.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Escolher estrategia de hash na arquitetura.
 - Modelar salvaguarda.
@@ -317,7 +317,7 @@ manter o produto focado em operacao escolar.
 - Teste de UI confirmando ausencia de campos de estudante.
 - Checklist de exportacao sem campos de estudante.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Revisar campos do MVP.
 - Criar checklist LGPD operacional.
@@ -393,7 +393,7 @@ Garantir que a interface seja compreensivel por pessoas nao tecnicas da escola.
 - Teste de UI para labels essenciais.
 - QA manual com checklist de termos proibidos.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Criar glossario de UI.
 - Revisar textos de formularios.
@@ -448,7 +448,7 @@ escola.
 - Teste de foco em modal.
 - Checklist visual de contraste.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Definir padrao de formulario.
 - Definir padrao de botao/confirmacao.
@@ -525,7 +525,7 @@ no equipamento.
 - CSV sem senha clara.
 - Bloqueio por perfil.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Definir pacote CSV.
 - Implementar exportador.
@@ -584,7 +584,7 @@ Evitar que mudanca de gestao da escola quebre continuidade do app.
 - Permissoes depois da transferencia.
 - Auditoria.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Modelar direcao atual.
 - Implementar transferencia.
@@ -637,7 +637,7 @@ Permitir historico por equipamento sem transformar V1 em controle patrimonial.
 - Bloqueio de exclusao fisica com historico.
 - Bloqueio de edicao/inativacao para usuario comum.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Definir campos de equipamento.
 - Criar tabela de equipamento.
@@ -699,7 +699,7 @@ porcentagem artificial de cobertura.
 - Permissoes criticas tem teste negativo.
 - Exportacao/restauracao tem teste com dados ficticios.
 
-### Tarefas modulares candidatas
+### Tarefas minimas e modulares candidatas
 
 - Criar estrategia de testes.
 - Configurar teste unitario.
