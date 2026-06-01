@@ -2111,3 +2111,95 @@ Antes de abrir no GitHub:
 
 Se uma entrada ainda exigir decisao de produto, ela deve virar issue de
 validacao documental, nao de implementacao.
+
+## Linha De Corte: Issues Cadastradas
+
+As issues abaixo foram cadastradas no GitHub a partir desta matriz.
+
+| ID | Issue GitHub |
+| --- | --- |
+| REQ-001 | https://github.com/OpenEduOps/radar-escola/issues/4 |
+| REQ-002 | https://github.com/OpenEduOps/radar-escola/issues/5 |
+| REQ-003 | https://github.com/OpenEduOps/radar-escola/issues/6 |
+| REQ-004 | https://github.com/OpenEduOps/radar-escola/issues/7 |
+| REQ-005 | https://github.com/OpenEduOps/radar-escola/issues/8 |
+| DOM-001 | https://github.com/OpenEduOps/radar-escola/issues/9 |
+| DOM-002 | https://github.com/OpenEduOps/radar-escola/issues/10 |
+| DOM-003 | https://github.com/OpenEduOps/radar-escola/issues/11 |
+| DOM-004 | https://github.com/OpenEduOps/radar-escola/issues/12 |
+| DOM-005 | https://github.com/OpenEduOps/radar-escola/issues/13 |
+| DOM-006 | https://github.com/OpenEduOps/radar-escola/issues/14 |
+| DOM-007 | https://github.com/OpenEduOps/radar-escola/issues/15 |
+| DOM-008 | https://github.com/OpenEduOps/radar-escola/issues/16 |
+| DOM-009 | https://github.com/OpenEduOps/radar-escola/issues/17 |
+| DOM-010 | https://github.com/OpenEduOps/radar-escola/issues/18 |
+| DOM-011 | https://github.com/OpenEduOps/radar-escola/issues/19 |
+| DOM-012 | https://github.com/OpenEduOps/radar-escola/issues/20 |
+| DOM-013 | https://github.com/OpenEduOps/radar-escola/issues/21 |
+| DOM-014 | https://github.com/OpenEduOps/radar-escola/issues/22 |
+| PER-001 | https://github.com/OpenEduOps/radar-escola/issues/23 |
+| PER-002 | https://github.com/OpenEduOps/radar-escola/issues/24 |
+| PER-003 | https://github.com/OpenEduOps/radar-escola/issues/25 |
+| PER-004 | https://github.com/OpenEduOps/radar-escola/issues/26 |
+| PER-005 | https://github.com/OpenEduOps/radar-escola/issues/27 |
+| PER-006 | https://github.com/OpenEduOps/radar-escola/issues/28 |
+| PER-007 | https://github.com/OpenEduOps/radar-escola/issues/29 |
+| PER-008 | https://github.com/OpenEduOps/radar-escola/issues/30 |
+| PER-009 | https://github.com/OpenEduOps/radar-escola/issues/31 |
+| PER-010 | https://github.com/OpenEduOps/radar-escola/issues/32 |
+| PER-011 | https://github.com/OpenEduOps/radar-escola/issues/33 |
+| ENG-001 | https://github.com/OpenEduOps/radar-escola/issues/34 |
+| ENG-002 | https://github.com/OpenEduOps/radar-escola/issues/35 |
+| ENG-003 | https://github.com/OpenEduOps/radar-escola/issues/36 |
+| ENG-004 | https://github.com/OpenEduOps/radar-escola/issues/37 |
+| APP-001 | https://github.com/OpenEduOps/radar-escola/issues/38 |
+| APP-002 | https://github.com/OpenEduOps/radar-escola/issues/39 |
+| APP-003 | https://github.com/OpenEduOps/radar-escola/issues/40 |
+| APP-004 | https://github.com/OpenEduOps/radar-escola/issues/41 |
+| APP-005 | https://github.com/OpenEduOps/radar-escola/issues/42 |
+| APP-006 | https://github.com/OpenEduOps/radar-escola/issues/43 |
+| APP-007 | https://github.com/OpenEduOps/radar-escola/issues/44 |
+| APP-008 | https://github.com/OpenEduOps/radar-escola/issues/45 |
+| APP-009 | https://github.com/OpenEduOps/radar-escola/issues/46 |
+| APP-010 | https://github.com/OpenEduOps/radar-escola/issues/47 |
+| APP-011 | https://github.com/OpenEduOps/radar-escola/issues/48 |
+| APP-012 | https://github.com/OpenEduOps/radar-escola/issues/49 |
+| APP-013 | https://github.com/OpenEduOps/radar-escola/issues/50 |
+| APP-014 | https://github.com/OpenEduOps/radar-escola/issues/51 |
+| APP-015 | https://github.com/OpenEduOps/radar-escola/issues/52 |
+| APP-016 | https://github.com/OpenEduOps/radar-escola/issues/53 |
+| APP-017 | https://github.com/OpenEduOps/radar-escola/issues/54 |
+| APP-018 | https://github.com/OpenEduOps/radar-escola/issues/55 |
+| APP-019 | https://github.com/OpenEduOps/radar-escola/issues/56 |
+| APP-020 | https://github.com/OpenEduOps/radar-escola/issues/57 |
+| VIEW-001 | https://github.com/OpenEduOps/radar-escola/issues/58 |
+| VIEW-002 | https://github.com/OpenEduOps/radar-escola/issues/59 |
+| VIEW-003 | https://github.com/OpenEduOps/radar-escola/issues/60 |
+| VIEW-004 | https://github.com/OpenEduOps/radar-escola/issues/61 |
+| VIEW-005 | https://github.com/OpenEduOps/radar-escola/issues/62 |
+| VIEW-006 | https://github.com/OpenEduOps/radar-escola/issues/63 |
+| VIEW-007 | https://github.com/OpenEduOps/radar-escola/issues/64 |
+| VIEW-008 | https://github.com/OpenEduOps/radar-escola/issues/65 |
+| VIEW-009 | https://github.com/OpenEduOps/radar-escola/issues/66 |
+| VIEW-010 | https://github.com/OpenEduOps/radar-escola/issues/67 |
+| VIEW-011 | https://github.com/OpenEduOps/radar-escola/issues/68 |
+| VIEW-012 | https://github.com/OpenEduOps/radar-escola/issues/69 |
+| VIEW-013 | https://github.com/OpenEduOps/radar-escola/issues/70 |
+| VIEW-014 | https://github.com/OpenEduOps/radar-escola/issues/71 |
+| QA-001 | https://github.com/OpenEduOps/radar-escola/issues/72 |
+| QA-002 | https://github.com/OpenEduOps/radar-escola/issues/73 |
+| QA-003 | https://github.com/OpenEduOps/radar-escola/issues/74 |
+| QA-004 | https://github.com/OpenEduOps/radar-escola/issues/75 |
+| QA-005 | https://github.com/OpenEduOps/radar-escola/issues/76 |
+| QA-006 | https://github.com/OpenEduOps/radar-escola/issues/77 |
+| QA-007 | https://github.com/OpenEduOps/radar-escola/issues/78 |
+| QA-008 | https://github.com/OpenEduOps/radar-escola/issues/79 |
+| QA-009 | https://github.com/OpenEduOps/radar-escola/issues/80 |
+| QA-010 | https://github.com/OpenEduOps/radar-escola/issues/81 |
+| QA-011 | https://github.com/OpenEduOps/radar-escola/issues/82 |
+| QA-012 | https://github.com/OpenEduOps/radar-escola/issues/83 |
+| QA-013 | https://github.com/OpenEduOps/radar-escola/issues/84 |
+| QA-014 | https://github.com/OpenEduOps/radar-escola/issues/85 |
+| QA-015 | https://github.com/OpenEduOps/radar-escola/issues/86 |
+| DOC-001 | https://github.com/OpenEduOps/radar-escola/issues/87 |
+| DOC-002 | https://github.com/OpenEduOps/radar-escola/issues/88 |
