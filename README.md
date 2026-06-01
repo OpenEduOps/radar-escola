@@ -41,6 +41,9 @@ desenvolvedoras.
 SQLite faz parte da arquitetura alvo, mas ainda nao foi implementado no
 scaffold atual.
 
+Por isso, o playground atual deve ser lido como referencia de interface,
+estado, regras puras e testes. Ele ainda nao persiste dados em SQLite.
+
 ## Fora Do MVP Implementado Hoje
 
 Ainda nao existem no app:
