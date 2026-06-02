@@ -123,6 +123,9 @@ pub fn playground_create_record(
     let normalized_description = normalize_required(&draft.descricao, "Descricao e obrigatoria.")?;
     let normalized_status = normalize_required(&draft.codigo_status, "Status e obrigatorio.")?;
     let connection = lock_connection(&database)?;
+
+    ensure_status_exists(&connection, &normalized_status)?;
+
     let record = PlaygroundRecord {
         id: next_playground_id(&connection)?,
         nome: normalized_name,
@@ -163,6 +166,8 @@ pub fn playground_update_record(
     let normalized_status = normalize_required(&draft.codigo_status, "Status e obrigatorio.")?;
     let connection = lock_connection(&database)?;
 
+    ensure_status_exists(&connection, &normalized_status)?;
+
     connection
         .execute(
             "
@@ -182,7 +187,7 @@ pub fn playground_update_record(
         )
         .map_err(|error| format!("Nao foi possivel atualizar playground: {error}"))?;
 
-    let record = find_playground_by_id(&connection, &id)?
+    let record = find_playground_by_id(&connection, &normalized_id)?
         .ok_or_else(|| "Registro playground nao encontrado.".to_string())?;
 
     Ok(PlaygroundMutation {
@@ -409,6 +414,32 @@ fn find_playground_by_id(
     Ok(None)
 }
 
+fn ensure_status_exists(connection: &Connection, codigo_status: &str) -> Result<(), String> {
+    let mut statement = connection
+        .prepare(
+            "
+            SELECT 1
+              FROM status_playground
+             WHERE codigo_status = ?1
+             LIMIT 1
+            ",
+        )
+        .map_err(|error| format!("Nao foi possivel preparar validacao de status: {error}"))?;
+    let mut rows = statement
+        .query(params![codigo_status])
+        .map_err(|error| format!("Nao foi possivel validar status: {error}"))?;
+    let exists = rows
+        .next()
+        .map_err(|error| format!("Nao foi possivel ler validacao de status: {error}"))?
+        .is_some();
+
+    if !exists {
+        return Err("Status playground nao encontrado.".to_string());
+    }
+
+    Ok(())
+}
+
 fn next_status_code(connection: &Connection) -> Result<String, String> {
     next_code(
         load_codes(connection, "SELECT codigo_status FROM status_playground")?,
@@ -518,6 +549,18 @@ mod tests {
         assert_eq!(
             next_playground_id(&connection).expect("deve calcular playground"),
             "PG-004"
+        );
+    }
+
+    #[test]
+    fn validates_status_relation_before_mutation() {
+        let connection = create_initialized_connection();
+
+        assert!(ensure_status_exists(&connection, "SP-001").is_ok());
+        assert_eq!(
+            ensure_status_exists(&connection, "SP-999")
+                .expect_err("deve rejeitar status inexistente"),
+            "Status playground nao encontrado."
         );
     }
 }
