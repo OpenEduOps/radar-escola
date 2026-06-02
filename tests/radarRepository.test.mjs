@@ -72,4 +72,31 @@ describe("radarRepository", () => {
     assert.equal(state.people.length, 0);
     assert.equal(state.needs.length, 0);
   });
+
+  it("volta para estado vazio quando os contadores do fallback web estao invalidos", async () => {
+    const storage = createMemoryStorage();
+    const state = configuredState();
+
+    storage.setItem(
+      RADAR_STORAGE_KEY,
+      JSON.stringify({
+        ...state,
+        nextIds: {
+          person: 0,
+          need: "2",
+          update: 1,
+        },
+      }),
+    );
+
+    const repository = createBrowserRadarRepository(storage);
+    const loadedState = await repository.load();
+
+    assert.equal(loadedState.school, null);
+    assert.equal(loadedState.people.length, 0);
+    assert.equal(loadedState.needs.length, 0);
+    assert.equal(loadedState.nextIds.person, 1);
+    assert.equal(loadedState.nextIds.need, 1);
+    assert.equal(loadedState.nextIds.update, 1);
+  });
 });

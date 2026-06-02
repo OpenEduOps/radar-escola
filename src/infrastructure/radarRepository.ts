@@ -36,7 +36,7 @@ export function createBrowserRadarRepository(
       }
 
       try {
-        const parsedValue = JSON.parse(storedValue) as RadarState;
+        const parsedValue = JSON.parse(storedValue);
 
         if (!isRadarStateLike(parsedValue)) {
           return createEmptyRadarState();
@@ -66,15 +66,37 @@ function createTauriRadarRepository(): RadarRepository {
   };
 }
 
-function isRadarStateLike(value: RadarState): boolean {
+function isRadarStateLike(value: unknown): value is RadarState {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+
+  const candidate = value as Partial<RadarState>;
+
   return (
-    typeof value === "object" &&
-    value !== null &&
-    Array.isArray(value.people) &&
-    Array.isArray(value.needs) &&
-    typeof value.nextIds === "object" &&
-    value.nextIds !== null
+    (candidate.school === null || typeof candidate.school === "object") &&
+    Array.isArray(candidate.people) &&
+    Array.isArray(candidate.needs) &&
+    isNextIdsLike(candidate.nextIds)
   );
+}
+
+function isNextIdsLike(value: unknown): value is RadarState["nextIds"] {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+
+  const candidate = value as Partial<RadarState["nextIds"]>;
+
+  return (
+    isPositiveInteger(candidate.person) &&
+    isPositiveInteger(candidate.need) &&
+    isPositiveInteger(candidate.update)
+  );
+}
+
+function isPositiveInteger(value: unknown): value is number {
+  return typeof value === "number" && Number.isInteger(value) && value >= 1;
 }
 
 function isTauriRuntime(): boolean {
