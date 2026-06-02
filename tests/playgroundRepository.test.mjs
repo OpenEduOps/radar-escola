@@ -72,6 +72,22 @@ describe("playgroundRepository", () => {
     );
   });
 
+  it("rejeita cadastro com codigo_status inexistente", async () => {
+    const storage = createMemoryStorage();
+    const repository = createBrowserPlaygroundRepository(storage);
+    const before = await repository.load();
+
+    const result = await repository.createRecord({
+      nome: "Registro sem status",
+      descricao: "Nao deve persistir sem relacao valida.",
+      codigoStatus: "SP-999",
+    });
+    const after = await repository.load();
+
+    assert.equal(result, null);
+    assert.deepEqual(after.playgroundRecords, before.playgroundRecords);
+  });
+
   it("rejeita atualizacao incompleta sem alterar o registro persistido", async () => {
     const storage = createMemoryStorage();
     const repository = createBrowserPlaygroundRepository(storage);
@@ -81,6 +97,22 @@ describe("playgroundRepository", () => {
       nome: "   ",
       descricao: "Descricao invalida",
       codigoStatus: "SP-002",
+    });
+    const after = await repository.load();
+
+    assert.equal(result, null);
+    assert.deepEqual(after.playgroundRecords, before.playgroundRecords);
+  });
+
+  it("rejeita atualizacao com codigo_status inexistente", async () => {
+    const storage = createMemoryStorage();
+    const repository = createBrowserPlaygroundRepository(storage);
+    const before = await repository.load();
+
+    const result = await repository.updateRecord("PG-001", {
+      nome: "Primeiro uso atualizado",
+      descricao: "Nao deve persistir sem relacao valida.",
+      codigoStatus: "SP-999",
     });
     const after = await repository.load();
 

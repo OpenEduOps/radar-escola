@@ -109,6 +109,11 @@ export function createBrowserPlaygroundRepository(
     },
     async createRecord(draft: PlaygroundDraft) {
       const snapshot = loadSnapshot();
+
+      if (!hasStatusRecord(snapshot, draft.codigoStatus)) {
+        return null;
+      }
+
       const result = createPlaygroundRecord(snapshot.playgroundRecords, draft);
 
       if (!result) {
@@ -132,6 +137,11 @@ export function createBrowserPlaygroundRepository(
       }
 
       const snapshot = loadSnapshot();
+
+      if (!hasStatusRecord(snapshot, draft.codigoStatus)) {
+        return null;
+      }
+
       const nextRecords = updatePlaygroundRecord(
         snapshot.playgroundRecords,
         id,
@@ -168,6 +178,12 @@ export function createBrowserPlaygroundRepository(
       return nextSnapshot;
     },
   };
+}
+
+function hasStatusRecord(snapshot: PlaygroundSnapshot, codigoStatus: string) {
+  return snapshot.statusRecords.some(
+    (statusRecord) => statusRecord.codigoStatus === codigoStatus,
+  );
 }
 
 function createTauriPlaygroundRepository(): PlaygroundRepository {
