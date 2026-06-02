@@ -86,4 +86,32 @@ test("executa fluxo utilizavel do Radar Escola", async ({ page }) => {
     page.getByText("Necessidade marcada como resolvida."),
   ).toBeVisible();
   await expect(page.getByText("Resolvida por Maria Direcao")).toBeVisible();
+
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Entrar no Radar Escola" }),
+  ).toBeVisible();
+  await page.getByLabel("Usuario").fill("direcao");
+  await page.getByLabel("Senha").fill("senha-direcao");
+  await page.getByRole("button", { name: "Entrar" }).click();
+  await expect(
+    page.getByRole("button", { name: /Computador da secretaria nao liga/ }),
+  ).toBeVisible();
+  await expect(page.getByText("Resolvida por Maria Direcao")).toBeVisible();
+
+  const reopenedPage = await page.context().newPage();
+  await reopenedPage.setViewportSize({ width: 1180, height: 760 });
+  await reopenedPage.goto("/");
+  await reopenedPage.getByLabel("Usuario").fill("direcao");
+  await reopenedPage.getByLabel("Senha").fill("senha-direcao");
+  await reopenedPage.getByRole("button", { name: "Entrar" }).click();
+  await expect(
+    reopenedPage.getByRole("button", {
+      name: /Computador da secretaria nao liga/,
+    }),
+  ).toBeVisible();
+  await expect(
+    reopenedPage.getByText("Resolvida por Maria Direcao"),
+  ).toBeVisible();
+  await reopenedPage.close();
 });
