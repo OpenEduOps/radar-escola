@@ -219,6 +219,10 @@ fn initialize_schema(connection: &Connection) -> Result<(), String> {
 }
 
 fn save_state(connection: &mut Connection, state: &RadarState) -> Result<(), String> {
+    let next_ids = preserve_safe_next_ids(
+        &state.next_ids,
+        &compute_next_ids(&state.people, &state.needs),
+    );
     let transaction = connection
         .transaction()
         .map_err(|error| format!("Nao foi possivel iniciar gravacao Radar: {error}"))?;
@@ -375,9 +379,9 @@ fn save_state(connection: &mut Connection, state: &RadarState) -> Result<(), Str
             VALUES (1, ?1, ?2, ?3)
             ",
             params![
-                state.next_ids.person,
-                state.next_ids.need,
-                state.next_ids.update,
+                next_ids.person,
+                next_ids.need,
+                next_ids.update,
             ],
         )
         .map_err(|error| format!("Nao foi possivel salvar contadores Radar: {error}"))?;
@@ -391,7 +395,11 @@ fn load_state(connection: &Connection) -> Result<RadarState, String> {
     let people = load_people(connection)?;
     let school = load_school(connection)?;
     let needs = load_needs(connection)?;
-    let next_ids = load_next_ids(connection)?.unwrap_or_else(|| compute_next_ids(&people, &needs));
+    let computed_next_ids = compute_next_ids(&people, &needs);
+    let next_ids = match load_next_ids(connection)? {
+        Some(loaded_next_ids) => preserve_safe_next_ids(&loaded_next_ids, &computed_next_ids),
+        None => computed_next_ids,
+    };
 
     Ok(RadarState {
         school,
@@ -603,6 +611,14 @@ fn compute_next_ids(people: &[Person], needs: &[Need]) -> NextIds {
     }
 }
 
+fn preserve_safe_next_ids(candidate: &NextIds, computed: &NextIds) -> NextIds {
+    NextIds {
+        person: candidate.person.max(computed.person),
+        need: candidate.need.max(computed.need),
+        update: candidate.update.max(computed.update),
+    }
+}
+
 fn bool_to_i64(value: bool) -> i64 {
     if value {
         1
@@ -802,6 +818,52 @@ mod tests {
         assert_eq!(loaded_state.next_ids.person, 8);
         assert_eq!(loaded_state.next_ids.need, 5);
         assert_eq!(loaded_state.next_ids.update, 13);
+    }
+
+    #[test]
+    fn normalizes_saved_counters_below_existing_ids() {
+        let mut connection = create_initialized_connection();
+        let mut state = sample_state();
+
+        state.next_ids = NextIds {
+            person: 1,
+            need: 1,
+            update: 1,
+        };
+
+        save_state(&mut connection, &state).expect("deve salvar contadores seguros");
+
+        let loaded_state = load_state(&connection).expect("deve recarregar contadores seguros");
+
+        assert_eq!(loaded_state.next_ids.person, 3);
+        assert_eq!(loaded_state.next_ids.need, 2);
+        assert_eq!(loaded_state.next_ids.update, 2);
+    }
+
+    #[test]
+    fn normalizes_corrupted_persisted_counters_when_loading() {
+        let mut connection = create_initialized_connection();
+        let state = sample_state();
+
+        save_state(&mut connection, &state).expect("deve salvar estado Radar");
+        connection
+            .execute(
+                "
+                UPDATE radar_counters
+                   SET next_person = 1,
+                       next_need = 1,
+                       next_update = 1
+                 WHERE id = 1
+                ",
+                [],
+            )
+            .expect("deve simular contadores corrompidos");
+
+        let loaded_state = load_state(&connection).expect("deve recarregar estado protegido");
+
+        assert_eq!(loaded_state.next_ids.person, 3);
+        assert_eq!(loaded_state.next_ids.need, 2);
+        assert_eq!(loaded_state.next_ids.update, 2);
     }
 
     #[test]

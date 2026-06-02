@@ -253,6 +253,12 @@ radar_need_updates
 radar_counters
 ```
 
+Guardrail de persistencia: `radar_counters` preserva os proximos IDs mesmo
+quando registros sao removidos, e a camada SQLite normaliza esses contadores
+para que nunca fiquem abaixo do proximo ID calculado a partir das linhas reais.
+Isso evita reutilizacao acidental de IDs apos reload, restauracao parcial ou
+estado inconsistente no banco local.
+
 Os comandos SQLite/Tauri ficam em:
 
 ```text
