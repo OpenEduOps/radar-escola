@@ -1,6 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod playground;
+mod radar;
 
 use tauri::{
     menu::{MenuBuilder, SubmenuBuilder},
@@ -15,11 +16,16 @@ fn main() {
             playground::playground_create_record,
             playground::playground_update_record,
             playground::playground_delete_record,
+            radar::radar_load_state,
+            radar::radar_save_state,
         ])
         .setup(|app| {
             let playground_database = playground::open_playground_database(app)
                 .map_err(|error| std::io::Error::new(std::io::ErrorKind::Other, error))?;
             app.manage(playground_database);
+            let radar_database = radar::open_radar_database(app)
+                .map_err(|error| std::io::Error::new(std::io::ErrorKind::Other, error))?;
+            app.manage(radar_database);
 
             let playground_menu = SubmenuBuilder::new(app, "Playground")
                 .text("playground_start", "Iniciar playground")
