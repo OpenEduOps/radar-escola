@@ -33,6 +33,10 @@ function buildNextCode(currentCodes: string[], prefix: string) {
   return `${prefix}-${String(nextNumber).padStart(3, "0")}`;
 }
 
+export function normalizePlaygroundText(value: string) {
+  return value.split(/\s+/u).filter(Boolean).join(" ");
+}
+
 export function getStatusName(
   statusRecords: StatusPlaygroundRecord[],
   codigoStatus: string,
@@ -48,7 +52,7 @@ export function registerStatusPlayground(
   statusRecords: StatusPlaygroundRecord[],
   nome: string,
 ): StatusRegistrationResult | null {
-  const normalizedName = nome.trim();
+  const normalizedName = normalizePlaygroundText(nome);
 
   if (!normalizedName) {
     return null;
@@ -85,10 +89,11 @@ export function createPlaygroundRecord(
   records: PlaygroundRecord[],
   draft: PlaygroundDraft,
 ): PlaygroundCreationResult | null {
-  const normalizedName = draft.nome.trim();
-  const normalizedDescription = draft.descricao.trim();
+  const normalizedName = normalizePlaygroundText(draft.nome);
+  const normalizedDescription = normalizePlaygroundText(draft.descricao);
+  const normalizedStatus = normalizePlaygroundText(draft.codigoStatus);
 
-  if (!normalizedName || !normalizedDescription || !draft.codigoStatus) {
+  if (!normalizedName || !normalizedDescription || !normalizedStatus) {
     return null;
   }
 
@@ -99,7 +104,7 @@ export function createPlaygroundRecord(
     ),
     nome: normalizedName,
     descricao: normalizedDescription,
-    codigoStatus: draft.codigoStatus,
+    codigoStatus: normalizedStatus,
   };
 
   return {
@@ -110,7 +115,9 @@ export function createPlaygroundRecord(
 
 export function isPlaygroundDraftComplete(draft: PlaygroundDraft) {
   return Boolean(
-    draft.nome.trim() && draft.descricao.trim() && draft.codigoStatus,
+    normalizePlaygroundText(draft.nome) &&
+      normalizePlaygroundText(draft.descricao) &&
+      normalizePlaygroundText(draft.codigoStatus),
   );
 }
 
@@ -119,10 +126,11 @@ export function updatePlaygroundRecord(
   id: string,
   draft: PlaygroundDraft,
 ) {
-  const normalizedName = draft.nome.trim();
-  const normalizedDescription = draft.descricao.trim();
+  const normalizedName = normalizePlaygroundText(draft.nome);
+  const normalizedDescription = normalizePlaygroundText(draft.descricao);
+  const normalizedStatus = normalizePlaygroundText(draft.codigoStatus);
 
-  if (!normalizedName || !normalizedDescription || !draft.codigoStatus) {
+  if (!normalizedName || !normalizedDescription || !normalizedStatus) {
     return records;
   }
 
@@ -132,7 +140,7 @@ export function updatePlaygroundRecord(
           ...record,
           nome: normalizedName,
           descricao: normalizedDescription,
-          codigoStatus: draft.codigoStatus,
+          codigoStatus: normalizedStatus,
         }
       : record,
   );

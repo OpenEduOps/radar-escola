@@ -58,6 +58,16 @@ describe("playgroundCrud", () => {
     assert.equal(result.statusRecords.length, 3);
   });
 
+  it("normaliza espacos internos ao cadastrar status", () => {
+    const result = registerStatusPlayground(
+      statusPlaygroundRecords,
+      "  Status    com   espacos  ",
+    );
+
+    assert.ok(result);
+    assert.equal(result.statusRecord.nome, "Status com espacos");
+  });
+
   it("cria um registro playground com codigo_status relacionado", () => {
     const result = createPlaygroundRecord(playgroundRecords, {
       nome: "Novo fluxo",
@@ -69,6 +79,19 @@ describe("playgroundCrud", () => {
     assert.equal(result.record.id, "PG-004");
     assert.equal(result.record.codigoStatus, "SP-002");
     assert.equal(result.records.length, 4);
+  });
+
+  it("normaliza campos ao criar um registro playground", () => {
+    const result = createPlaygroundRecord(playgroundRecords, {
+      nome: "  Novo    fluxo  ",
+      descricao: "  Validar    criacao   normalizada. ",
+      codigoStatus: "  SP-002 ",
+    });
+
+    assert.ok(result);
+    assert.equal(result.record.nome, "Novo fluxo");
+    assert.equal(result.record.descricao, "Validar criacao normalizada.");
+    assert.equal(result.record.codigoStatus, "SP-002");
   });
 
   it("identifica rascunhos incompletos antes de criar ou editar", () => {
@@ -139,6 +162,19 @@ describe("playgroundCrud", () => {
       nome: "Primeiro uso revisado",
       descricao: "Descricao revisada.",
       codigoStatus: "SP-003",
+    });
+    const updatedRecord = updatedRecords.find((record) => record.id === "PG-001");
+
+    assert.equal(updatedRecord?.nome, "Primeiro uso revisado");
+    assert.equal(updatedRecord?.descricao, "Descricao revisada.");
+    assert.equal(updatedRecord?.codigoStatus, "SP-003");
+  });
+
+  it("normaliza campos ao editar um registro playground", () => {
+    const updatedRecords = updatePlaygroundRecord(playgroundRecords, "PG-001", {
+      nome: "  Primeiro    uso revisado  ",
+      descricao: "  Descricao    revisada. ",
+      codigoStatus: " SP-003 ",
     });
     const updatedRecord = updatedRecords.find((record) => record.id === "PG-001");
 

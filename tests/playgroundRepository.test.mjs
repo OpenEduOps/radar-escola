@@ -72,6 +72,31 @@ describe("playgroundRepository", () => {
     );
   });
 
+  it("normaliza campos antes de persistir no armazenamento local", async () => {
+    const storage = createMemoryStorage();
+    const repository = createBrowserPlaygroundRepository(storage);
+    const statusResult = await repository.registerStatus(
+      "  Status    Normalizado  ",
+    );
+
+    assert.ok(statusResult);
+    assert.equal(statusResult.statusRecord.nome, "Status Normalizado");
+
+    const createResult = await repository.createRecord({
+      nome: "  Registro    Normalizado ",
+      descricao: "  Texto    normalizado. ",
+      codigoStatus: ` ${statusResult.statusRecord.codigoStatus} `,
+    });
+
+    assert.ok(createResult);
+    assert.equal(createResult.record.nome, "Registro Normalizado");
+    assert.equal(createResult.record.descricao, "Texto normalizado.");
+    assert.equal(
+      createResult.record.codigoStatus,
+      statusResult.statusRecord.codigoStatus,
+    );
+  });
+
   it("rejeita cadastro com codigo_status inexistente", async () => {
     const storage = createMemoryStorage();
     const repository = createBrowserPlaygroundRepository(storage);

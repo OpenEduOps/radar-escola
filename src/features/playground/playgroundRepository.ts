@@ -7,6 +7,7 @@ import {
   createPlaygroundRecord,
   deletePlaygroundRecord,
   isPlaygroundDraftComplete,
+  normalizePlaygroundText,
   registerStatusPlayground,
   type PlaygroundDraft,
   updatePlaygroundRecord,
@@ -181,8 +182,10 @@ export function createBrowserPlaygroundRepository(
 }
 
 function hasStatusRecord(snapshot: PlaygroundSnapshot, codigoStatus: string) {
+  const normalizedStatus = normalizePlaygroundText(codigoStatus);
+
   return snapshot.statusRecords.some(
-    (statusRecord) => statusRecord.codigoStatus === codigoStatus,
+    (statusRecord) => statusRecord.codigoStatus === normalizedStatus,
   );
 }
 
