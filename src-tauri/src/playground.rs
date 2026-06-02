@@ -469,3 +469,55 @@ where
     rows.collect::<rusqlite::Result<Vec<_>>>()
         .map_err(|error| format!("Nao foi possivel carregar {label}: {error}"))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn create_initialized_connection() -> Connection {
+        let connection =
+            Connection::open_in_memory().expect("deve abrir SQLite em memoria");
+
+        initialize_schema(&connection).expect("deve criar schema playground");
+        seed_initial_data(&connection).expect("deve carregar seed playground");
+
+        connection
+    }
+
+    #[test]
+    fn initializes_schema_with_seed_data() {
+        let connection = create_initialized_connection();
+        let snapshot = load_snapshot(&connection).expect("deve carregar snapshot");
+
+        assert_eq!(snapshot.status_records.len(), 3);
+        assert_eq!(snapshot.playground_records.len(), 3);
+        assert_eq!(snapshot.status_records[0].codigo_status, "SP-001");
+        assert_eq!(snapshot.playground_records[0].id, "PG-001");
+    }
+
+    #[test]
+    fn keeps_seed_idempotent() {
+        let connection = create_initialized_connection();
+
+        seed_initial_data(&connection).expect("deve manter seed idempotente");
+
+        let snapshot = load_snapshot(&connection).expect("deve carregar snapshot");
+
+        assert_eq!(snapshot.status_records.len(), 3);
+        assert_eq!(snapshot.playground_records.len(), 3);
+    }
+
+    #[test]
+    fn calculates_next_codes_from_existing_rows() {
+        let connection = create_initialized_connection();
+
+        assert_eq!(
+            next_status_code(&connection).expect("deve calcular status"),
+            "SP-004"
+        );
+        assert_eq!(
+            next_playground_id(&connection).expect("deve calcular playground"),
+            "PG-004"
+        );
+    }
+}
