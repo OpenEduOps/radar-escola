@@ -563,4 +563,18 @@ mod tests {
             "Status playground nao encontrado."
         );
     }
+
+    #[test]
+    fn normalizes_required_text_before_persistence() {
+        assert_eq!(
+            normalize_required("  Status    com   espacos  ", "erro")
+                .expect("deve normalizar texto"),
+            "Status com espacos"
+        );
+        assert_eq!(
+            normalize_required("   ", "Campo obrigatorio.")
+                .expect_err("deve rejeitar texto vazio"),
+            "Campo obrigatorio."
+        );
+    }
 }
