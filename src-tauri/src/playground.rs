@@ -1,6 +1,6 @@
 use rusqlite::{params, Connection};
 use serde::{Deserialize, Serialize};
-use std::{fs, sync::Mutex};
+use std::{fs, sync::Mutex, time::Duration};
 use tauri::{App, Manager, State};
 
 pub struct PlaygroundDatabase {
@@ -63,6 +63,9 @@ pub fn open_playground_database(app: &App) -> Result<PlaygroundDatabase, String>
     let database_path = app_data_dir.join("radar-escola.sqlite3");
     let connection = Connection::open(database_path)
         .map_err(|error| format!("Nao foi possivel abrir o banco local: {error}"))?;
+    connection
+        .busy_timeout(Duration::from_secs(5))
+        .map_err(|error| format!("Nao foi possivel configurar espera do banco local: {error}"))?;
 
     initialize_schema(&connection)?;
     seed_initial_data(&connection)?;
