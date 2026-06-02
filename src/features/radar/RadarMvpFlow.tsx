@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   TEMPORARY_PASSWORD,
   addNeedUpdate,
@@ -21,10 +21,7 @@ import {
   type RadarState,
 } from "../../domain/radar/radarDomain";
 import { generateRecoveryToken, hashSecret } from "../../infrastructure/localHash";
-import {
-  loadRadarState,
-  saveRadarState,
-} from "../../infrastructure/localRadarRepository";
+import { createRadarRepository } from "../../infrastructure/radarRepository";
 
 interface RadarMvpFlowProps {
   onStartPlayground: () => void;
@@ -92,9 +89,9 @@ const profileOptions: Array<{
 ];
 
 export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
-  const [state, setState] = useState<RadarState>(
-    () => loadRadarState() ?? createEmptyRadarState(),
-  );
+  const repository = useMemo(() => createRadarRepository(), []);
+  const [state, setState] = useState<RadarState>(() => createEmptyRadarState());
+  const [isLoadingState, setIsLoadingState] = useState(true);
   const [currentPersonId, setCurrentPersonId] = useState<string | null>(null);
   const [pendingFirstAccessPersonId, setPendingFirstAccessPersonId] = useState<
     string | null
@@ -124,9 +121,42 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
     [state.people],
   );
 
-  function persist(nextState: RadarState) {
-    setState(nextState);
-    saveRadarState(nextState);
+  useEffect(() => {
+    let isCurrent = true;
+
+    repository
+      .load()
+      .then((loadedState) => {
+        if (!isCurrent) {
+          return;
+        }
+
+        setState(loadedState);
+      })
+      .catch((error: unknown) => {
+        if (!isCurrent) {
+          return;
+        }
+
+        showError(error);
+      })
+      .finally(() => {
+        if (isCurrent) {
+          setIsLoadingState(false);
+        }
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [repository]);
+
+  async function persist(nextState: RadarState) {
+    const savedState = await repository.save(nextState);
+
+    setState(savedState);
+
+    return savedState;
   }
 
   function showSuccess(message: string) {
@@ -155,8 +185,9 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
         now: new Date().toISOString(),
       });
 
-      persist(result.state);
-      setCurrentPersonId(result.state.school?.directorPersonId ?? null);
+      const savedState = await persist(result.state);
+
+      setCurrentPersonId(savedState.school?.directorPersonId ?? null);
       setSetupForm(initialSetupForm);
       showSuccess("Escola configurada. O Radar de Necessidades ja pode ser usado.");
     } catch (error) {
@@ -217,7 +248,7 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
         now: new Date().toISOString(),
       });
 
-      persist(result.state);
+      await persist(result.state);
       setCurrentPersonId(result.value.id);
       setPendingFirstAccessPersonId(null);
       setFirstAccessForm(initialFirstAccessForm);
@@ -241,7 +272,7 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
         now: new Date().toISOString(),
       });
 
-      persist(result.state);
+      await persist(result.state);
       setPersonForm(initialPersonForm);
       showSuccess(
         `Pessoa cadastrada com senha temporaria ${TEMPORARY_PASSWORD}.`,
@@ -251,7 +282,7 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
     }
   }
 
-  function handleNeedSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleNeedSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (!currentPerson) {
@@ -268,7 +299,7 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
         now: new Date().toISOString(),
       });
 
-      persist(result.state);
+      await persist(result.state);
       setSelectedNeedId(result.value.id);
       setNeedForm(initialNeedForm);
       showSuccess("Necessidade registrada no Radar.");
@@ -277,7 +308,7 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
     }
   }
 
-  function handleUpdateSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleUpdateSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (!currentPerson || !selectedNeed) {
@@ -291,7 +322,7 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
         now: new Date().toISOString(),
       });
 
-      persist(result.state);
+      await persist(result.state);
       setSelectedNeedId(result.value.id);
       setUpdateDescription("");
       showSuccess("Andamento registrado.");
@@ -300,7 +331,7 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
     }
   }
 
-  function handleResolveSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleResolveSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (!currentPerson || !selectedNeed) {
@@ -314,7 +345,7 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
         now: new Date().toISOString(),
       });
 
-      persist(result.state);
+      await persist(result.state);
       setSelectedNeedId(result.value.id);
       setResolutionSummary("");
       showSuccess("Necessidade marcada como resolvida.");
@@ -327,6 +358,19 @@ export function RadarMvpFlow({ onStartPlayground }: RadarMvpFlowProps) {
     setCurrentPersonId(null);
     setPendingFirstAccessPersonId(null);
     setFeedback(null);
+  }
+
+  if (isLoadingState) {
+    return (
+      <section className="radar-shell" aria-labelledby="radar-loading-title">
+        <RadarHero onStartPlayground={onStartPlayground} />
+        <div className="radar-card">
+          <p className="eyebrow">Banco local</p>
+          <h2 id="radar-loading-title">Carregando Radar Escola</h2>
+          <p className="radar-note">Abrindo os dados salvos neste computador.</p>
+        </div>
+      </section>
+    );
   }
 
   if (!state.school) {
