@@ -209,9 +209,9 @@ fn initialize_schema(connection: &Connection) -> Result<(), String> {
 
             CREATE TABLE IF NOT EXISTS radar_counters (
                 id INTEGER PRIMARY KEY CHECK (id = 1),
-                next_person INTEGER NOT NULL,
-                next_need INTEGER NOT NULL,
-                next_update INTEGER NOT NULL
+                next_person INTEGER NOT NULL CHECK (next_person >= 1),
+                next_need INTEGER NOT NULL CHECK (next_need >= 1),
+                next_update INTEGER NOT NULL CHECK (next_update >= 1)
             );
             ",
         )
@@ -421,9 +421,9 @@ fn load_next_ids(connection: &Connection) -> Result<Option<NextIds>, String> {
             [],
             |row| {
                 Ok(NextIds {
-                    person: row.get::<_, u32>(0)?,
-                    need: row.get::<_, u32>(1)?,
-                    update: row.get::<_, u32>(2)?,
+                    person: safe_next_id_from_counter(row.get::<_, i64>(0)?),
+                    need: safe_next_id_from_counter(row.get::<_, i64>(1)?),
+                    update: safe_next_id_from_counter(row.get::<_, i64>(2)?),
                 })
             },
         )
@@ -617,6 +617,13 @@ fn preserve_safe_next_ids(candidate: &NextIds, computed: &NextIds) -> NextIds {
         need: candidate.need.max(computed.need),
         update: candidate.update.max(computed.update),
     }
+}
+
+fn safe_next_id_from_counter(value: i64) -> u32 {
+    u32::try_from(value)
+        .ok()
+        .filter(|next_id| *next_id >= 1)
+        .unwrap_or(1)
 }
 
 fn bool_to_i64(value: bool) -> i64 {
@@ -860,6 +867,42 @@ mod tests {
             .expect("deve simular contadores corrompidos");
 
         let loaded_state = load_state(&connection).expect("deve recarregar estado protegido");
+
+        assert_eq!(loaded_state.next_ids.person, 3);
+        assert_eq!(loaded_state.next_ids.need, 2);
+        assert_eq!(loaded_state.next_ids.update, 2);
+    }
+
+    #[test]
+    fn loads_legacy_database_with_invalid_counter_values() {
+        let mut connection = create_initialized_connection();
+        let state = sample_state();
+
+        save_state(&mut connection, &state).expect("deve salvar estado Radar");
+        connection
+            .execute_batch(
+                "
+                DROP TABLE radar_counters;
+
+                CREATE TABLE radar_counters (
+                    id INTEGER PRIMARY KEY CHECK (id = 1),
+                    next_person INTEGER NOT NULL,
+                    next_need INTEGER NOT NULL,
+                    next_update INTEGER NOT NULL
+                );
+
+                INSERT INTO radar_counters (
+                    id,
+                    next_person,
+                    next_need,
+                    next_update
+                )
+                VALUES (1, -7, 0, -3);
+                ",
+            )
+            .expect("deve simular contadores invalidos em base legada");
+
+        let loaded_state = load_state(&connection).expect("deve recarregar base legada");
 
         assert_eq!(loaded_state.next_ids.person, 3);
         assert_eq!(loaded_state.next_ids.need, 2);
