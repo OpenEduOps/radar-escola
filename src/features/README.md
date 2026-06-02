@@ -4,8 +4,8 @@ Camada de experiencia por fluxo de usuario.
 
 Estado atual: `src/features/playground` contem o CRUD master-detail persistente
 de referencia do scaffold, e `src/features/radar` contem a primeira fatia
-funcional demonstravel do Radar. O fluxo principal ainda sera endurecido a
-partir das issues do MVP.
+funcional demonstravel do Radar com persistencia SQLite no desktop. O fluxo
+principal ainda sera endurecido a partir das issues do MVP.
 
 Responsabilidades:
 

@@ -21,6 +21,7 @@ Ja existem:
 - playground CRUD master-detail com persistencia SQLite local no desktop;
 - testes unitarios do playground;
 - teste E2E Playwright do playground, incluindo persistencia por reload;
+- primeira fatia funcional do Radar com persistencia SQLite local no desktop;
 - CI em `main` com checks de documentacao, higiene, frontend, testes,
   validacao Docker dev e guardrail de metadados publicos;
 - workflow `Desktop Release` para gerar instalador Windows tecnico do
@@ -36,10 +37,10 @@ Ja existem:
 - imagem Docker dev validada para typecheck, testes unitarios e build frontend.
 
 O app atual ainda nao e o MVP funcional completo. Ele ja demonstra o fluxo
-principal do Radar, mas esse fluxo ainda usa armazenamento local do WebView como
-ponte tecnica enquanto SQLite, repositorios definitivos e hardening de seguranca
-nao sao implementados para o dominio real. O playground ja usa SQLite local no
-runtime Tauri como referencia tecnica.
+principal do Radar e, no desktop, persiste essa primeira fatia em SQLite local
+via Tauri. O fallback em `localStorage` fica restrito ao navegador de
+desenvolvimento e aos testes E2E web. Ainda faltam recuperacao local completa,
+auditoria, exportacao/restauracao e hardening de seguranca do MVP.
 
 ## Direcao Do Produto
 
@@ -51,7 +52,7 @@ runtime Tauri como referencia tecnica.
 - Sem internet obrigatoria na V0.
 
 SQLite faz parte da arquitetura alvo. Ele ja foi implementado no playground de
-referencia e ainda precisa ser levado ao fluxo principal do Radar.
+referencia e na primeira fatia funcional do Radar.
 
 Por isso, o fluxo atual deve ser lido como primeira fatia de produto
 demonstravel, e o playground continua como referencia tecnica de CRUD,
@@ -61,8 +62,6 @@ master-detail, estado, regras puras, comandos Tauri, SQLite e testes.
 
 Ainda nao existem de forma definitiva no app:
 
-- banco SQLite local para o fluxo principal do Radar;
-- repositorios de persistencia definitivos;
 - recuperacao local de acesso;
 - hashing forte no runtime nativo;
 - equipamentos operacionais;
@@ -77,11 +76,9 @@ Evoluir o fluxo inicial para a arquitetura alvo, seguindo a ordem sugerida:
 REQ -> DOM -> PER -> ENG -> APP -> VIEW -> QA
 ```
 
-Na pratica, o proximo bloco tecnico deve aplicar ao fluxo principal o padrao ja
-validado no playground: schema SQLite, comandos Tauri, repositorios e testes de
-persistencia. Depois disso, separar melhor casos de uso/repositorios e endurecer
-salvaguardas de acesso antes de expandir equipamentos, auditoria e
-exportacao/restauracao.
+Na pratica, o proximo bloco tecnico deve separar melhor casos de uso/repositorios
+do fluxo principal e endurecer salvaguardas de acesso antes de expandir
+equipamentos, auditoria e exportacao/restauracao.
 
 A estrategia de o fundador tocar pessoalmente as issues fundacionais do MVP, sem
 fechar a entrada de colaboradores, esta registrada em
@@ -181,12 +178,12 @@ Mapa rapido:
 - `src/application`: casos de uso e orquestracao futura;
 - `src/domain`: entidades e regras puras por dominio;
 - `src/domain/radar`: dominio inicial demonstravel do fluxo principal;
-- `src/infrastructure`: persistencia SQLite, Tauri, arquivos, hashing e CSV no
+- `src/infrastructure`: repositorios, ponte Tauri, hashing local, arquivos e CSV
   futuro;
 - `src/shared`: UI e utilitarios reutilizaveis;
 - `src/testing`: fixtures e helpers de teste;
 - `src-tauri/src`: runtime nativo minimo do desktop, incluindo comandos SQLite
-  do playground.
+  do playground e da primeira fatia Radar.
 
 Regra pratica: regra de negocio deve nascer testavel fora da interface, e tela
 nao deve acessar banco diretamente.

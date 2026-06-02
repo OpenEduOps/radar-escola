@@ -11,11 +11,12 @@ A arquitetura ja possui um scaffold executavel Tauri + React + TypeScript,
 release tecnica `v0.0.1`, playground CRUD persistente de referencia e uma
 primeira fatia funcional do Radar. Esse estado valida casca desktop,
 empacotamento Windows, menu nativo, teste E2E, separacao inicial de pastas,
-SQLite local no playground e fluxo principal demonstravel.
+SQLite local no playground e persistencia SQLite da primeira fatia funcional do
+Radar no desktop.
 
-A arquitetura alvo do MVP ainda precisa levar a persistencia SQLite ao fluxo
-principal do Radar, implementar repositorios definitivos, recuperacao local,
-auditoria persistida, exportacao/restauracao e guardrails de seguranca finais.
+A arquitetura alvo do MVP ainda precisa separar melhor casos de uso/repositorios,
+implementar recuperacao local, auditoria persistida, exportacao/restauracao e
+guardrails de seguranca finais.
 
 ## Principios
 
@@ -65,7 +66,7 @@ src/domain/audit
   auditoria minima de acoes sensiveis
 
 src/infrastructure
-  SQLite, Tauri, filesystem, hashing, CSV e pontes locais temporarias
+  repositorios, Tauri, SQLite, filesystem, hashing e CSV
 
 src/shared
   UI e utilitarios reutilizaveis
@@ -124,7 +125,7 @@ Subdominios planejados:
 
 O modulo `src/domain/radar` e uma etapa de consolidacao do primeiro fluxo. A
 tendencia e extrair ou alinhar seus comportamentos aos subdominios finais quando
-SQLite, repositorios e casos de uso forem implementados.
+os casos de uso e subdominios finais amadurecerem.
 
 ## Tauri/Rust
 
@@ -135,6 +136,7 @@ Responsabilidades esperadas:
 - inicializar janela desktop;
 - expor comandos nativos quando necessario;
 - apoiar acesso seguro a filesystem;
+- persistir dados locais em SQLite atras de comandos Tauri;
 - apoiar empacotamento desktop.
 
 Rust nao deve receber regra de negocio do produto sem necessidade clara.

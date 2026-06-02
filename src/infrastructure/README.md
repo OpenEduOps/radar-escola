@@ -2,11 +2,10 @@
 
 Camada de detalhes tecnicos.
 
-Estado atual: esta camada contem pontes locais demonstraveis para o fluxo Radar
-e o repositório frontend do playground conversa com comandos Tauri quando roda no
-desktop. SQLite real ja existe no runtime Tauri para o playground de referencia,
-mas a persistencia SQLite do dominio principal ainda e trabalho futuro da V0
-funcional.
+Estado atual: esta camada contem o repositorio do Radar, com SQLite/Tauri como
+fonte principal no desktop e `localStorage` apenas como fallback para navegador
+de desenvolvimento e E2E web. O repositório frontend do playground tambem
+conversa com comandos Tauri quando roda no desktop.
 
 Responsabilidades:
 

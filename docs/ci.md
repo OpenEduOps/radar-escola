@@ -166,6 +166,22 @@ No desktop Tauri, o mesmo contrato de repositorio usa SQLite local por meio dos
 comandos nativos do playground. No E2E web, o fallback em `localStorage` permite
 validar a experiencia de reload sem exigir runtime Tauri no Playwright.
 
+O mesmo comando tambem cobre o fluxo inicial do Radar Escola:
+
+- configuracao de escola e direcao;
+- cadastro de pessoa;
+- primeiro acesso;
+- registro de necessidade;
+- envolvidos;
+- andamento;
+- resolucao;
+- persistencia por reload;
+- persistencia por reabertura em nova pagina no fallback web.
+
+No desktop Tauri, a primeira fatia Radar usa comandos nativos e SQLite local. No
+E2E web, o fallback em `localStorage` preserva o mesmo contrato de repositorio
+sem exigir runtime Tauri no Playwright.
+
 ## Guarda De Metadados Publicos
 
 O job `Agent name guard` valida metadados publicos em pull requests e pushes

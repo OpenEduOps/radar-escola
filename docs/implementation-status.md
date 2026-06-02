@@ -14,10 +14,10 @@ desta etapa, o app tambem demonstra o primeiro caminho de uso do Radar Escola:
 configurar escola, entrar, cadastrar pessoa, registrar necessidade, marcar
 envolvidos, atualizar andamento e marcar como resolvido.
 
-Esse fluxo ainda nao representa a V0 funcional completa, porque a persistencia
-definitiva SQLite do dominio real, recuperacao local, auditoria persistida e
-exportacao/restauracao ainda nao foram implementadas. O playground de referencia
-ja possui persistencia SQLite local no runtime Tauri.
+Esse fluxo ainda nao representa a V0 funcional completa, porque recuperacao
+local completa, auditoria persistida, exportacao/restauracao e hardening de
+seguranca ainda nao foram implementados. A primeira fatia funcional do Radar e o
+playground de referencia ja possuem persistencia SQLite local no runtime Tauri.
 
 Versao tecnica atual:
 
@@ -65,6 +65,7 @@ Frontend:
 - `src/features/radar/RadarMvpFlow.tsx`;
 - `src/features/playground/PlaygroundMasterDetail.tsx`;
 - `src/features/playground/playgroundRepository.ts`;
+- `src/infrastructure/radarRepository.ts`;
 - `src/main.tsx`;
 - `index.html`;
 - `vite.config.ts`;
@@ -77,7 +78,7 @@ Dominio:
 Infraestrutura local demonstravel:
 
 - `src/infrastructure/localHash.ts`;
-- `src/infrastructure/localRadarRepository.ts`.
+- `src/infrastructure/radarRepository.ts`.
 
 Desktop/Tauri:
 
@@ -87,6 +88,7 @@ Desktop/Tauri:
 - `src-tauri/icons/icon.ico`;
 - `src-tauri/src/main.rs`;
 - `src-tauri/src/playground.rs`;
+- `src-tauri/src/radar.rs`;
 - `src-tauri/tauri.conf.json`.
 
 Automacao:
@@ -218,6 +220,10 @@ O app ja contem uma primeira fatia de produto utilizavel. O fluxo atual permite:
 - impedir usuario comum de marcar como resolvido;
 - permitir direcao ou apoio de gestao marcar como resolvido.
 
+No desktop Tauri, essa fatia persiste em SQLite local por comandos nativos.
+No navegador de desenvolvimento, o repositorio usa `localStorage` apenas como
+fallback para manter o contrato assincrono em testes web.
+
 As regras puras ficam em:
 
 ```text
@@ -230,14 +236,27 @@ A tela principal fica em:
 src/features/radar/RadarMvpFlow.tsx
 ```
 
-A persistencia atual usa armazenamento local do WebView como ponte demonstravel:
+A persistencia frontend fica em:
 
 ```text
-src/infrastructure/localRadarRepository.ts
+src/infrastructure/radarRepository.ts
 ```
 
-Isso nao substitui SQLite. O armazenamento local atual existe para validar UX,
-fluxo, dominio e teste E2E antes da camada definitiva de persistencia.
+No runtime Tauri, o schema real fica em:
+
+```text
+radar_people
+radar_schools
+radar_needs
+radar_need_involved_people
+radar_need_updates
+```
+
+Os comandos SQLite/Tauri ficam em:
+
+```text
+src-tauri/src/radar.rs
+```
 
 Validado por:
 
@@ -261,6 +280,7 @@ A CI valida:
 - teste E2E Playwright do playground;
 - teste E2E Playwright de persistencia por reload no playground;
 - teste E2E Playwright do fluxo inicial do Radar;
+- teste E2E Playwright de persistencia por reload/reabertura no Radar;
 - frontend build;
 - validacao Docker dev adicional.
 
@@ -329,8 +349,6 @@ Validacao local realizada sobre o artefato baixado da release:
 
 Ainda nao foi implementado:
 
-- SQLite para o fluxo principal do Radar;
-- repositorios definitivos;
 - recuperacao local de acesso;
 - hashing forte no runtime nativo;
 - equipamentos;
@@ -351,23 +369,22 @@ O projeto ja saiu da fase de apenas documentacao inicial. A fronteira atual e:
 - scaffold executavel validado;
 - playground CRUD como referencia tecnica;
 - fluxo inicial do Radar como primeira fatia funcional demonstravel;
+- persistencia SQLite local da primeira fatia Radar no desktop;
 - imagem Docker dev validada;
 - release tecnica `v0.0.1` publicada com instalador Windows e checksum;
 - instalador Windows tecnico gerado, instalado e validado via CI/smoke.
 
-A proxima etapa e levar para o fluxo principal do Radar o padrao validado no
-playground: schema SQLite, comandos Tauri, repositorios e testes de persistencia.
-Depois disso, seguem recuperacao local, auditoria e exportacao/restauracao,
-mantendo cada entrega pequena, testavel e rastreavel.
+A proxima etapa e separar melhor casos de uso/repositorios do fluxo principal e
+seguir para recuperacao local, auditoria e exportacao/restauracao, mantendo cada
+entrega pequena, testavel e rastreavel.
 
 ## Proximas Prioridades
 
-1. Implementar persistencia SQLite e bootstrap local do fluxo principal.
-2. Separar repositorios e casos de uso definitivos.
-3. Endurecer hashing e recuperacao local.
-4. Persistir auditoria minima das acoes sensiveis.
-5. Evoluir equipamentos e vinculos operacionais.
-6. Implementar exportacao/restauracao de seguranca.
+1. Separar repositorios e casos de uso definitivos.
+2. Endurecer hashing e recuperacao local.
+3. Persistir auditoria minima das acoes sensiveis.
+4. Evoluir equipamentos e vinculos operacionais.
+5. Implementar exportacao/restauracao de seguranca.
 
 ## Comandos de Verificacao
 
