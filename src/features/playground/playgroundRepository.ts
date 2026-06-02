@@ -6,6 +6,7 @@ import { playgroundRecords, statusPlaygroundRecords } from "./playgroundData.ts"
 import {
   createPlaygroundRecord,
   deletePlaygroundRecord,
+  isPlaygroundDraftComplete,
   registerStatusPlayground,
   type PlaygroundDraft,
   updatePlaygroundRecord,
@@ -46,7 +47,11 @@ export function createPlaygroundRepository(): PlaygroundRepository {
     return createTauriPlaygroundRepository();
   }
 
-  return createBrowserPlaygroundRepository(window.localStorage);
+  if (typeof window !== "undefined" && window.localStorage) {
+    return createBrowserPlaygroundRepository(window.localStorage);
+  }
+
+  throw new Error("Persistencia local do playground indisponivel.");
 }
 
 export function createBrowserPlaygroundRepository(
@@ -122,6 +127,10 @@ export function createBrowserPlaygroundRepository(
       };
     },
     async updateRecord(id: string, draft: PlaygroundDraft) {
+      if (!isPlaygroundDraftComplete(draft)) {
+        return null;
+      }
+
       const snapshot = loadSnapshot();
       const nextRecords = updatePlaygroundRecord(
         snapshot.playgroundRecords,
