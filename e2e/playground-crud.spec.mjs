@@ -103,6 +103,17 @@ test("executa o CRUD do playground com status relacionado", async ({ page }) => 
   await expect(persistedRow).toBeVisible();
   await expect(persistedRow).toContainText("Status E2E");
 
+  const reopenedPage = await page.context().newPage();
+  await reopenedPage.setViewportSize({ width: 960, height: 600 });
+  await reopenedPage.goto("/");
+  await reopenedPage.getByRole("button", { name: "Iniciar playground" }).click();
+  const reopenedRow = reopenedPage
+    .locator(".master-row")
+    .filter({ hasText: "Registro E2E" });
+  await expect(reopenedRow).toBeVisible();
+  await expect(reopenedRow).toContainText("Status E2E");
+  await reopenedPage.close();
+
   await persistedRow.getByRole("button", { name: "Editar" }).click();
   const editForm = page.locator("article.detail-panel form.detail-form");
   await editForm.getByLabel("Nome").fill("   ");
