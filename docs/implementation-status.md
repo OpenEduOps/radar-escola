@@ -250,6 +250,7 @@ radar_schools
 radar_needs
 radar_need_involved_people
 radar_need_updates
+radar_counters
 ```
 
 Os comandos SQLite/Tauri ficam em:

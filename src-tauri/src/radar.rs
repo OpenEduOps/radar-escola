@@ -203,6 +203,13 @@ fn initialize_schema(connection: &Connection) -> Result<(), String> {
                     ON UPDATE CASCADE
                     ON DELETE RESTRICT
             );
+
+            CREATE TABLE IF NOT EXISTS radar_counters (
+                id INTEGER PRIMARY KEY CHECK (id = 1),
+                next_person INTEGER NOT NULL,
+                next_need INTEGER NOT NULL,
+                next_update INTEGER NOT NULL
+            );
             ",
         )
         .map_err(|error| format!("Nao foi possivel criar schema Radar: {error}"))
@@ -222,6 +229,7 @@ fn save_state(connection: &mut Connection, state: &RadarState) -> Result<(), Str
             DELETE FROM radar_needs;
             DELETE FROM radar_schools;
             DELETE FROM radar_people;
+            DELETE FROM radar_counters;
             ",
         )
         .map_err(|error| format!("Nao foi possivel limpar estado Radar: {error}"))?;
@@ -358,6 +366,20 @@ fn save_state(connection: &mut Connection, state: &RadarState) -> Result<(), Str
     }
 
     transaction
+        .execute(
+            "
+            INSERT INTO radar_counters (id, next_person, next_need, next_update)
+            VALUES (1, ?1, ?2, ?3)
+            ",
+            params![
+                state.next_ids.person,
+                state.next_ids.need,
+                state.next_ids.update,
+            ],
+        )
+        .map_err(|error| format!("Nao foi possivel salvar contadores Radar: {error}"))?;
+
+    transaction
         .commit()
         .map_err(|error| format!("Nao foi possivel concluir gravacao Radar: {error}"))
 }
@@ -366,16 +388,7 @@ fn load_state(connection: &Connection) -> Result<RadarState, String> {
     let people = load_people(connection)?;
     let school = load_school(connection)?;
     let needs = load_needs(connection)?;
-    let next_ids = NextIds {
-        person: next_code_number(people.iter().map(|person| person.id.as_str()), "P"),
-        need: next_code_number(needs.iter().map(|need| need.id.as_str()), "N"),
-        update: next_code_number(
-            needs
-                .iter()
-                .flat_map(|need| need.updates.iter().map(|update| update.id.as_str())),
-            "U",
-        ),
-    };
+    let next_ids = load_next_ids(connection)?.unwrap_or_else(|| compute_next_ids(&people, &needs));
 
     Ok(RadarState {
         school,
@@ -383,6 +396,28 @@ fn load_state(connection: &Connection) -> Result<RadarState, String> {
         needs,
         next_ids,
     })
+}
+
+fn load_next_ids(connection: &Connection) -> Result<Option<NextIds>, String> {
+    connection
+        .query_row(
+            "
+            SELECT next_person, next_need, next_update
+              FROM radar_counters
+             WHERE id = 1
+             LIMIT 1
+            ",
+            [],
+            |row| {
+                Ok(NextIds {
+                    person: row.get::<_, u32>(0)?,
+                    need: row.get::<_, u32>(1)?,
+                    update: row.get::<_, u32>(2)?,
+                })
+            },
+        )
+        .optional()
+        .map_err(|error| format!("Nao foi possivel carregar contadores Radar: {error}"))
 }
 
 fn load_school(connection: &Connection) -> Result<Option<School>, String> {
@@ -550,6 +585,19 @@ fn load_need_updates(connection: &Connection, need_id: &str) -> Result<Vec<NeedU
         .map_err(|error| format!("Nao foi possivel consultar andamentos Radar: {error}"))?;
 
     collect_rows(rows, "andamentos Radar")
+}
+
+fn compute_next_ids(people: &[Person], needs: &[Need]) -> NextIds {
+    NextIds {
+        person: next_code_number(people.iter().map(|person| person.id.as_str()), "P"),
+        need: next_code_number(needs.iter().map(|need| need.id.as_str()), "N"),
+        update: next_code_number(
+            needs
+                .iter()
+                .flat_map(|need| need.updates.iter().map(|update| update.id.as_str())),
+            "U",
+        ),
+    }
 }
 
 fn bool_to_i64(value: bool) -> i64 {
@@ -726,8 +774,47 @@ mod tests {
         assert!(loaded_state.school.is_none());
         assert_eq!(loaded_state.people.len(), 1);
         assert!(loaded_state.needs.is_empty());
-        assert_eq!(loaded_state.next_ids.person, 2);
-        assert_eq!(loaded_state.next_ids.need, 1);
-        assert_eq!(loaded_state.next_ids.update, 1);
+        assert_eq!(loaded_state.next_ids.person, 3);
+        assert_eq!(loaded_state.next_ids.need, 2);
+        assert_eq!(loaded_state.next_ids.update, 2);
+    }
+
+    #[test]
+    fn preserves_state_counters_without_reusing_removed_ids() {
+        let mut connection = create_initialized_connection();
+        let mut state = sample_state();
+
+        state.people.pop();
+        state.needs.clear();
+        state.next_ids = NextIds {
+            person: 8,
+            need: 5,
+            update: 13,
+        };
+
+        save_state(&mut connection, &state).expect("deve salvar contadores");
+
+        let loaded_state = load_state(&connection).expect("deve recarregar contadores");
+
+        assert_eq!(loaded_state.next_ids.person, 8);
+        assert_eq!(loaded_state.next_ids.need, 5);
+        assert_eq!(loaded_state.next_ids.update, 13);
+    }
+
+    #[test]
+    fn computes_next_ids_when_legacy_database_has_no_counters() {
+        let mut connection = create_initialized_connection();
+        let state = sample_state();
+
+        save_state(&mut connection, &state).expect("deve salvar estado Radar");
+        connection
+            .execute("DELETE FROM radar_counters", [])
+            .expect("deve simular base antiga sem contadores");
+
+        let loaded_state = load_state(&connection).expect("deve recarregar estado legado");
+
+        assert_eq!(loaded_state.next_ids.person, 3);
+        assert_eq!(loaded_state.next_ids.need, 2);
+        assert_eq!(loaded_state.next_ids.update, 2);
     }
 }
