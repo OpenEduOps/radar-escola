@@ -261,6 +261,11 @@ tolera valores invalidos em bases legadas e se recupera usando os registros
 existentes. Isso evita reutilizacao acidental de IDs apos reload, restauracao
 parcial ou estado inconsistente no banco local.
 
+Guardrail transacional: a primeira fatia Radar ainda salva o estado inteiro em
+uma unica transacao SQLite. Se a substituicao falhar por chave estrangeira,
+contador invalido ou outra inconsistencia durante a gravacao, a transacao deve
+preservar o estado anterior do banco local.
+
 Os comandos SQLite/Tauri ficam em:
 
 ```text

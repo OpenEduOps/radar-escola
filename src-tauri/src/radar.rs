@@ -806,6 +806,39 @@ mod tests {
     }
 
     #[test]
+    fn keeps_previous_state_when_replacement_fails() {
+        let mut connection = create_initialized_connection();
+        let previous_state = sample_state();
+        let mut invalid_state = sample_state();
+
+        invalid_state.needs[0].created_by_person_id = "P-999".to_string();
+
+        save_state(&mut connection, &previous_state).expect("deve salvar estado anterior");
+
+        let error = save_state(&mut connection, &invalid_state)
+            .expect_err("deve rejeitar estado com referencia invalida");
+
+        assert!(error.contains("Nao foi possivel salvar necessidade Radar"));
+
+        let loaded_state = load_state(&connection).expect("deve preservar estado anterior");
+
+        assert_eq!(
+            loaded_state.school.as_ref().expect("deve manter escola").name,
+            "Escola Municipal Esperanca"
+        );
+        assert_eq!(loaded_state.people.len(), 2);
+        assert_eq!(loaded_state.needs.len(), 1);
+        assert_eq!(
+            loaded_state.needs[0].title,
+            "Computador da secretaria nao liga"
+        );
+        assert_eq!(loaded_state.needs[0].created_by_person_id, "P-001");
+        assert_eq!(loaded_state.next_ids.person, 3);
+        assert_eq!(loaded_state.next_ids.need, 2);
+        assert_eq!(loaded_state.next_ids.update, 2);
+    }
+
+    #[test]
     fn preserves_state_counters_without_reusing_removed_ids() {
         let mut connection = create_initialized_connection();
         let mut state = sample_state();
