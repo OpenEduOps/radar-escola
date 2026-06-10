@@ -2234,26 +2234,26 @@ npm run typecheck
 
 | ID | Issue GitHub | Status | Evidencia principal |
 | --- | --- | --- | --- |
-| REQ-001 | https://github.com/OpenEduOps/radar-escola/issues/4 | Implementada | Permissoes testadas em `tests/radarDomain.test.mjs`. |
-| REQ-002 | https://github.com/OpenEduOps/radar-escola/issues/5 | Implementada | Fluxo minimo preservado nas regras de necessidade. |
-| REQ-003 | https://github.com/OpenEduOps/radar-escola/issues/6 | Implementada | Excecoes centrais cobertas por testes de dominio. |
-| REQ-004 | https://github.com/OpenEduOps/radar-escola/issues/7 | Implementada | Guardrails mantidos sem escopo externo. |
-| REQ-005 | https://github.com/OpenEduOps/radar-escola/issues/8 | Implementada | Linguagem de produto preservada no dominio e docs. |
-| DOM-001 | https://github.com/OpenEduOps/radar-escola/issues/9 | Implementada | Funcoes `can*` para acoes sensiveis. |
-| DOM-002 | https://github.com/OpenEduOps/radar-escola/issues/10 | Implementada | Regra de escola unica em `configureInitialSchool`. |
-| DOM-003 | https://github.com/OpenEduOps/radar-escola/issues/11 | Implementada | Pessoa, cargo/funcao, usuario unico e primeiro acesso. |
-| DOM-004 | https://github.com/OpenEduOps/radar-escola/issues/12 | Implementada | Salvaguarda e bloqueio de senha temporaria como senha final. |
-| DOM-005 | https://github.com/OpenEduOps/radar-escola/issues/13 | Implementada | Limite de dois apoios e permissoes derivadas. |
-| DOM-006 | https://github.com/OpenEduOps/radar-escola/issues/14 | Implementada | Necessidade, prioridade, status e estados finais. |
-| DOM-007 | https://github.com/OpenEduOps/radar-escola/issues/15 | Implementada | Envolvidos ativos sem duplicidade. |
-| DOM-008 | https://github.com/OpenEduOps/radar-escola/issues/16 | Implementada | Andamento comum e fechamento tecnico. |
-| DOM-009 | https://github.com/OpenEduOps/radar-escola/issues/17 | Implementada | Resolucao e cancelamento com gestao. |
-| DOM-010 | https://github.com/OpenEduOps/radar-escola/issues/18 | Implementada | Equipamento basico operacional. |
-| DOM-011 | https://github.com/OpenEduOps/radar-escola/issues/19 | Implementada | Auditoria sem segredo claro. |
-| DOM-012 | https://github.com/OpenEduOps/radar-escola/issues/20 | Implementada | Plano de acao simples. |
-| DOM-013 | https://github.com/OpenEduOps/radar-escola/issues/21 | Implementada | Sessao local e bloqueio por 30 minutos. |
-| DOM-014 | https://github.com/OpenEduOps/radar-escola/issues/22 | Implementada | Pacote de seguranca restauravel por substituicao total. |
-| PER-001 | https://github.com/OpenEduOps/radar-escola/issues/23 | Implementada | `src-tauri/migrations/001_initial_mvp.sql` testada em SQLite. |
+| REQ-001 | https://github.com/OpenEduOps/radar-escola/issues/4 | Concluida | Permissoes testadas em `tests/radarDomain.test.mjs`. |
+| REQ-002 | https://github.com/OpenEduOps/radar-escola/issues/5 | Concluida | Fluxo minimo preservado nas regras de necessidade. |
+| REQ-003 | https://github.com/OpenEduOps/radar-escola/issues/6 | Concluida | Excecoes centrais cobertas por testes de dominio. |
+| REQ-004 | https://github.com/OpenEduOps/radar-escola/issues/7 | Concluida | Guardrails mantidos sem escopo externo. |
+| REQ-005 | https://github.com/OpenEduOps/radar-escola/issues/8 | Concluida | Linguagem de produto preservada no dominio e docs. |
+| DOM-001 | https://github.com/OpenEduOps/radar-escola/issues/9 | Concluida | Funcoes `can*` para acoes sensiveis. |
+| DOM-002 | https://github.com/OpenEduOps/radar-escola/issues/10 | Concluida | Regra de escola unica em `configureInitialSchool`. |
+| DOM-003 | https://github.com/OpenEduOps/radar-escola/issues/11 | Concluida | Pessoa, cargo/funcao, usuario unico e primeiro acesso. |
+| DOM-004 | https://github.com/OpenEduOps/radar-escola/issues/12 | Concluida | Salvaguarda e bloqueio de senha temporaria como senha final. |
+| DOM-005 | https://github.com/OpenEduOps/radar-escola/issues/13 | Concluida | Limite de dois apoios e permissoes derivadas. |
+| DOM-006 | https://github.com/OpenEduOps/radar-escola/issues/14 | Concluida | Necessidade, prioridade, status e estados finais. |
+| DOM-007 | https://github.com/OpenEduOps/radar-escola/issues/15 | Concluida | Envolvidos ativos sem duplicidade. |
+| DOM-008 | https://github.com/OpenEduOps/radar-escola/issues/16 | Concluida | Andamento comum e fechamento tecnico. |
+| DOM-009 | https://github.com/OpenEduOps/radar-escola/issues/17 | Concluida | Resolucao e cancelamento com gestao. |
+| DOM-010 | https://github.com/OpenEduOps/radar-escola/issues/18 | Concluida | Equipamento basico operacional. |
+| DOM-011 | https://github.com/OpenEduOps/radar-escola/issues/19 | Concluida | Auditoria sem segredo claro. |
+| DOM-012 | https://github.com/OpenEduOps/radar-escola/issues/20 | Concluida | Plano de acao simples. |
+| DOM-013 | https://github.com/OpenEduOps/radar-escola/issues/21 | Concluida | Sessao local e bloqueio por 30 minutos. |
+| DOM-014 | https://github.com/OpenEduOps/radar-escola/issues/22 | Concluida | Pacote de seguranca restauravel por substituicao total. |
+| PER-001 | https://github.com/OpenEduOps/radar-escola/issues/23 | Concluida | `src-tauri/migrations/001_initial_mvp.sql` testada em SQLite. |
 
 ## Linha De Corte: Issues Docker Concluidas
 

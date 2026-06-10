@@ -16,7 +16,7 @@ Ja existem:
 - especificacao executavel V1;
 - matriz de regras de dominio e modelo relacional em implementacao gradual;
 - matriz de issues V1 com 85 issues cadastradas no GitHub;
-- primeira rodada fundacional `#4` a `#23` implementada;
+- primeira rodada fundacional `#4` a `#23` implementada e fechada no GitHub;
 - trilha transversal Docker com 9 issues concluidas para ambiente tecnico;
 - app minimo Tauri + React + TypeScript;
 - playground CRUD master-detail com persistencia SQLite local no desktop;

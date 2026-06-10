@@ -335,8 +335,9 @@ cadastradas no GitHub entre `#4` e `#88`.
 
 ### Rodada De Implementacao Das Issues #4 A #23
 
-A primeira rodada de implementacao dirigida pela matriz V1 cobriu as issues
-`#4` a `#23`, mantendo o foco em fundacao verificavel antes de expandir telas.
+A primeira rodada de implementacao dirigida pela matriz V1 cobriu e fechou as
+issues `#4` a `#23`, mantendo o foco em fundacao verificavel antes de expandir
+telas.
 
 Resultado da rodada:
 
@@ -432,7 +433,8 @@ O projeto ja saiu da fase de apenas documentacao inicial. A fronteira atual e:
 
 - documentacao V0/V1 consolidada;
 - issues V1 cadastradas;
-- issues `#4` a `#23` implementadas como primeira rodada de fundacao;
+- issues `#4` a `#23` implementadas e fechadas como primeira rodada de
+  fundacao;
 - scaffold executavel validado;
 - playground CRUD como referencia tecnica;
 - fluxo inicial do Radar como primeira fatia funcional demonstravel;
