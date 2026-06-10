@@ -41,73 +41,73 @@ Resumo:
 
 ## Fase 2: Persistencia e Primeiro Uso
 
-Status: planejado.
+Status: parcial/implementado.
 
 Resumo:
 
-- SQLite;
-- migracoes;
-- configuracao de escola;
-- direcao/responsavel principal;
-- salvaguarda local.
+- SQLite local ja existe no playground e na primeira fatia Radar;
+- migration relacional inicial do MVP criada em
+  `src-tauri/migrations/001_initial_mvp.sql`;
+- configuracao de escola e direcao/responsavel principal ja existem na fatia
+  funcional atual;
+- salvaguarda local ja tem regra de dominio, mas ainda precisa de fluxo final de
+  recuperacao.
 
 ## Fase 3: Acesso e Pessoas
 
-Status: planejado.
+Status: parcial/implementado.
 
 Resumo:
 
-- login;
-- troca obrigatoria de senha;
-- cargos/funcoes;
-- pessoas/usuarios;
-- apoio de gestao.
+- login e primeiro acesso ja existem na fatia funcional atual;
+- troca obrigatoria de senha ja existe no fluxo inicial;
+- cargos/funcoes e pessoas/usuarios ja possuem regra de dominio;
+- apoio de gestao ja possui limite de duas pessoas e permissoes testadas;
+- ainda faltam repositorios finais e telas completas da V0.
 
 ## Fase 4: Radar de Necessidades
 
-Status: planejado.
+Status: parcial/implementado.
 
 Resumo:
 
-- criar necessidade;
-- listar no radar;
-- detalhe;
-- envolvidos;
-- andamento;
-- plano simples.
+- criar necessidade, listar no radar, detalhe, envolvidos e andamento ja existem
+  na fatia funcional atual;
+- plano simples ja possui regra de dominio testada;
+- ainda faltam repositorios finais e acabamento das telas V0.
 
 ## Fase 5: Resolucao, Historico e Auditoria
 
-Status: planejado.
+Status: parcial/implementado.
 
 Resumo:
 
-- marcar como resolvido;
-- cancelar/corrigir;
-- preservar historico;
-- registrar auditoria;
-- restringir acoes sensiveis.
+- marcar como resolvido ja existe na fatia funcional atual;
+- cancelamento e auditoria ja possuem regra de dominio testada;
+- restricoes sensiveis ja foram modeladas em regras puras;
+- ainda faltam historico visual, persistencia final de auditoria e tela de
+  consulta exclusiva da direcao.
 
 ## Fase 6: Equipamentos
 
-Status: planejado.
+Status: parcial/implementado em dominio.
 
 Resumo:
 
-- cadastro basico;
-- vinculo com necessidade;
-- listagem simples.
+- cadastro basico e inativacao ja possuem regra de dominio testada;
+- ainda faltam repositorio, tela, listagem e vinculo operacional com necessidade.
 
 ## Fase 7: Exportacao e Restauracao
 
-Status: planejado.
+Status: parcial/implementado em dominio e schema.
 
 Resumo:
 
-- CSV restauravel;
-- substituicao total apos confirmacao;
-- preservacao de hashes;
-- validacao de integridade minima.
+- pacote de seguranca restauravel ja possui regra de dominio testada;
+- migration inicial ja inclui `security_exports` e `security_imports`;
+- substituicao total ja e regra obrigatoria;
+- ainda faltam geracao/leitura de arquivos, UX de confirmacao e restauracao
+  operacional.
 
 ## Fase 8: Release Windows
 
@@ -139,8 +139,9 @@ Resumo:
 
 ## Proximos Passos Imediatos
 
-- escolher a primeira issue fundacional do MVP;
-- implementar regras de dominio criticas com testes;
-- iniciar persistencia SQLite e bootstrap local;
+- seguir para repositorios finais `PER-002` a `PER-011`;
+- conectar casos de uso da aplicacao aos repositorios definitivos;
+- endurecer hash Argon2id no runtime nativo;
+- implementar recuperacao local operacional;
 - manter a release tecnica honesta ate existir fluxo funcional da escola;
 - atualizar documentacao sempre que comportamento real do app mudar.

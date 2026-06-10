@@ -14,6 +14,13 @@ empacotamento Windows, menu nativo, teste E2E, separacao inicial de pastas,
 SQLite local no playground e persistencia SQLite da primeira fatia funcional do
 Radar no desktop.
 
+A primeira rodada de fundacao das issues `#4` a `#23` tambem consolidou regras
+puras de dominio para permissoes, escola, pessoas, apoio de gestao,
+necessidades, envolvidos, andamento, resolucao, equipamentos, auditoria, plano
+de acao, sessao local e pacote de seguranca. A migration relacional inicial do
+MVP fica em `src-tauri/migrations/001_initial_mvp.sql` e e aplicada no bootstrap
+do banco local Tauri junto do schema demonstravel atual.
+
 A arquitetura alvo do MVP ainda precisa separar melhor casos de uso/repositorios,
 implementar recuperacao local, auditoria persistida, exportacao/restauracao e
 guardrails de seguranca finais.
@@ -126,6 +133,11 @@ Subdominios planejados:
 O modulo `src/domain/radar` e uma etapa de consolidacao do primeiro fluxo. A
 tendencia e extrair ou alinhar seus comportamentos aos subdominios finais quando
 os casos de uso e subdominios finais amadurecerem.
+
+Na rodada `#4` a `#23`, `src/domain/radar/radarDomain.ts` passou a concentrar
+as regras puras fundacionais testadas. Essa concentracao ainda e intencional:
+ela preserva uma fatia executavel simples enquanto os repositorios e casos de
+uso finais sao separados nas proximas issues.
 
 ## Tauri/Rust
 

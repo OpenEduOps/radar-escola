@@ -24,17 +24,22 @@ Ja existe:
 - documentacao de CI/CD OSS;
 - documento de projeto para dockerizacao do ambiente tecnico;
 - `.dockerignore` e `Dockerfile.dev`;
-- imagem Docker dev Node validada localmente e na CI.
+- imagem Docker dev Node validada localmente e na CI;
+- playground CRUD com persistencia SQLite local;
+- primeira fatia funcional do Radar com persistencia SQLite local;
+- dominio fundacional testado para as issues `#4` a `#22`;
+- migration SQLite inicial do MVP criada em
+  `src-tauri/migrations/001_initial_mvp.sql` e validada em banco vazio.
 
 Ainda nao existe:
 
-- banco SQLite;
-- autenticacao local;
-- modelo de dominio implementado;
-- persistencia;
-- testes automatizados de regra de negocio;
+- repositorios finais `PER-002` a `PER-011`;
+- autenticacao local endurecida com hash nativo forte;
+- recuperacao local operacional;
+- auditoria persistida e consultavel pela direcao;
+- exportacao/restauracao operacional de arquivos;
 - build Tauri validado localmente;
-- fluxo funcional de MVP.
+- fluxo funcional completo do MVP.
 
 ## Principios de Implementacao
 
@@ -74,6 +79,9 @@ Criterios de aceite:
 
 Objetivo: criar a base SQLite local e migracoes iniciais.
 
+Estado: parcialmente implementado. O app ja possui SQLite local no playground,
+SQLite local na primeira fatia Radar e migration relacional inicial do MVP.
+
 Criterios de aceite:
 
 - banco local criado em local previsivel;
@@ -86,6 +94,8 @@ Criterios de aceite:
 ## Fase 3: Primeiro Uso e Direcao
 
 Objetivo: permitir configurar a escola e a direcao/responsavel principal.
+
+Estado: parcialmente implementado na primeira fatia funcional e no dominio.
 
 Criterios de aceite:
 
@@ -101,6 +111,9 @@ Criterios de aceite:
 Objetivo: implementar login local, troca obrigatoria de senha inicial e bloqueio
 por inatividade.
 
+Estado: parcialmente implementado. Login e primeiro acesso existem na fatia
+funcional; sessao local e bloqueio por 30 minutos ja possuem regra de dominio.
+
 Criterios de aceite:
 
 - login com usuario e senha funciona;
@@ -115,6 +128,8 @@ Criterios de aceite:
 
 Objetivo: permitir cadastro de pessoas/usuarios e delegacao simples.
 
+Estado: parcialmente implementado na fatia funcional e no dominio.
+
 Criterios de aceite:
 
 - cargos/funcoes sao cadastraveis;
@@ -128,6 +143,8 @@ Criterios de aceite:
 
 Objetivo: registrar necessidades e exibi-las no Radar de Necessidades.
 
+Estado: parcialmente implementado na fatia funcional e no dominio.
+
 Criterios de aceite:
 
 - necessidade possui titulo, descricao, local, prioridade e status;
@@ -139,6 +156,9 @@ Criterios de aceite:
 ## Fase 7: Envolvidos, Plano e Andamento
 
 Objetivo: acompanhar a necessidade como acao conjunta.
+
+Estado: parcialmente implementado. Envolvidos e andamento ja existem na fatia
+funcional; plano de acao simples ja possui regra de dominio.
 
 Criterios de aceite:
 
@@ -152,6 +172,9 @@ Criterios de aceite:
 
 Objetivo: encerrar necessidades com controle da gestao.
 
+Estado: parcialmente implementado. Resolucao existe na fatia funcional;
+cancelamento e permissao de gestao ja possuem regra de dominio.
+
 Criterios de aceite:
 
 - usuario comum pode solicitar fechamento;
@@ -164,6 +187,8 @@ Criterios de aceite:
 ## Fase 9: Equipamentos
 
 Objetivo: permitir cadastro basico de equipamentos e vinculo com necessidades.
+
+Estado: parcialmente implementado em dominio.
 
 Criterios de aceite:
 

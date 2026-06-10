@@ -16,6 +16,20 @@ Ele e referencia para:
 Este documento nao e migration SQL final. Ele e o contrato de dominio para guiar
 a implementacao.
 
+## Estado De Implementacao
+
+A rodada fundacional das issues `#4` a `#23` iniciou a materializacao deste
+contrato no codigo:
+
+- regras puras: `src/domain/radar/radarDomain.ts`;
+- testes de dominio: `tests/radarDomain.test.mjs`;
+- migration relacional inicial: `src-tauri/migrations/001_initial_mvp.sql`;
+- teste de migration em banco vazio: `tests/migrations.test.mjs`.
+
+Essa implementacao ainda nao substitui os repositorios finais `PER-002` a
+`PER-011`. Ela estabiliza o contrato de dominio e o schema base para as proximas
+issues de persistencia e aplicacao.
+
 ## Principios
 
 - SQLite e a persistencia local principal.

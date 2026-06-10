@@ -14,8 +14,9 @@ Ja existem:
 
 - documentacao de produto V0 e V1;
 - especificacao executavel V1;
-- matriz de regras de dominio e modelo relacional planejado;
+- matriz de regras de dominio e modelo relacional em implementacao gradual;
 - matriz de issues V1 com 85 issues cadastradas no GitHub;
+- primeira rodada fundacional `#4` a `#23` implementada;
 - trilha transversal Docker com 9 issues concluidas para ambiente tecnico;
 - app minimo Tauri + React + TypeScript;
 - playground CRUD master-detail com persistencia SQLite local no desktop;
@@ -28,7 +29,12 @@ Ja existem:
   scaffold;
 - release tecnica `v0.0.1` publicada com instalador Windows e checksum;
 - dominio inicial do Radar com regras puras para escola, pessoas, primeiro
-  acesso, permissoes, necessidades, andamento e resolucao;
+  acesso, permissoes, necessidades, envolvidos, andamento, resolucao,
+  cancelamento, equipamentos, auditoria, plano de acao, sessao local e pacote
+  de seguranca;
+- migration SQLite inicial do MVP em
+  `src-tauri/migrations/001_initial_mvp.sql`, aplicada no bootstrap Tauri e
+  validada em banco vazio por teste automatizado;
 - fluxo inicial utilizavel dentro da aplicacao para configurar escola, entrar,
   cadastrar pessoa, registrar necessidade, marcar envolvidos, atualizar
   andamento e marcar como resolvido;
@@ -40,7 +46,7 @@ O app atual ainda nao e o MVP funcional completo. Ele ja demonstra o fluxo
 principal do Radar e, no desktop, persiste essa primeira fatia em SQLite local
 via Tauri. O fallback em `localStorage` fica restrito ao navegador de
 desenvolvimento e aos testes E2E web. Ainda faltam recuperacao local completa,
-auditoria, exportacao/restauracao e hardening de seguranca do MVP.
+auditoria operacional, exportacao/restauracao e hardening de seguranca do MVP.
 
 ## Direcao Do Produto
 
@@ -52,7 +58,8 @@ auditoria, exportacao/restauracao e hardening de seguranca do MVP.
 - Sem internet obrigatoria na V0.
 
 SQLite faz parte da arquitetura alvo. Ele ja foi implementado no playground de
-referencia e na primeira fatia funcional do Radar.
+referencia, na primeira fatia funcional do Radar e na migration relacional
+inicial do MVP.
 
 Por isso, o fluxo atual deve ser lido como primeira fatia de produto
 demonstravel, e o playground continua como referencia tecnica de CRUD,
@@ -64,9 +71,9 @@ Ainda nao existem de forma definitiva no app:
 
 - recuperacao local de acesso;
 - hashing forte no runtime nativo;
-- equipamentos operacionais;
-- auditoria persistida;
-- exportacao/restauracao de seguranca.
+- telas/repositorios finais de equipamentos operacionais;
+- auditoria persistida e consultavel pela direcao;
+- exportacao/restauracao operacional de seguranca.
 
 ## Proximo Passo
 
@@ -76,8 +83,9 @@ Evoluir o fluxo inicial para a arquitetura alvo, seguindo a ordem sugerida:
 REQ -> DOM -> PER -> ENG -> APP -> VIEW -> QA
 ```
 
-Na pratica, o proximo bloco tecnico deve separar melhor casos de uso/repositorios
-do fluxo principal e endurecer salvaguardas de acesso antes de expandir
+Na pratica, o proximo bloco tecnico deve seguir para `PER-002` a `PER-011`,
+separando repositorios finais, conectando casos de uso ao banco relacional do
+MVP e endurecendo salvaguardas de acesso antes de expandir telas de
 equipamentos, auditoria e exportacao/restauracao.
 
 A estrategia de o fundador tocar pessoalmente as issues fundacionais do MVP, sem

@@ -75,6 +75,11 @@ Dominio:
 
 - `src/domain/radar/radarDomain.ts`;
 
+Testes:
+
+- `tests/radarDomain.test.mjs`;
+- `tests/migrations.test.mjs`;
+
 Infraestrutura local demonstravel:
 
 - `src/infrastructure/localHash.ts`;
@@ -328,6 +333,53 @@ blocos transversais, regras de dominio, visao prototipal e matriz de issues.
 A matriz V1 planeja 85 issues minimas e modulares, e essas issues ja foram
 cadastradas no GitHub entre `#4` e `#88`.
 
+### Rodada De Implementacao Das Issues #4 A #23
+
+A primeira rodada de implementacao dirigida pela matriz V1 cobriu as issues
+`#4` a `#23`, mantendo o foco em fundacao verificavel antes de expandir telas.
+
+Resultado da rodada:
+
+| Issue | Resultado implementado |
+| --- | --- |
+| `#4` / `REQ-001` | Matriz de permissoes validada contra regras puras testadas. |
+| `#5` / `REQ-002` | Fluxo minimo de valor preservado e coberto por dominio de necessidade. |
+| `#6` / `REQ-003` | Excecoes centrais cobertas por testes unitarios de dominio. |
+| `#7` / `REQ-004` | Guardrails de escopo mantidos sem introduzir nuvem, e-mail, WhatsApp, mobile ou dados de estudantes. |
+| `#8` / `REQ-005` | Linguagem de dominio segue termos do produto: escola, pessoa, necessidade, apoio, andamento e resolucao. |
+| `#9` / `DOM-001` | Permissoes basicas implementadas para direcao, apoio de gestao e usuario comum. |
+| `#10` / `DOM-002` | Regra de uma escola ativa e direcao atual representada em dominio. |
+| `#11` / `DOM-003` | Pessoa, cargo/funcao, usuario unico e primeiro acesso modelados. |
+| `#12` / `DOM-004` | Senha temporaria, troca obrigatoria e salvaguarda local modeladas sem segredo claro. |
+| `#13` / `DOM-005` | Apoio de gestao limitado a duas pessoas e sem privilegios exclusivos da direcao. |
+| `#14` / `DOM-006` | Necessidade, prioridade, status ativo/final e transicoes principais modeladas. |
+| `#15` / `DOM-007` | Envolvidos ativos sem duplicidade e bloqueio em necessidade finalizada. |
+| `#16` / `DOM-008` | Andamento comum e fechamento tecnico sem resolver automaticamente. |
+| `#17` / `DOM-009` | Resolucao e cancelamento restritos a gestao com resumo/motivo obrigatorio. |
+| `#18` / `DOM-010` | Equipamento basico modelado como apoio operacional, nao patrimonio completo. |
+| `#19` / `DOM-011` | Auditoria minima modelada com rejeicao de segredo claro. |
+| `#20` / `DOM-012` | Plano de acao simples modelado sem virar gerenciador complexo de tarefas. |
+| `#21` / `DOM-013` | Sessao local modelada com bloqueio por 30 minutos de inatividade. |
+| `#22` / `DOM-014` | Pacote de seguranca exportavel/restauravel validado por versao, completude e substituicao total. |
+| `#23` / `PER-001` | Migration SQLite inicial criada e validada em banco vazio por teste automatizado. |
+
+Arquivos centrais da rodada:
+
+```text
+src/domain/radar/radarDomain.ts
+src-tauri/migrations/001_initial_mvp.sql
+src-tauri/src/radar.rs
+tests/radarDomain.test.mjs
+tests/migrations.test.mjs
+```
+
+Validado por:
+
+```text
+npm test
+npm run typecheck
+```
+
 ### Release Desktop
 
 O workflow `Desktop Release` gera um instalador Windows tecnico do scaffold
@@ -365,11 +417,11 @@ Ainda nao foi implementado:
 
 - recuperacao local de acesso;
 - hashing forte no runtime nativo;
-- equipamentos;
-- historico;
-- auditoria;
-- exportacao/restauracao;
-- testes de dominio da V0 funcional;
+- telas/repositorios de equipamentos;
+- historico visual;
+- persistencia e consulta final de auditoria;
+- exportacao/restauracao operacional de arquivos;
+- repositorios finais `PER-002` a `PER-011`;
 - Playwright/E2E em Docker;
 - build Tauri/Windows em Docker;
 - imagem Docker publicada em registry.
@@ -380,10 +432,12 @@ O projeto ja saiu da fase de apenas documentacao inicial. A fronteira atual e:
 
 - documentacao V0/V1 consolidada;
 - issues V1 cadastradas;
+- issues `#4` a `#23` implementadas como primeira rodada de fundacao;
 - scaffold executavel validado;
 - playground CRUD como referencia tecnica;
 - fluxo inicial do Radar como primeira fatia funcional demonstravel;
 - persistencia SQLite local da primeira fatia Radar no desktop;
+- migration relacional inicial do MVP criada e testada;
 - imagem Docker dev validada;
 - release tecnica `v0.0.1` publicada com instalador Windows e checksum;
 - instalador Windows tecnico gerado, instalado e validado via CI/smoke.
