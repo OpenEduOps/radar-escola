@@ -215,7 +215,11 @@ fn initialize_schema(connection: &Connection) -> Result<(), String> {
             );
             ",
         )
-        .map_err(|error| format!("Nao foi possivel criar schema Radar: {error}"))
+        .map_err(|error| format!("Nao foi possivel criar schema Radar: {error}"))?;
+
+    connection
+        .execute_batch(include_str!("../migrations/001_initial_mvp.sql"))
+        .map_err(|error| format!("Nao foi possivel aplicar migration MVP: {error}"))
 }
 
 fn save_state(connection: &mut Connection, state: &RadarState) -> Result<(), String> {
